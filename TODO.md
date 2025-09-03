@@ -7,7 +7,6 @@
     * [ ] Level 3 (Walkathon)
     * [ ] World 1 End Cutscene
     * [ ] Dialogue
-* [ ] Mod Menu
 
 ## Demo 2
 * [ ] Interactive World Selection
@@ -16,6 +15,8 @@
 * [ ] Worlds 2-4
 * [ ] Android Support
 * [ ] Save Files
+* [ ] Mod Menu
+* [ ] Level Editor
 
 ## Initial Release
 * [ ] Worlds 5-8
