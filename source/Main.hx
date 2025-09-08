@@ -8,6 +8,7 @@ import jta.video.WebmHandler;
 #if hxgamemode
 import hxgamemode.GamemodeClient;
 #end
+import flixel.util.typeLimit.NextState;
 
 /**
  * The main entry point for the game.
@@ -15,16 +16,34 @@ import hxgamemode.GamemodeClient;
 class Main extends openfl.display.Sprite
 {
 	/**
-	 * Configuration for the game.
-	 * This includes the game dimensions, framerate, initial state, and options for splash screen and fullscreen.
+	 * The width of the game window in pixels.
 	 */
-	public final config:Dynamic = {
-		gameDimensions: [800, 600],
-		framerate: 60,
-		initialState: jta.states.Startup,
-		skipSplash: true,
-		startFullscreen: false
-	};
+	private static final GAME_WIDTH:Int = 800;
+
+	/**
+	 * The height of the game window in pixels.
+	 */
+	private static final GAME_HEIGHT:Int = 600;
+
+	/**
+	 * The frame rate of the game, in frames per second (FPS).
+	 */
+	private static final GAME_FRAMERATE:Int = 60;
+
+	/**
+	 * The initial state of the game.
+	 */
+	private static final GAME_INITIAL_STATE:InitialState = () -> new jta.states.Startup();
+
+	/**
+	 * Whether to skip the splash screen on startup.
+	 */
+	private static final GAME_SKIP_SPLASH:Bool = true;
+
+	/**
+	 * Whether to start the game in fullscreen mode on desktop.
+	 */
+	private static final GAME_START_FULLSCREEN:Bool = false;
 
 	/**
 	 * The frame rate display.
@@ -100,9 +119,12 @@ class Main extends openfl.display.Sprite
 		jta.util.CleanupUtil.init();
 		jta.util.ResizeUtil.init();
 
-		framerate = 60; // Default framerate
-		addChild(new Game(config.gameDimensions[0], config.gameDimensions[1], config.initialState, config.framerate, config.framerate, config.skipSplash,
-			config.startFullscreen));
+		framerate = GAME_FRAMERATE; // Default framerate
+		addChild(new Game(GAME_WIDTH, GAME_HEIGHT, GAME_INITIAL_STATE, GAME_FRAMERATE, GAME_FRAMERATE, GAME_SKIP_SPLASH, GAME_START_FULLSCREEN));
+
+		#if debug
+		FlxG.log.redirectTraces = true;
+		#end
 
 		var vidSource:String = 'assets/videos/DO NOT DELETE OR GAME WILL CRASH/dontDelete.webm';
 
@@ -129,9 +151,15 @@ class Main extends openfl.display.Sprite
 		FlxG.android.preventDefaultKeys = [BACK];
 		#end
 
+		FlxG.debugger.toggleKeys = [F2];
+
 		FlxG.sound.volumeUpKeys = [];
 		FlxG.sound.volumeDownKeys = [];
 		FlxG.sound.muteKeys = [];
+
+		#if FLX_MOUSE
+		FlxG.mouse.useSystemCursor = true;
+		#end
 
 		fpsDisplay = new FPS(10, 10, 0xffffff);
 		addChild(fpsDisplay);

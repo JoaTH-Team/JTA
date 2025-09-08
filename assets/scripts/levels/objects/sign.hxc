@@ -14,6 +14,9 @@ class SignObject extends Object
 		animation.add("idle", [0], 1, true);
 		animation.add("highlight", [1], 1, true);
 		animation.play("idle");
+
+		immovable = true;
+		solid = false;
 	}
 
 	public override function update(elapsed:Float):Void

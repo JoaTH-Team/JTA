@@ -15,6 +15,9 @@ class CoinObject extends Object
 
 		animation.add('floating', [0, 1, 2, 1], 12, true);
 		animation.play('floating');
+
+		immovable = true;
+		solid = false;
 	}
 
 	public override function overlap():Void

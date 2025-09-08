@@ -14,6 +14,9 @@ class SpikeObject extends Object
 		objectInteractable = true;
 
 		loadGraphic(Paths.image('objects/' + objectID));
+
+		immovable = true;
+		solid = true;
 	}
 
 	public override function overlap():Void

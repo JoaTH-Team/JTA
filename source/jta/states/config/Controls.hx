@@ -66,10 +66,10 @@ class DeviceSelect extends BaseSubState
 
 		if (Input.justPressed('confirm'))
 		{
-			FlxG.sound.play(Paths.sound('select'));
 			switch (selectedIndex)
 			{
 				case 0:
+					FlxG.sound.play(Paths.sound('select'));
 					transitionState(new Controls(false));
 				case 1:
 					var gamepad = FlxG.gamepads.lastActive;
@@ -78,6 +78,7 @@ class DeviceSelect extends BaseSubState
 					else
 						FlxG.sound.play(Paths.sound('cancel'));
 				case 2:
+					FlxG.sound.play(Paths.sound('select'));
 					close();
 			}
 		}
@@ -148,7 +149,7 @@ class Controls extends BaseState
 		tempBG.visible = false;
 		add(tempBG);
 
-		anyKeyTxt = new FlxText(0, 0, 0, '', 32);
+		anyKeyTxt = new FlxText(0, 0, FlxG.width, '', 32);
 		anyKeyTxt.setFormat(Paths.font('main'), 36, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		anyKeyTxt.screenCenter();
 		anyKeyTxt.visible = false;

@@ -18,6 +18,9 @@ class RouletteObject extends Object
 		loadGraphic(Paths.image('objects/' + objectID), true, 16, 16);
 		animation.add('random', [0, 1, 2, 3], 12, true);
 		animation.play('random');
+
+		immovable = true;
+		solid = false;
 	}
 
 	public override function overlap():Void

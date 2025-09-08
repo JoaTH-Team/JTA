@@ -17,6 +17,9 @@ class FlagObject extends Object
 
 		animation.add('wave', [1, 2, 3, 4, 0], 12, true);
 		animation.play('wave');
+
+		immovable = true;
+		solid = false;
 	}
 
 	public override function overlap():Void
