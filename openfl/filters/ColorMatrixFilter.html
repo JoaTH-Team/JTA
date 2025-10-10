@@ -8,9 +8,7 @@ saturation changes, hue rotation, luminance to alpha, and various other
 effects. You can apply the filter to any display object (that is, objects
 that inherit from the DisplayObject class), such as MovieClip,
 SimpleButton, TextField, and Video objects, as well as to BitmapData
-objects.
-&lt;strong&gt;Note:&lt;/strong&gt; For RGBA values, the most significant byte represents the red
-channel value, followed by green, blue, and then alpha."/></head><body><script>/* Here to prevent flash of unstyled content */let systemDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;if ((!localStorage.theme && systemDarkMode) || localStorage.theme == "dark") {document.body.style.backgroundColor = "#111";document.body.style.opacity = "0";document.addEventListener("DOMContentLoaded", function(event) {toggleTheme();document.body.style.backgroundColor = "";document.body.style.opacity = "";});}</script><style>
+objects."/></head><body><script>/* Here to prevent flash of unstyled content */let systemDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;if ((!localStorage.theme && systemDarkMode) || localStorage.theme == "dark") {document.body.style.backgroundColor = "#111";document.body.style.opacity = "0";document.addEventListener("DOMContentLoaded", function(event) {toggleTheme();document.body.style.backgroundColor = "";document.body.style.opacity = "";});}</script><style>
 .navbar .brand {
 	display: inline-block;
 	float: none;
@@ -23,8 +21,8 @@ saturation changes, hue rotation, luminance to alpha, and various other
 effects. You can apply the filter to any display object (that is, objects
 that inherit from the DisplayObject class), such as MovieClip,
 SimpleButton, TextField, and Video objects, as well as to BitmapData
-objects.
-<strong>Note:</strong> For RGBA values, the most significant byte represents the red
+objects.</p>
+<p><strong>Note:</strong> For RGBA values, the most significant byte represents the red
 channel value, followed by green, blue, and then alpha.</p>
 <p>To create a new color matrix filter, use the syntax <code>new
 <a href="../../openfl/filters/ColorMatrixFilter.html#ColorMatrixFilter">ColorMatrixFilter</a>()</code>. The use of filters depends on the object to which
@@ -46,7 +44,7 @@ high.) In Flash Player 9 and earlier and AIR 1.1 and earlier, the
 limitation is 2,880 pixels in height and 2,880 pixels in width. For
 example, if you zoom in on a large movie clip with a filter applied, the
 filter is turned off if the resulting image reaches the maximum
-dimensions.</p></div><h3 class="section">Constructor</h3><div class="fields"><div class="field "><a name="new"></a><h3 class="anchor"><code><span class="label label-meta label-meta-value" title="Used to store default values for fields and function arguments.">@:value({ matrix : null })</span><a href="#new"><span class="identifier">new</span></a>(<span style="white-space:nowrap">?matrix:<a class="type" title="Array - An Array is a storage for values." href="../../Array.html">Array</a>&lt;<a class="type" title="Float - The standard Float type, this is a double-precision IEEE 64bit float." href="../../Float.html">Float</a>&gt;</span>)</code></h3><div class="doc"><p>Initializes a new ColorMatrixFilter instance with the specified
+dimensions.</p><p class="javadoc">See also:</p><ul><li><div class="inline-content"><p><code><a href="../../openfl/display/DisplayObject.html#filters">openfl.display.DisplayObject.filters</a></code></p></div></li><li><div class="inline-content"><p><code><a href="../../openfl/display/BitmapData.html#applyFilter">openfl.display.BitmapData.applyFilter</a></code></p></div></li></ul></div><h3 class="section">Constructor</h3><div class="fields"><div class="field "><a name="new"></a><h3 class="anchor"><code><span class="label label-meta label-meta-value" title="Used to store default values for fields and function arguments.">@:value({ matrix : null })</span><a href="#new"><span class="identifier">new</span></a>(<span style="white-space:nowrap">?matrix:<a class="type" title="Array - An Array is a storage for values." href="../../Array.html">Array</a>&lt;<a class="type" title="Float - The standard Float type, this is a double-precision IEEE 64bit float." href="../../Float.html">Float</a>&gt;</span>)</code></h3><div class="doc"><p>Initializes a new ColorMatrixFilter instance with the specified
 parameters.</p></div></div></div><h3 class="section">Variables</h3><div class="fields"><div class="field "><a name="matrix"></a><h3 class="anchor"><code><a href="#matrix"><span class="identifier">matrix</span></a>:<a class="type" title="Array - An Array is a storage for values." href="../../Array.html">Array</a>&lt;<a class="type" title="Float - The standard Float type, this is a double-precision IEEE 64bit float." href="../../Float.html">Float</a>&gt;</code></h3><div class="doc"><p>An array of 20 items for 4 x 5 color transform. The <code>matrix</code> property
 cannot be changed by directly modifying its value (for example,
 <code>myFilter.matrix[2] = 1;</code>). Instead, you must get a reference to the

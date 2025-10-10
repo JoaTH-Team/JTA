@@ -6,7 +6,7 @@ have several options for the style of the glow, including inner or outer
 glow and knockout mode. The glow filter is similar to the drop shadow
 filter with the &lt;code&gt;distance&lt;/code&gt; and &lt;code&gt;angle&lt;/code&gt; properties of
 the drop shadow filter set to 0. You can apply the filter to any display
-object(that is, objects that inherit from the DisplayObject class), such
+object (that is, objects that inherit from the DisplayObject class), such
 as MovieClip, SimpleButton, TextField, and Video objects, as well as to
 BitmapData objects."/></head><body><script>/* Here to prevent flash of unstyled content */let systemDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;if ((!localStorage.theme && systemDarkMode) || localStorage.theme == "dark") {document.body.style.backgroundColor = "#111";document.body.style.opacity = "0";document.addEventListener("DOMContentLoaded", function(event) {toggleTheme();document.body.style.backgroundColor = "";document.body.style.opacity = "";});}</script><style>
 .navbar .brand {
@@ -19,12 +19,12 @@ have several options for the style of the glow, including inner or outer
 glow and knockout mode. The glow filter is similar to the drop shadow
 filter with the <code>distance</code> and <code>angle</code> properties of
 the drop shadow filter set to 0. You can apply the filter to any display
-object(that is, objects that inherit from the DisplayObject class), such
+object (that is, objects that inherit from the DisplayObject class), such
 as MovieClip, SimpleButton, TextField, and Video objects, as well as to
 BitmapData objects.</p>
 <p>The use of filters depends on the object to which you apply the
 filter:</p><ul><li>To apply filters to display objects, use the <code>filters</code>
-property(inherited from DisplayObject). Setting the <code>filters</code>
+property (inherited from DisplayObject). Setting the <code>filters</code>
 property of an object does not modify the object, and you can remove the
 filter by clearing the <code>filters</code> property.</li><li>To apply filters to BitmapData objects, use the
 <code><a href="../../openfl/display/BitmapData.html#applyFilter">BitmapData.applyFilter</a>()</code> method. Calling
@@ -36,7 +36,7 @@ result.</li></ul>
 <code><a href="../../Bool.html">true</a></code>. If you clear all filters, the original value of
 <code>cacheAsBitmap</code> is restored.</p>
 <p>This filter supports Stage scaling. However, it does not support general
-scaling, rotation, and skewing. If the object itself is scaled(if
+scaling, rotation, and skewing. If the object itself is scaled (if
 <code>scaleX</code> and <code>scaleY</code> are set to a value other than
 1.0), the filter is not scaled. It is scaled only when the user zooms in on
 the Stage.</p>
@@ -48,7 +48,7 @@ high.) In Flash Player 9 and earlier and AIR 1.1 and earlier, the
 limitation is 2,880 pixels in height and 2,880 pixels in width. For
 example, if you zoom in on a large movie clip with a filter applied, the
 filter is turned off if the resulting image exceeds the maximum
-dimensions.</p></div><h3 class="section">Constructor</h3><div class="fields"><div class="field "><a name="new"></a><h3 class="anchor"><code><span class="label label-meta label-meta-value" title="Used to store default values for fields and function arguments.">@:value({ knockout : false, inner : false, quality : 1, strength : 2, blurY : 6, blurX : 6, alpha : 1, color : 0xFF0000 })</span><a href="#new"><span class="identifier">new</span></a>(<span style="white-space:nowrap">color:<a class="type" title="Int - The standard Int type." href="../../Int.html">Int</a> = 0xFF0000,</span> <span style="white-space:nowrap">alpha:<a class="type" title="Float - The standard Float type, this is a double-precision IEEE 64bit float." href="../../Float.html">Float</a> = 1,</span> <span style="white-space:nowrap">blurX:<a class="type" title="Float - The standard Float type, this is a double-precision IEEE 64bit float." href="../../Float.html">Float</a> = 6,</span> <span style="white-space:nowrap">blurY:<a class="type" title="Float - The standard Float type, this is a double-precision IEEE 64bit float." href="../../Float.html">Float</a> = 6,</span> <span style="white-space:nowrap">strength:<a class="type" title="Float - The standard Float type, this is a double-precision IEEE 64bit float." href="../../Float.html">Float</a> = 2,</span> <span style="white-space:nowrap">quality:<a class="type" title="Int - The standard Int type." href="../../Int.html">Int</a> = 1,</span> <span style="white-space:nowrap">inner:<a class="type" title="Bool - The standard Boolean type, which can either be true or false." href="../../Bool.html">Bool</a> = false,</span> <span style="white-space:nowrap">knockout:<a class="type" title="Bool - The standard Boolean type, which can either be true or false." href="../../Bool.html">Bool</a> = false</span>)</code></h3><div class="doc"><p>Initializes a new GlowFilter instance with the specified parameters.</p><p class="javadoc">Parameters:</p><table class="table table-bordered params"><tr><th style="width:25%;"><code>color</code></th><td><p>The color of the glow, in the hexadecimal format
+dimensions.</p><p class="javadoc">See also:</p><ul><li><div class="inline-content"><p><code><a href="../../openfl/display/DisplayObject.html#filters">openfl.display.DisplayObject.filters</a></code></p></div></li><li><div class="inline-content"><p><code><a href="../../openfl/display/BitmapData.html#applyFilter">openfl.display.BitmapData.applyFilter</a></code></p></div></li></ul></div><h3 class="section">Constructor</h3><div class="fields"><div class="field "><a name="new"></a><h3 class="anchor"><code><span class="label label-meta label-meta-value" title="Used to store default values for fields and function arguments.">@:value({ knockout : false, inner : false, quality : 1, strength : 2, blurY : 6, blurX : 6, alpha : 1, color : 0xFF0000 })</span><a href="#new"><span class="identifier">new</span></a>(<span style="white-space:nowrap">color:<a class="type" title="Int - The standard Int type." href="../../Int.html">Int</a> = 0xFF0000,</span> <span style="white-space:nowrap">alpha:<a class="type" title="Float - The standard Float type, this is a double-precision IEEE 64bit float." href="../../Float.html">Float</a> = 1,</span> <span style="white-space:nowrap">blurX:<a class="type" title="Float - The standard Float type, this is a double-precision IEEE 64bit float." href="../../Float.html">Float</a> = 6,</span> <span style="white-space:nowrap">blurY:<a class="type" title="Float - The standard Float type, this is a double-precision IEEE 64bit float." href="../../Float.html">Float</a> = 6,</span> <span style="white-space:nowrap">strength:<a class="type" title="Float - The standard Float type, this is a double-precision IEEE 64bit float." href="../../Float.html">Float</a> = 2,</span> <span style="white-space:nowrap">quality:<a class="type" title="Int - The standard Int type." href="../../Int.html">Int</a> = 1,</span> <span style="white-space:nowrap">inner:<a class="type" title="Bool - The standard Boolean type, which can either be true or false." href="../../Bool.html">Bool</a> = false,</span> <span style="white-space:nowrap">knockout:<a class="type" title="Bool - The standard Boolean type, which can either be true or false." href="../../Bool.html">Bool</a> = false</span>)</code></h3><div class="doc"><p>Initializes a new GlowFilter instance with the specified parameters.</p><p class="javadoc">Parameters:</p><table class="table table-bordered params"><tr><th style="width:25%;"><code>color</code></th><td><p>The color of the glow, in the hexadecimal format
 0x<em>RRGGBB</em>. The default value is 0xFF0000.</p></td></tr><tr><th style="width:25%;"><code>alpha</code></th><td><p>The alpha transparency value for the color. Valid values
 are 0 to 1. For example, .25 sets a transparency value of
 25%.</p></td></tr><tr><th style="width:25%;"><code>blurX</code></th><td><p>The amount of horizontal blur. Valid values are 0 to 255

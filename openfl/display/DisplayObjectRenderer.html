@@ -33,7 +33,7 @@ bubbling applies only to the ancestors of the target node.</p>
 <code>removeEventListener()</code>, or memory problems could result. Event
 listeners are not automatically removed from memory because the garbage
 collector does not remove the listener as long as the dispatching object
-exists(unless the <code>useWeakReference</code> parameter is set to
+exists (unless the <code>useWeakReference</code> parameter is set to
 <code><a href="../../Bool.html">true</a></code>).</p>
 <p>Copying an EventDispatcher instance does not copy the event listeners
 attached to it.(If your newly created node needs an event listener, you
@@ -46,7 +46,7 @@ the current phase but can be triggered during a later phase in the event
 flow, such as the bubbling phase.</p>
 <p>If an event listener is removed from a node while an event is being
 processed on the node, it is still triggered by the current actions. After
-it is removed, the event listener is never invoked again(unless
+it is removed, the event listener is never invoked again (unless
 registered again for future processing).</p><p class="javadoc">Parameters:</p><table class="table table-bordered params"><tr><th style="width:25%;"><code>type</code></th><td><p>The type of event.</p></td></tr><tr><th style="width:25%;"><code>useCapture</code></th><td><p>Determines whether the listener works in the
 capture phase or the target and bubbling phases.
 If <code>useCapture</code> is set to
@@ -68,7 +68,7 @@ before listeners of priority <em>n</em>-1. If two or
 more listeners share the same priority, they are
 processed in the order in which they were added.
 The default priority is 0.</p></td></tr><tr><th style="width:25%;"><code>useWeakReference</code></th><td><p>Determines whether the reference to the listener
-is strong or weak. A strong reference(the
+is strong or weak. A strong reference (the
 default) prevents your listener from being
 garbage-collected. A weak reference does not.</p>
 <p>Class-level member functions are not subject to
@@ -83,8 +83,7 @@ longer persistent. If you create references to the
 inner function (save it in another variable) then
 it is not garbage-collected and stays
 persistent.</p>
-<p>Weak references are supported on some OpenFL
-targets only, including html5, cpp, and
+<p>Weak reference support is limited to html5 and
 flash/air. On other targets, this parameter is
 ignored, and the reference will be strong instead.</p></td></tr></table><p class="javadoc">Throws:</p><table class="table table-bordered params"><tr class="indent"><th style="width:25%;"><code>ArgumentError</code></th><td><p>The <code>listener</code> specified is not a
 function.</p></td></tr></table></div></div><div class="field "><a name="dispatchEvent"></a><h3 class="anchor"><code><a href="#dispatchEvent"><span class="identifier">dispatchEvent</span></a>(<span style="white-space:nowrap">event:<a class="type" title="openfl.events.Event - The Event class is used as the base class for the creation of Event objects, which are passed as parameters to event listeners when an event occurs." href="../../openfl/events/Event.html">Event</a></span>):<a class="type" title="Bool - The standard Boolean type, which can either be true or false." href="../../Bool.html">Bool</a></code></h3><div class="doc"><p>Dispatches an event into the event flow. The event target is the

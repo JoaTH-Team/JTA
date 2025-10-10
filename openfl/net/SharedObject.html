@@ -62,7 +62,7 @@ your knowledge. Flash Player users can manage the disk space that is
 available to individual domains or to all domains. When users decrease the
 amount of disk space available, some local shared objects may be deleted.
 Flash Player users also have privacy controls that can prevent third-party
-domains(domains other than the domain in the current browser address bar)
+domains (domains other than the domain in the current browser address bar)
 from reading or writing local shared objects.</p>
 <p><strong>Note</strong>: SWF files that are stored and run on a local computer, not
 from a remote server, can always write third-party shared objects to disk.
@@ -84,7 +84,7 @@ event is dispatched with an information object indicating whether the flush
 failed or succeeded.</li></ul>
 <p>If your SWF file attempts to create or modify local shared objects, make
 sure that your SWF file is at least 215 pixels wide and at least 138 pixels
-high(the minimum dimensions for displaying the dialog box that prompts
+high (the minimum dimensions for displaying the dialog box that prompts
 users to increase their local shared object storage limit). If your SWF
 file is smaller than these dimensions and an increase in the storage limit
 is required, <code><a href="../../openfl/net/SharedObject.html#flush">SharedObject.flush</a>()</code> fails, returning
@@ -154,7 +154,7 @@ reference to a variable:</p>
 this domain, the object is not saved locally, even if a value for
 <code>localPath</code> is specified. The exception to this rule is local
 content. Local content can always write shared objects from third-party
-domains(domains other than the domain in the current browser address bar)
+domains (domains other than the domain in the current browser address bar)
 to disk, even if writing of third-party shared objects to disk is
 disallowed.</p>
 <p>To avoid name conflicts, Flash looks at the location of the SWF file
@@ -249,7 +249,7 @@ was specified but no such directory exists), this method throws an
 exception.</p></div><p class="javadoc">Throws:</p><table class="table table-bordered params"><tr class="indent"><th style="width:25%;"><code>Error</code></th><td><p>Flash Player cannot create the shared object for whatever
 reason. This error might occur is if persistent shared
 object creation and storage by third-party Flash content is
-prohibited(does not apply to local content). Users can
+prohibited (does not apply to local content). Users can
 prohibit third-party persistent shared objects on the Global
 Storage Settings panel of the Settings Manager, located at
 [<a href="http://www.adobe.com/support/documentation/en/flashplayer/help/settings_manager03.html](http://www.adobe.com/support/documentation/en/flashplayer/help/settings_manager03.html">http://www.adobe.com/support/documentation/en/flashplayer/help/settings_manager03.html](http://www.adobe.com/support/documentation/en/flashplayer/help/settings_manager03.html</a>).</p></td></tr></table></div></div><div class="field "><a name="getRemote"></a><h3 class="anchor"><code><span class="label label-meta label-meta-value" title="Used to store default values for fields and function arguments.">@:value({ secure : false, persistence : false, remotePath : null })</span><span class="label label-static">static</span><a href="#getRemote"><span class="identifier">getRemote</span></a>(<span style="white-space:nowrap">name:<a class="type" title="String - The basic String class." href="../../String.html">String</a>,</span> <span style="white-space:nowrap">?remotePath:<a class="type" title="String - The basic String class." href="../../String.html">String</a>,</span> <span style="white-space:nowrap">persistence:<a class="type" title="Dynamic - Dynamic is a special type which is compatible with all other types." href="../../Dynamic.html">Dynamic</a> = false,</span> <span style="white-space:nowrap">secure:<a class="type" title="Bool - The standard Boolean type, which can either be true or false." href="../../Bool.html">Bool</a> = false</span>):<a class="type" title="openfl.net.SharedObject - The SharedObject class is used to read and store limited amounts of data on a user&#039;s computer or on a server." href="../../openfl/net/SharedObject.html">SharedObject</a></code></h3><div class="doc"><p>Returns a reference to a shared object on Flash Media Server that
@@ -484,7 +484,7 @@ bubbling applies only to the ancestors of the target node.</p>
 <code>removeEventListener()</code>, or memory problems could result. Event
 listeners are not automatically removed from memory because the garbage
 collector does not remove the listener as long as the dispatching object
-exists(unless the <code>useWeakReference</code> parameter is set to
+exists (unless the <code>useWeakReference</code> parameter is set to
 <code><a href="../../Bool.html">true</a></code>).</p>
 <p>Copying an EventDispatcher instance does not copy the event listeners
 attached to it.(If your newly created node needs an event listener, you
@@ -497,7 +497,7 @@ the current phase but can be triggered during a later phase in the event
 flow, such as the bubbling phase.</p>
 <p>If an event listener is removed from a node while an event is being
 processed on the node, it is still triggered by the current actions. After
-it is removed, the event listener is never invoked again(unless
+it is removed, the event listener is never invoked again (unless
 registered again for future processing).</p><p class="javadoc">Parameters:</p><table class="table table-bordered params"><tr><th style="width:25%;"><code>type</code></th><td><p>The type of event.</p></td></tr><tr><th style="width:25%;"><code>useCapture</code></th><td><p>Determines whether the listener works in the
 capture phase or the target and bubbling phases.
 If <code>useCapture</code> is set to
@@ -519,7 +519,7 @@ before listeners of priority <em>n</em>-1. If two or
 more listeners share the same priority, they are
 processed in the order in which they were added.
 The default priority is 0.</p></td></tr><tr><th style="width:25%;"><code>useWeakReference</code></th><td><p>Determines whether the reference to the listener
-is strong or weak. A strong reference(the
+is strong or weak. A strong reference (the
 default) prevents your listener from being
 garbage-collected. A weak reference does not.</p>
 <p>Class-level member functions are not subject to
@@ -534,8 +534,7 @@ longer persistent. If you create references to the
 inner function (save it in another variable) then
 it is not garbage-collected and stays
 persistent.</p>
-<p>Weak references are supported on some OpenFL
-targets only, including html5, cpp, and
+<p>Weak reference support is limited to html5 and
 flash/air. On other targets, this parameter is
 ignored, and the reference will be strong instead.</p></td></tr></table><p class="javadoc">Throws:</p><table class="table table-bordered params"><tr class="indent"><th style="width:25%;"><code>ArgumentError</code></th><td><p>The <code>listener</code> specified is not a
 function.</p></td></tr></table></div></div><div class="field "><a name="dispatchEvent"></a><h3 class="anchor"><code><a href="#dispatchEvent"><span class="identifier">dispatchEvent</span></a>(<span style="white-space:nowrap">event:<a class="type" title="openfl.events.Event - The Event class is used as the base class for the creation of Event objects, which are passed as parameters to event listeners when an event occurs." href="../../openfl/events/Event.html">Event</a></span>):<a class="type" title="Bool - The standard Boolean type, which can either be true or false." href="../../Bool.html">Bool</a></code></h3><div class="doc"><p>Dispatches an event into the event flow. The event target is the

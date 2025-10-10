@@ -58,12 +58,12 @@ data that will be sent (which is the binary or string data contained in
 the value of the <code>data</code> property).</li><li>For <code><a href="../../openfl/net/FileReference.html#upload">FileReference.upload</a>()</code>, the Content-Type of the
 request is set automatically to <code>multipart/form-data</code>, and the
 value of the <code>contentType</code> property is ignored.</li></ul>
-<p>In Flash Player 10 and later, if you use a multipart Content-Type(for
+<p>In Flash Player 10 and later, if you use a multipart Content-Type (for
 example "multipart/form-data") that contains an upload (indicated by a
 "filename" parameter in a "content-disposition" header within the POST
 body), the POST operation is subject to the security rules applied to
 uploads:</p><ul><li>The POST operation must be performed in response to a user-initiated
-action, such as a mouse click or key press.</li><li>If the POST operation is cross-domain(the POST target is not on the
+action, such as a mouse click or key press.</li><li>If the POST operation is cross-domain (the POST target is not on the
 same server as the SWF file that is sending the POST request), the target
 server must provide a URL policy file that permits cross-domain
 access.</li></ul>
@@ -163,7 +163,7 @@ method you are calling. For example, the
 supported for <code>POST</code> requests, not for <code>GET</code>
 requests.</p></div></div><div class="field "><a name="url"></a><h3 class="anchor"><code><a href="#url"><span class="identifier">url</span></a>:<a class="type" title="String - The basic String class." href="../../String.html">String</a></code></h3><div class="doc"><p>The URL to be requested.</p>
 <p>Be sure to encode any characters that are either described as unsafe in
-the Uniform Resource Locator specification(see
+the Uniform Resource Locator specification (see
 http://www.faqs.org/rfcs/rfc1738.html) or that are reserved in the URL
 scheme of the URLRequest object (when not used for their reserved
 purpose). For example, use <code>"%25"</code> for the percent(%) symbol
@@ -177,7 +177,7 @@ see the description of the URLRequest class.</p>
 <p>For content running in Adobe AIR, files in the application security
 sandbox  -  files installed with the AIR application  -  can access URLs
 using any of the following URL schemes:</p><ul><li><code>http</code> and <code>https</code></li><li><code>file</code></li><li><code>app-storage</code></li><li><code>app</code></li></ul>
-<p><strong>Note:</strong> IPv6(Internet Protocol version 6) is supported in AIR and
+<p><strong>Note:</strong> IPv6 (Internet Protocol version 6) is supported in AIR and
 in Flash Player 9.0.115.0 and later. IPv6 is a version of Internet
 Protocol that supports 128-bit addresses (an improvement on the earlier
 IPv4 protocol that supports 32-bit addresses). You might need to activate

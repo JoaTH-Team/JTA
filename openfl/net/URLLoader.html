@@ -41,8 +41,8 @@ the current Flash Player environment is able to
 detect and return the status code for the
 request.(Some browser environments may not be
 able to provide this information.) Note that the
-<code>httpStatus</code> event(if any) is sent
-before(and in addition to) any
+<code>httpStatus</code> event (if any) is sent
+before (and in addition to) any
 <code>complete</code> or <code>error</code>
 event.</p></td></tr><tr class="indent"><th style="width:25%;"><code>ioError</code></th><td><p>Dispatched if a call to URLLoader.load() results
 in a fatal error that terminates the download.</p></td></tr><tr class="indent"><th style="width:25%;"><code>open</code></th><td><p>Dispatched when the download operation commences
@@ -97,7 +97,7 @@ you set for the <code>dataFormat</code> property. Note that the default
 value of the <code>dataFormat</code> property is text. If you want to send
 data to the specified URL, you can set the <code>data</code> property in
 the URLRequest object.</p>
-<p><strong>Note:</strong> If a file being loaded contains non-ASCII characters(as
+<p><strong>Note:</strong> If a file being loaded contains non-ASCII characters (as
 found in many non-English languages), it is recommended that you save the
 file with UTF-8 or UTF-16 encoding as opposed to a non-Unicode format like
 ASCII.</p>
@@ -111,12 +111,12 @@ data.</p>
 <p>You cannot connect to commonly reserved ports. For a complete list of
 blocked ports, see "Restricting Networking APIs" in the <em>OpenFL
 Developer's Guide</em>.</p>
-<p>In Flash Player 10 and later, if you use a multipart Content-Type(for
+<p>In Flash Player 10 and later, if you use a multipart Content-Type (for
 example "multipart/form-data") that contains an upload (indicated by a
 "filename" parameter in a "content-disposition" header within the POST
 body), the POST operation is subject to the security rules applied to
 uploads:</p><ul><li>The POST operation must be performed in response to a user-initiated
-action, such as a mouse click or key press.</li><li>If the POST operation is cross-domain(the POST target is not on the
+action, such as a mouse click or key press.</li><li>If the POST operation is cross-domain (the POST target is not on the
 same server as the SWF file that is sending the POST request), the target
 server must provide a URL policy file that permits cross-domain
 access.</li></ul>
@@ -157,7 +157,7 @@ to any <code>complete</code> or
 operation progresses.</p></td></tr><tr class="indent"><th style="width:25%;"><code>securityError</code></th><td><p>A load operation attempted to retrieve data from
 a server outside the caller's security sandbox.
 This may be worked around using a policy file on
-the server.</p></td></tr><tr class="indent"><th style="width:25%;"><code>securityError</code></th><td><p>A load operation attempted to load a SWZ file(a
+the server.</p></td></tr><tr class="indent"><th style="width:25%;"><code>securityError</code></th><td><p>A load operation attempted to load a SWZ file (a
 Adobe platform component), but the certificate
 is invalid or the digest does not match the
 component.</p></td></tr></table><p class="javadoc">See also:</p><ul><li><div class="inline-content"><p><a href="https://books.openfl.org/openfl-developers-guide/http-communications/loading-external-data.html">Loading external data</a></p></div></li></ul></div></div></div>  <div class="inherited-fields well"><h3 class="section">Inherited Variables</h3><div class="fields"><div style="display:none"></div></div><h3 class="section">Inherited Methods</h3><div class="fields"><h4><a href="#" class="expand-button"><i class="fa fa-arrow-circle-o-right"></i></a> Defined by <a class="type" title="openfl.events.EventDispatcher - The EventDispatcher class is the base class for all classes that dispatch events." href="../../openfl/events/EventDispatcher.html">EventDispatcher</a></h4><div style="display:none"><div class="field "><a name="addEventListener"></a><h3 class="anchor"><code><span class="label label-meta label-meta-value" title="Used to store default values for fields and function arguments.">@:value({ useWeakReference : false, priority : 0, useCapture : false })</span><a href="#addEventListener"><span class="identifier">addEventListener</span></a>&lt;<span class="type">T</span>&gt;(<span style="white-space:nowrap">type:<a class="type" title="openfl.events.EventType - The EventType abstract type provides type safety when matching dispatch events with the correct type of listener For example, the following code has the wrong type in the event listener, it should be a MouseEvent: addEventListener(MouseEvent." href="../../openfl/events/EventType.html">EventType</a>&lt;<span class="type">T</span>&gt;,</span> <span style="white-space:nowrap">listener:<span class="type">T</span>&nbsp;&#8209;&gt;&nbsp;<a class="type" title="Void - The standard Void type." href="../../Void.html">Void</a>,</span> <span style="white-space:nowrap">useCapture:<a class="type" title="Bool - The standard Boolean type, which can either be true or false." href="../../Bool.html">Bool</a> = false,</span> <span style="white-space:nowrap">priority:<a class="type" title="Int - The standard Int type." href="../../Int.html">Int</a> = 0,</span> <span style="white-space:nowrap">useWeakReference:<a class="type" title="Bool - The standard Boolean type, which can either be true or false." href="../../Bool.html">Bool</a> = false</span>):<a class="type" title="Void - The standard Void type." href="../../Void.html">Void</a></code></h3><div class="doc"><p>Registers an event listener object with an EventDispatcher object so that
@@ -186,7 +186,7 @@ bubbling applies only to the ancestors of the target node.</p>
 <code>removeEventListener()</code>, or memory problems could result. Event
 listeners are not automatically removed from memory because the garbage
 collector does not remove the listener as long as the dispatching object
-exists(unless the <code>useWeakReference</code> parameter is set to
+exists (unless the <code>useWeakReference</code> parameter is set to
 <code><a href="../../Bool.html">true</a></code>).</p>
 <p>Copying an EventDispatcher instance does not copy the event listeners
 attached to it.(If your newly created node needs an event listener, you
@@ -199,7 +199,7 @@ the current phase but can be triggered during a later phase in the event
 flow, such as the bubbling phase.</p>
 <p>If an event listener is removed from a node while an event is being
 processed on the node, it is still triggered by the current actions. After
-it is removed, the event listener is never invoked again(unless
+it is removed, the event listener is never invoked again (unless
 registered again for future processing).</p><p class="javadoc">Parameters:</p><table class="table table-bordered params"><tr><th style="width:25%;"><code>type</code></th><td><p>The type of event.</p></td></tr><tr><th style="width:25%;"><code>useCapture</code></th><td><p>Determines whether the listener works in the
 capture phase or the target and bubbling phases.
 If <code>useCapture</code> is set to
@@ -221,7 +221,7 @@ before listeners of priority <em>n</em>-1. If two or
 more listeners share the same priority, they are
 processed in the order in which they were added.
 The default priority is 0.</p></td></tr><tr><th style="width:25%;"><code>useWeakReference</code></th><td><p>Determines whether the reference to the listener
-is strong or weak. A strong reference(the
+is strong or weak. A strong reference (the
 default) prevents your listener from being
 garbage-collected. A weak reference does not.</p>
 <p>Class-level member functions are not subject to
@@ -236,8 +236,7 @@ longer persistent. If you create references to the
 inner function (save it in another variable) then
 it is not garbage-collected and stays
 persistent.</p>
-<p>Weak references are supported on some OpenFL
-targets only, including html5, cpp, and
+<p>Weak reference support is limited to html5 and
 flash/air. On other targets, this parameter is
 ignored, and the reference will be strong instead.</p></td></tr></table><p class="javadoc">Throws:</p><table class="table table-bordered params"><tr class="indent"><th style="width:25%;"><code>ArgumentError</code></th><td><p>The <code>listener</code> specified is not a
 function.</p></td></tr></table></div></div><div class="field "><a name="dispatchEvent"></a><h3 class="anchor"><code><a href="#dispatchEvent"><span class="identifier">dispatchEvent</span></a>(<span style="white-space:nowrap">event:<a class="type" title="openfl.events.Event - The Event class is used as the base class for the creation of Event objects, which are passed as parameters to event listeners when an event occurs." href="../../openfl/events/Event.html">Event</a></span>):<a class="type" title="Bool - The standard Boolean type, which can either be true or false." href="../../Bool.html">Bool</a></code></h3><div class="doc"><p>Dispatches an event into the event flow. The event target is the
