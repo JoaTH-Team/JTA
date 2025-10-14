@@ -4,11 +4,15 @@ import polymod.Polymod;
 import polymod.format.ParseRules;
 import polymod.fs.ZipFileSystem;
 import flixel.util.FlxStringUtil;
+import jta.modding.events.FocusEvent;
+import jta.modding.events.StateSwitchEvent;
+import jta.modding.module.ModuleHandler;
 #if windows
 import jta.api.native.WindowsAPI;
 #end
 import jta.util.macro.ClassMacro;
 import jta.util.WindowUtil;
+import jta.util.StateUtil;
 import jta.util.TimerUtil;
 import jta.locale.Locale;
 #if sys
@@ -66,6 +70,32 @@ class PolymodHandler
 	public static function init(?framework:Null<Framework>):Void
 	{
 		Polymod.clearScripts();
+
+		var focusGained:Dynamic = function() ModuleHandler.callEvent(module ->
+		{
+			module.onFocusGained(new FocusEvent(FocusEventType.GAINED));
+		});
+		var focusLost:Dynamic = function() ModuleHandler.callEvent(module ->
+		{
+			module.onFocusLost(new FocusEvent(FocusEventType.LOST));
+		});
+		var preStateSwitch:Dynamic = function() ModuleHandler.callEvent(module ->
+		{
+			module.onStateSwitchPre(new StateSwitchEvent(StateUtil.getCurrentState()));
+		});
+		var postStateSwitch:Dynamic = function() ModuleHandler.callEvent(module ->
+		{
+			module.onStateSwitchPost(new StateSwitchEvent(StateUtil.getCurrentState()));
+		});
+
+		if (!FlxG.signals.focusGained.has(() -> focusGained))
+			FlxG.signals.focusGained.add(() -> focusGained);
+		if (!FlxG.signals.focusLost.has(() -> focusLost))
+			FlxG.signals.focusLost.add(() -> focusLost);
+		if (!FlxG.signals.preStateSwitch.has(() -> preStateSwitch))
+			FlxG.signals.preStateSwitch.add(() -> preStateSwitch);
+		if (!FlxG.signals.postStateSwitch.has(() -> postStateSwitch))
+			FlxG.signals.postStateSwitch.add(() -> postStateSwitch);
 
 		Polymod.addImportAlias('flixel.effects.particles.FlxEmitter', flixel.effects.particles.FlxEmitter);
 		Polymod.addImportAlias('flixel.group.FlxContainer', flixel.group.FlxContainer);

@@ -7,7 +7,9 @@ import flixel.util.typeLimit.NextState;
 import flixel.graphics.FlxGraphic;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
-import jta.registries.ModuleRegistry;
+import jta.modding.module.ModuleHandler;
+import jta.modding.events.CreateEvent;
+import jta.modding.events.UpdateEvent;
 import jta.states.Startup;
 import jta.Data;
 
@@ -17,12 +19,17 @@ import jta.Data;
  */
 class BaseState extends FlxTransitionableState
 {
+	public var id:String = 'default';
+
 	/**
+	 * @param id The ID of the state.
 	 * @param noTransition Whether or not to skip the transition when entering a state.
 	 */
-	override public function new(?noTransition:Bool = false):Void
+	override public function new(?id:String = 'default', ?noTransition:Bool = false):Void
 	{
 		super();
+
+		this.id = id;
 
 		if (!Startup.transitionsAllowed)
 		{
@@ -49,11 +56,12 @@ class BaseState extends FlxTransitionableState
 	{
 		super.create();
 
-		for (module in ModuleRegistry.getAllModules(true))
+		id ??= 'default';
+
+		ModuleHandler.callEvent(module ->
 		{
-			module.create();
-			add(module);
-		}
+			module.create(new CreateEvent(module, id));
+		});
 	}
 
 	override public function update(elapsed:Float):Void
@@ -68,15 +76,17 @@ class BaseState extends FlxTransitionableState
 		if (FlxG.stage != null)
 			FlxG.stage.frameRate = Data.settings.framerate;
 
-		for (module in ModuleRegistry.getAllModules())
-			module.update(elapsed);
+		ModuleHandler.callEvent(module ->
+		{
+			module.update(new UpdateEvent(module, id, elapsed));
+		});
 	}
 
 	override public function destroy():Void
 	{
-		for (module in ModuleRegistry.getAllModules())
-			module.destroy();
 		super.destroy();
+
+		id = 'default';
 	}
 
 	public function transitionState(state:NextState, ?noTransition:Bool = false):Void

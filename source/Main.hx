@@ -66,7 +66,7 @@ class Main extends openfl.display.Sprite
 		return Lib.current.stage.frameRate;
 
 	/**
-	 * This will make it so it's run right at startup.
+	 * This will make it so it is run right at startup.
 	 */
 	private static function __init__():Void
 	{
@@ -150,6 +150,11 @@ class Main extends openfl.display.Sprite
 		#if android
 		FlxG.android.preventDefaultKeys = [BACK];
 		#end
+
+		#if debug
+		jta.util.plugins.MemoryGCPlugin.initialize();
+		#end
+		jta.util.plugins.EvacuateDebugPlugin.initialize();
 
 		FlxG.debugger.toggleKeys = [F2];
 

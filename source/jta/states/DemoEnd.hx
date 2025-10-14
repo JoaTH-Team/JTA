@@ -9,12 +9,12 @@ class DemoEnd extends BaseState
 {
 	override public function create():Void
 	{
-		var text:FlxText = new FlxText(0, 0, FlxG.width, "END OF DEMO\nThanks for playing!", 12);
+		var text:FlxText = new FlxText(0, 0, FlxG.width, 'END OF DEMO\nThanks for playing!', 12);
 		text.setFormat(Paths.font('main'), 40, FlxColor.WHITE, CENTER);
 		text.screenCenter();
 		add(text);
 
-		var text2:FlxText = new FlxText(0, text.y + 300, FlxG.width, "PRESS ANYTHING TO CONTINUE", 12);
+		var text2:FlxText = new FlxText(0, text.y + 300, FlxG.width, 'PRESS ANYTHING TO CONTINUE', 12);
 		text2.setFormat(Paths.font('main'), 20, FlxColor.WHITE, CENTER);
 		add(text2);
 

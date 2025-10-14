@@ -14,6 +14,7 @@
         <ui language="Language" region="Region" accept="Okay" />
         <label id="en-US" language="English" region="United States" />
         <label id="es-ES" language="Spanish" region="Spain" />
+        <label id="fr-FR" language="French" region="France" />
     </locale>
 
     <!-- Spanish (Spain) -->
@@ -22,5 +23,15 @@
         <ui language="Idioma" region="Región" accept="Okay" />
         <label id="en-US" language="Inglés" region="Estados Unidos" />
         <label id="es-ES" language="Español" region="España" />
+        <label id="fr-FR" language="Francés" region="Francia" />
+    </locale>
+
+    <!-- French (France) -->
+    <locale id="fr-FR" sort="2">
+        <contributors value="Joalor64" />
+        <ui language="Langue" region="Région" accept="OK" />
+        <label id="en-US" language="Inglés" region="Estados Unidos" />
+        <label id="es-ES" language="Español" region="España" />
+        <label id="fr-FR" language="Français" region="France" />
     </locale>
 </data>

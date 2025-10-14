@@ -28,6 +28,7 @@ class CoinObject extends Object
 		Global.score += 200;
 		if (Global.coins > 99)
 		{
+			FlxG.sound.play(Paths.sound('life'));
 			Global.coins = 0;
 			Global.lives += 1;
 		}

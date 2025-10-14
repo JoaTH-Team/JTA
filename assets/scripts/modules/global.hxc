@@ -1,3 +1,4 @@
+import jta.modding.events.UpdateEvent;
 import jta.modding.module.Module;
 import jta.states.level.Level;
 import flixel.FlxG;
@@ -7,11 +8,14 @@ class GlobalModule extends Module
 {
 	public function new():Void
 	{
-		super('globalModule', 1);
+		super('globalModule');
+		priority = -1000;
 	}
 
-	public override function update(elapsed:Float):Void
+	public override function update(event:UpdateEvent):Void
 	{
+		super.update(event);
+
 		if (FlxG.keys.justPressed.F3)
 		{
 			if (Std.isOfType(FlxG.state, Level))

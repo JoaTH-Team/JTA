@@ -33,7 +33,7 @@ class ModuleRegistry
 				if (module == null)
 					continue;
 
-				FlxG.log.notice('Initialized module "${module.moduleID}" with priority ${module.priority}');
+				FlxG.log.notice('Initialized module "${module.moduleID}"!');
 				loadedModules.set(module.moduleID, module);
 			}
 		}
@@ -58,22 +58,28 @@ class ModuleRegistry
 	}
 
 	/**
+	 * Returns a sorted array of loaded modules ordered by priority.
+	 * @return An array of loaded modules sorted by priority.
+	 */
+	public static function getLoadedModules():Array<Module>
+	{
+		var arr:Array<Module> = [];
+		for (k in loadedModules.keys())
+		{
+			var m = loadedModules.get(k);
+			if (m != null)
+				arr.push(m);
+		}
+		arr.sort(function(a:Module, b:Module) return a.priority - b.priority);
+		return arr;
+	}
+
+	/**
 	 * Clears the registry of loaded modules.
 	 */
 	public static function clearModules():Void
 	{
 		if (loadedModules != null)
 			loadedModules.clear();
-	}
-
-	/**
-	 * Returns a list of all modules (sorted by priority if needed).
-	 */
-	public static function getAllModules(sortByPriority:Bool = false):Array<Module>
-	{
-		var list:Array<Module> = [for (m in loadedModules) m];
-		if (sortByPriority)
-			list.sort((a, b) -> Reflect.compare(b.priority, a.priority));
-		return list;
 	}
 }

@@ -1,13 +1,16 @@
 package jta.modding.module;
 
-import flixel.FlxBasic;
-import jta.registries.ModuleRegistry;
+import flixel.util.FlxDestroyUtil.IFlxDestroyable;
+import jta.modding.events.CreateEvent;
+import jta.modding.events.FocusEvent;
+import jta.modding.events.StateSwitchEvent;
+import jta.modding.events.UpdateEvent;
 
 /**
  * Base class for all modules in the game.
  * @author Joalor64
  */
-class Module extends FlxBasic
+class Module implements IFlxDestroyable
 {
 	/**
 	 * The ID of the module.
@@ -15,51 +18,66 @@ class Module extends FlxBasic
 	public var moduleID:String;
 
 	/**
+	 * Whether the module is enabled.
+	 */
+	public var enabled:Bool = true;
+
+	/**
 	 * The priority of the module.
 	 */
-	public var priority:Int;
+	public var priority:Int = 0;
 
 	/**
-	 * Initializes the module with an ID and priority.
+	 * Initializes the module with an ID.
 	 * @param moduleID The ID of the module.
-	 * @param priority The priority of the module.
 	 */
-	public function new(moduleID:String, priority:Int = 0)
+	public function new(moduleID:String):Void
 	{
-		super();
-
 		this.moduleID = moduleID;
-		this.priority = priority;
 	}
 
-	override public function toString():String
-	{
-		return 'Module (${this.moduleID})';
-	}
+	public function toString():String
+		return 'Module(id: $moduleID, enabled: $enabled, priority: $priority)';
 
 	/**
-	 * Called when the module is added to a state.
+	 * Called when the module is created.
+	 * @param event The create event.
 	 */
-	public function create():Void {}
+	public function create(event:CreateEvent):Void {}
 
 	/**
 	 * Called every frame.
 	 * @param elapsed The time elapsed since the last update.
+	 * @param event The update event.
 	 */
-	override public function update(elapsed:Float):Void {}
+	public function update(event:UpdateEvent):Void {}
+
+	/**
+	 * Called before a state switch occurs.
+	 * @param event The state switch event.
+	 */
+	public function onStateSwitchPre(event:StateSwitchEvent):Void {}
+
+	/**
+	 * Called after a state switch occurs.
+	 * @param event The state switch event.
+	 */
+	public function onStateSwitchPost(event:StateSwitchEvent):Void {}
+
+	/**
+	 * Called when the game regains focus.
+	 * @param event The focus event.
+	 */
+	public function onFocusGained(event:FocusEvent):Void {}
+
+	/**
+	 * Called when the game loses focus.
+	 * @param event The focus event.
+	 */
+	public function onFocusLost(event:FocusEvent):Void {}
 
 	/**
 	 * Called when the state is destroyed or the module is unloaded.
 	 */
-	override public function destroy():Void {}
-
-	/**
-	 * Get another module by ID from within a module.
-	 * @param id The ID of the module to fetch.
-	 * @return The module with the specified ID.
-	 */
-	public static function getModule(id:String):Null<Module>
-	{
-		return ModuleRegistry.fetchModule(id);
-	}
+	public function destroy():Void {}
 }
