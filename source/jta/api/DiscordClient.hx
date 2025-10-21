@@ -8,6 +8,7 @@ import sys.thread.Thread;
 /**
  * Class to handle Discord Rich Presence integration.
  */
+@:nullSafety(Off)
 class DiscordClient
 {
 	/**

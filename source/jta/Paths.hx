@@ -22,6 +22,7 @@ enum SpriteSheetType
  * Provides utility functions for handling asset paths and loading assets in a game.
  */
 @:keep
+@:nullSafety
 class Paths
 {
 	/**
@@ -49,7 +50,7 @@ class Paths
 	 * @return The array of strings, each representing a line in the file.
 	 */
 	inline public static function getTextArray(path:String):Array<String>
-		return Assets.exists(path) ? [for (i in Assets.getText(path).trim().split('\n')) i.trim()] : [];
+		return Assets.exists(path) ? [for (i in (Assets.getText(path) ?? '').trim().split('\n')) i.trim()] : [];
 
 	/**
 	 * Gets a text file.

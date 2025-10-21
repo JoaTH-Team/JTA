@@ -23,6 +23,7 @@ import sys.FileSystem;
  * Handles the initialization and management of mods in the game.
  * @see https://github.com/FunkinCrew/Funkin/blob/main/source/funkin/modding/PolymodHandler.hx
  */
+@:nullSafety
 class PolymodHandler
 {
 	/**
@@ -65,9 +66,8 @@ class PolymodHandler
 
 	/**
 	 * Loads all mods and initializes the Polymod system.
-	 * @param framework The framework to use for modding.
 	 */
-	public static function init(?framework:Null<Framework>):Void
+	public static function init():Void
 	{
 		Polymod.clearScripts();
 
@@ -166,13 +166,11 @@ class PolymodHandler
 			FileSystem.createDirectory(MOD_DIR);
 		#end
 
-		framework ??= FLIXEL;
-
 		Locale.init(); // Initialize localization before Polymod
 		Polymod.init({
 			modRoot: MOD_DIR,
 			dirs: getMods(),
-			framework: framework,
+			framework: OPENFL,
 			apiVersionRule: API_VERSION,
 			errorCallback: onError,
 			frameworkParams: {
@@ -242,7 +240,15 @@ class PolymodHandler
 		final output:ParseRules = ParseRules.getDefault();
 		output.addType('txt', TextFileFormat.LINES);
 		output.addType('hxc', TextFileFormat.PLAINTEXT);
-		return output != null ? output : null;
+		return output;
+	}
+
+	public static function forceReloadAssets():Void
+	{
+		Polymod.clearScripts();
+		trackedMods = [];
+		init();
+		Polymod.registerAllScriptClasses();
 	}
 
 	static function onError(error:PolymodError):Void

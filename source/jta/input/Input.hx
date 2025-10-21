@@ -22,9 +22,10 @@ typedef Bind =
 }
 
 /**
- * Class for handling Input.
+ * Class for handling inputs for keyboard and gamepad.
  * @author Joalor64
  */
+@:nullSafety
 class Input
 {
 	static public var kBinds:Array<FlxKey> = Data.settings.keyboardBinds;
@@ -68,7 +69,7 @@ class Input
 	/**
 	 * Checks if the input associated with the given tag was just pressed.
 	 * @param tag The action name to check.
-	 * @return `true` if the key or gamepad button was just pressed, `false` otherwise.
+	 * @return `true` If the key or gamepad button was just pressed, `false` otherwise.
 	 */
 	public static function justPressed(tag:String):Bool
 		return checkInput(tag, JUST_PRESSED);
@@ -76,7 +77,7 @@ class Input
 	/**
 	 * Checks if the input associated with the given tag is currently pressed.
 	 * @param tag The action name to check.
-	 * @return `true` if the key or gamepad button is pressed, `false` otherwise.
+	 * @return `true` If the key or gamepad button is pressed, `false` otherwise.
 	 */
 	public static function pressed(tag:String):Bool
 		return checkInput(tag, PRESSED);
@@ -84,7 +85,7 @@ class Input
 	/**
 	 * Checks if the input associated with the given tag was just released.
 	 * @param tag The action name to check.
-	 * @return `true` if the key or gamepad button was just released, `false` otherwise.
+	 * @return `true` If the key or gamepad button was just released, `false` otherwise.
 	 */
 	public static function justReleased(tag:String):Bool
 		return checkInput(tag, JUST_RELEASED);
@@ -92,7 +93,7 @@ class Input
 	/**
 	 * Checks if any of the inputs associated with the given tags were just pressed.
 	 * @param tags An array of action names to check.
-	 * @return `true` if any of the keys or gamepad buttons were just pressed, `false` otherwise.
+	 * @return `true` If any of the keys or gamepad buttons were just pressed, `false` otherwise.
 	 */
 	public static function anyJustPressed(tags:Array<String>):Bool
 		return checkAnyInputs(tags, JUST_PRESSED);
@@ -100,7 +101,7 @@ class Input
 	/**
 	 * Checks if any of the inputs associated with the given tags are currently pressed.
 	 * @param tags An array of action names to check.
-	 * @return `true` if any of the keys or gamepad buttons are currently pressed, `false` otherwise.
+	 * @return `true` If any of the keys or gamepad buttons are currently pressed, `false` otherwise.
 	 */
 	public static function anyPressed(tags:Array<String>):Bool
 		return checkAnyInputs(tags, PRESSED);
@@ -108,7 +109,7 @@ class Input
 	/**
 	 * Checks if any of the inputs associated with the given tags were just released.
 	 * @param tags An array of action names to check.
-	 * @return `true` if any of the keys or gamepad buttons were just released, `false` otherwise.
+	 * @return `true` If any of the keys or gamepad buttons were just released, `false` otherwise.
 	 */
 	public static function anyJustReleased(tags:Array<String>):Bool
 		return checkAnyInputs(tags, JUST_RELEASED);
@@ -117,7 +118,7 @@ class Input
 	 * Checks if the input associated with the given tag is in the specified state.
 	 * @param tag The action name to check.
 	 * @param state The state to check.
-	 * @return `true` if the key or gamepad button is in the specified state, `false` otherwise.
+	 * @return `true` If the key or gamepad button is in the specified state, `false` otherwise.
 	 */
 	public static function checkInput(tag:String, state:FlxInputState):Bool
 	{
@@ -142,13 +143,14 @@ class Input
 		else
 		{
 			#if FLX_KEYBOARD
-			if (FlxKey.fromString(tag) != FlxKey.NONE && FlxG.keys.checkStatus(FlxKey.fromString(tag), state))
+			var kbInput:Null<FlxKey> = FlxKey.fromString(tag);
+			if (kbInput != null && kbInput != FlxKey.NONE && FlxG.keys.checkStatus(kbInput, state))
 				return true;
 			#end
 
 			#if FLX_GAMEPAD
-			var gpInput = FlxGamepadInputID.fromString(tag);
-			if (gamepad != null && gpInput != FlxGamepadInputID.NONE && gamepad.checkStatus(gpInput, state))
+			var gpInput:Null<FlxGamepadInputID> = FlxGamepadInputID.fromString(tag);
+			if (gamepad != null && gpInput != null && gpInput != FlxGamepadInputID.NONE && gamepad.checkStatus(gpInput, state))
 				return true;
 			#end
 		}
@@ -160,13 +162,13 @@ class Input
 	 * Checks if any of the inputs associated with the given tags are in the specified state.
 	 * @param tags An array of action names to check.
 	 * @param state The state to check.
-	 * @return `true` if any of the keys or gamepad buttons are in the specified state, `false` otherwise.
+	 * @return `true` If any of the keys or gamepad buttons are in the specified state, `false` otherwise.
 	 */
 	public static function checkAnyInputs(tags:Array<String>, state:FlxInputState):Bool
 	{
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 
-		if (tags == null || tags.length >= 0)
+		if (tags == null || tags.length <= 0)
 			return false;
 
 		for (tag in tags)
@@ -190,13 +192,14 @@ class Input
 			else
 			{
 				#if FLX_KEYBOARD
-				if (FlxKey.fromString(tag) != FlxKey.NONE && FlxG.keys.checkStatus(FlxKey.fromString(tag), state))
+				var kbInput:Null<FlxKey> = FlxKey.fromString(tag);
+				if (kbInput != null && kbInput != FlxKey.NONE && FlxG.keys.checkStatus(kbInput, state))
 					return true;
 				#end
 
 				#if FLX_GAMEPAD
-				var gpInput = FlxGamepadInputID.fromString(tag);
-				if (gamepad != null && gpInput != FlxGamepadInputID.NONE && gamepad.checkStatus(gpInput, state))
+				var gpInput:Null<FlxGamepadInputID> = FlxGamepadInputID.fromString(tag);
+				if (gamepad != null && gpInput != null && gpInput != FlxGamepadInputID.NONE && gamepad.checkStatus(gpInput, state))
 					return true;
 				#end
 			}

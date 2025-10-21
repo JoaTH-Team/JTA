@@ -24,6 +24,7 @@ import flixel.input.gamepad.FlxGamepadInputID;
 /**
  * Handles saving and loading game settings.
  */
+@:nullSafety
 class Data
 {
 	/**

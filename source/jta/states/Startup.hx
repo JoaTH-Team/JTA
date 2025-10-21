@@ -24,7 +24,7 @@ class Startup extends BaseState
 		Data.init();
 		Global.load();
 		Input.refreshControls();
-		PolymodHandler.init(OPENFL);
+		PolymodHandler.init();
 
 		if (!Data.settings.skipSplash)
 		{

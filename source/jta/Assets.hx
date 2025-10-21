@@ -9,6 +9,7 @@ import openfl.utils.Assets as OpenFLAssets;
 /**
  * Provides utility functions for handling game assets, such as images, sounds, fonts, and text files.
  */
+@:nullSafety
 class Assets
 {
 	/**

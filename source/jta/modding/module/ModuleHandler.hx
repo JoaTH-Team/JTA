@@ -5,7 +5,7 @@ import jta.modding.module.Module;
 import jta.registries.ModuleRegistry;
 
 /**
- * Handler for modules.
+ * Handles module-related operations.
  * @author Joalor64
  */
 class ModuleHandler

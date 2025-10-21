@@ -38,7 +38,7 @@ class Player extends FlxSprite
 		this.characterID = characterID;
 	}
 
-	override public function update(elapsed:Float)
+	override public function update(elapsed:Float):Void
 	{
 		super.update(elapsed);
 

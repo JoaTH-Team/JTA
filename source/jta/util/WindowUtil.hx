@@ -7,6 +7,7 @@ import jta.Assets;
 /**
  * Utility class for window-related functions.
  */
+@:nullSafety
 class WindowUtil
 {
 	/**

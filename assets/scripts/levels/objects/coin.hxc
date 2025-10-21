@@ -1,6 +1,8 @@
 import jta.Paths;
 import jta.Global;
 import jta.objects.level.Object;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
 import flixel.FlxG;
 
 class CoinObject extends Object
@@ -15,13 +17,12 @@ class CoinObject extends Object
 
 		animation.add('floating', [0, 1, 2, 1], 12, true);
 		animation.play('floating');
-
-		immovable = true;
-		solid = false;
 	}
 
 	public override function overlap():Void
 	{
+		if (!objectInteractable)
+			return;
 		objectInteractable = false;
 		FlxG.sound.play(Paths.sound('coin'));
 		Global.coins += 1;
@@ -33,7 +34,20 @@ class CoinObject extends Object
 			Global.lives += 1;
 		}
 		Global.save();
-		this.kill();
-		this.destroy();
+		kill();
+	}
+
+	override function kill():Void
+	{
+		if (!alive)
+			return;
+
+		alive = false;
+
+		FlxTween.num(1, 0, 0.22, {ease: FlxEase.circOut}, function(v:Float)
+		{
+			this.alpha = v;
+			this.y -= 0.72;
+		}).onComplete = function(_) exists = false;
 	}
 }

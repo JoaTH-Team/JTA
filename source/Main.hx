@@ -13,6 +13,7 @@ import flixel.util.typeLimit.NextState;
 /**
  * The main entry point for the game.
  */
+@:nullSafety
 class Main extends openfl.display.Sprite
 {
 	/**
@@ -48,7 +49,7 @@ class Main extends openfl.display.Sprite
 	/**
 	 * The frame rate display.
 	 */
-	public static var fpsDisplay:FPS;
+	public static var fpsDisplay:Null<FPS>;
 
 	public static var framerate(get, set):Float;
 
@@ -155,6 +156,7 @@ class Main extends openfl.display.Sprite
 		jta.util.plugins.MemoryGCPlugin.initialize();
 		#end
 		jta.util.plugins.EvacuateDebugPlugin.initialize();
+		jta.util.plugins.ReloadAssetsDebugPlugin.initialize();
 
 		FlxG.debugger.toggleKeys = [F2];
 

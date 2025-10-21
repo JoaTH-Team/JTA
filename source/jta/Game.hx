@@ -9,6 +9,7 @@ import flixel.FlxGame;
  */
 @:access(openfl.display.Stage)
 @:access(openfl.events.UncaughtErrorEvents)
+@:nullSafety
 class Game extends FlxGame
 {
 	public override function create(_):Void
