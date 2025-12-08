@@ -10,12 +10,15 @@
         },
         {
             "name": "flixel",
-            "type": "haxelib"
+            "type": "git",
+            "ref": "dev",
+            "url": "https://github.com/HaxeFlixel/flixel.git"
         },
         {
             "name": "flixel-addons",
-            "type": "haxelib",
-            "version": "3.2.2"
+            "type": "git",
+            "ref": "dev",
+            "url": "https://github.com/HaxeFlixel/flixel-addons.git"
         },
         {
             "name": "hxcpp",
