@@ -15,6 +15,7 @@
         <label id="en-US" language="English" region="United States" />
         <label id="es-ES" language="Spanish" region="Spain" />
         <label id="fr-FR" language="French" region="France" />
+        <label id="pt-BR" language="Portuguese" region="Brazil" />
     </locale>
 
     <!-- Spanish (Spain) -->
@@ -24,6 +25,7 @@
         <label id="en-US" language="Inglés" region="Estados Unidos" />
         <label id="es-ES" language="Español" region="España" />
         <label id="fr-FR" language="Francés" region="Francia" />
+        <label id="pt-BR" language="Portugués" region="Brasil" />
     </locale>
 
     <!-- French (France) -->
@@ -33,5 +35,16 @@
         <label id="en-US" language="Inglés" region="Estados Unidos" />
         <label id="es-ES" language="Español" region="España" />
         <label id="fr-FR" language="Français" region="France" />
+        <label id="pt-BR" language="Portugais" region="Brésil" />
+    </locale>
+
+    <!-- Portuguese (Brazil) -->
+    <locale id="pt-BR" sort="3">
+        <contributors value="Joalor64" />
+        <ui language="Langue" region="Région" accept="OK" />
+        <label id="en-US" language="Inglés" region="Estados Unidos" />
+        <label id="es-ES" language="Español" region="España" />
+        <label id="fr-FR" language="Français" region="France" />
+        <label id="pt-BR" language="Português" region="Brasil" />
     </locale>
 </data>

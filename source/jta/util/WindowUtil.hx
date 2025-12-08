@@ -36,7 +36,7 @@ class WindowUtil
 		#if !android
 		Lib.application.window.alert(desc, name);
 		#else
-		android.Tools.showAlertDialog(name, desc, {name: 'Ok', func: null});
+		extension.androidtools.Tools.showAlertDialog(name, desc, {name: 'Ok', func: null});
 		#end
 	}
 }

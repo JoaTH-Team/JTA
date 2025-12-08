@@ -19,7 +19,7 @@ jobs:
       
       - uses: krdlab/setup-haxe@master
         with:
-          haxe-version: 4.3.6
+          haxe-version: 4.3.7
       
       - name: Install Haxe Libraries
         run: |
@@ -27,8 +27,8 @@ jobs:
           haxelib install hxcpp > /dev/null
           haxelib install lime
           haxelib install openfl
-          haxelib install flixel
-          haxelib install flixel-addons
+          haxelib install flixel 6.1.0
+          haxelib install flixel-addons 3.3.2
           haxelib install actuate
           haxelib git extension-webm https://github.com/KadeDev/extension-webm
           haxelib install hscript

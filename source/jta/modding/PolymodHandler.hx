@@ -41,7 +41,7 @@ class PolymodHandler
 	/**
 	 * The core directory for assets.
 	 */
-	static final CORE_DIR:String =
+	static final CORE_DIR:Null<String> =
 		#if (REDIRECT_ASSETS_FOLDER && macos)
 		'../../../../../../../assets'
 		#elseif REDIRECT_ASSETS_FOLDER
