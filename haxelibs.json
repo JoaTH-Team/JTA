@@ -14,7 +14,8 @@
         },
         {
             "name": "flixel-addons",
-            "type": "haxelib"
+            "type": "haxelib",
+            "version": "3.2.2"
         },
         {
             "name": "hxcpp",
