@@ -156,6 +156,7 @@ class Main extends openfl.display.Sprite
 		jta.util.plugins.MemoryGCPlugin.initialize();
 		#end
 		jta.util.plugins.EvacuateDebugPlugin.initialize();
+		jta.util.plugins.CrashPlugin.initialize();
 		jta.util.plugins.ReloadAssetsDebugPlugin.initialize();
 
 		FlxG.debugger.toggleKeys = [F2];

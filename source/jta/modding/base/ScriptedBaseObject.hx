@@ -7,4 +7,4 @@ import jta.modding.base.BaseObject;
  * A script that can be tied to `BaseObject` (empty base class).
  */
 @:hscriptClass
-class ScriptedObject extends BaseObject implements HScriptedClass {}
+class ScriptedBaseObject extends BaseObject implements HScriptedClass {}

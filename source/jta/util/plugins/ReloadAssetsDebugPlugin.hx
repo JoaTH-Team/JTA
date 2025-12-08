@@ -1,6 +1,7 @@
 package jta.util.plugins;
 
 import flixel.FlxBasic;
+import jta.states.level.Level;
 import jta.modding.PolymodHandler;
 import jta.modding.base.ScriptedBaseState;
 
@@ -37,6 +38,8 @@ class ReloadAssetsDebugPlugin extends FlxBasic
 				var scriptedState = cast(FlxG.state, ScriptedBaseState);
 				FlxG.switchState(ScriptedBaseState.init(scriptedState.id));
 			}
+			else if (Std.isOfType(FlxG.state, Level))
+				Level.resetLevel();
 			else
 				FlxG.resetState();
 		}
