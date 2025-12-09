@@ -55,23 +55,7 @@ class ModuleRegistry
 			return null;
 		}
 
-		final moduleClass:Null<String> = moduleClasses.get(moduleID);
-
-		if (moduleClass != null)
-		{
-			final module:Module = ScriptedModule.init(moduleClass, moduleID);
-
-			if (module == null)
-			{
-				FlxG.log.error('Unable to initiate module "${moduleID}"');
-
-				return null;
-			}
-
-			return module;
-		}
-
-		return null;
+		return moduleClasses.get(moduleID) ?? null;
 	}
 
 	/**
