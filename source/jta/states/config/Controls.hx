@@ -170,7 +170,7 @@ class Controls extends BaseState
 			if (Input.justPressed('confirm'))
 			{
 				isChangingBind = true;
-				anyKeyTxt.text = Locale.getSettings("$PRESS_ANY") + (isGamepad ? Locale.getSettings("$BTN") : Locale.getSettings("$KEY"));
+				anyKeyTxt.text = Locale.getSettings("$PRESS_ANY") + " " + (isGamepad ? Locale.getSettings("$BTN") : Locale.getSettings("$KEY"));
 				anyKeyTxt.visible = true;
 				tempBG.visible = true;
 
