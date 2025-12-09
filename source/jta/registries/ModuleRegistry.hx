@@ -11,7 +11,7 @@ class ModuleRegistry
 	/**
 	 * Map to store associations between module IDs and their classes.
 	 */
-	private static final loadedModules:Map<String, Module> = [];
+	private static final moduleClasses:Map<String, Module> = [];
 
 	/**
 	 * Loads and initializes all available modules.
@@ -34,11 +34,12 @@ class ModuleRegistry
 					continue;
 
 				FlxG.log.notice('Initialized module "${module.moduleID}"!');
-				loadedModules.set(module.moduleID, module);
+
+				moduleClasses.set(module.moduleID, module);
 			}
 		}
 
-		FlxG.log.notice('Successfully loaded ${Lambda.count(loadedModules)} module(s)!');
+		FlxG.log.notice('Successfully loaded ${Lambda.count(moduleClasses)} module(s)!');
 	}
 
 	/**
@@ -48,13 +49,29 @@ class ModuleRegistry
 	 */
 	public static function fetchModule(moduleID:String):Null<Module>
 	{
-		if (!loadedModules.exists(moduleID))
+		if (!moduleClasses.exists(moduleID))
 		{
 			FlxG.log.error('Module "${moduleID}" not found in registry!');
 			return null;
 		}
 
-		return loadedModules.get(moduleID);
+		final moduleClass:Null<String> = moduleClasses.get(moduleID);
+
+		if (moduleClass != null)
+		{
+			final module:Module = ScriptedModule.init(moduleClass, moduleID);
+
+			if (module == null)
+			{
+				FlxG.log.error('Unable to initiate module "${moduleID}"');
+
+				return null;
+			}
+
+			return module;
+		}
+
+		return null;
 	}
 
 	/**
@@ -64,9 +81,9 @@ class ModuleRegistry
 	public static function getLoadedModules():Array<Module>
 	{
 		var arr:Array<Module> = [];
-		for (k in loadedModules.keys())
+		for (k in moduleClasses.keys())
 		{
-			var m = loadedModules.get(k);
+			var m = moduleClasses.get(k);
 			if (m != null)
 				arr.push(m);
 		}
@@ -79,7 +96,7 @@ class ModuleRegistry
 	 */
 	public static function clearModules():Void
 	{
-		if (loadedModules != null)
-			loadedModules.clear();
+		if (moduleClasses != null)
+			moduleClasses.clear();
 	}
 }
