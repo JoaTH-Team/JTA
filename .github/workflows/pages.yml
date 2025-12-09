@@ -8,19 +8,28 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   build:
     concurrency: ci-${{ github.ref }}
 
     runs-on: ubuntu-latest
-
+    
     steps:
       - uses: actions/checkout@main
       
       - uses: krdlab/setup-haxe@master
         with:
           haxe-version: 4.3.7
-      
+
       - name: Install Haxe Libraries
         run: |
           haxelib setup ~/haxelib
@@ -45,6 +54,7 @@ jobs:
           haxelib install dox
           haxelib install format
           haxelib list
+          mkdir pages
       
       - name: Create Documentation Site
         run: |
