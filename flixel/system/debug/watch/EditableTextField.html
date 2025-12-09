@@ -135,7 +135,9 @@ of <code><a href="../../Bool.html">false</a></code>, and the <code>Enter</code> 
 paste text into a <code><a href="../../openfl/text/TextField.html#TextField">TextField</a></code> with a <code>multiline</code>
 value of <code><a href="../../Bool.html">false</a></code>, newlines are stripped out of the text.</p></div></div><div class="field "><a name="numLines"></a><h3 class="anchor"><code><span class="label">read only</span><a href="#numLines"><span class="identifier">numLines</span></a>:<a class="type" title="Int - The standard Int type." href="../../../../Int.html">Int</a></code></h3><div class="doc"><p>Defines the number of text lines in a multiline text field. If
 <code>wordWrap</code> property is set to <code><a href="../../Bool.html">true</a></code>, the number of
-lines increases when text wraps.</p></div></div><div class="field "><a name="restrict"></a><h3 class="anchor"><code><a href="#restrict"><span class="identifier">restrict</span></a>:<a class="type" title="openfl.text._internal.UTF8String" href="../../../../openfl/text/_internal/UTF8String.html">UTF8String</a></code></h3><div class="doc"><p>Indicates the set of characters that a user can enter into the text field.
+lines increases when text wraps.</p></div></div><div class="field "><a name="passwordChar"></a><h3 class="anchor"><code><a href="#passwordChar"><span class="identifier">passwordChar</span></a>:<a class="type" title="String - The basic String class." href="../../../../String.html">String</a></code></h3><div class="doc"><p>The character to be displayed when displayAsPassword is set to true.
+The default value is <code>*</code>.</p>
+<p>The <code>passwordChar</code> property is ignored in Flash Player and AIR targets.</p></div></div><div class="field "><a name="restrict"></a><h3 class="anchor"><code><a href="#restrict"><span class="identifier">restrict</span></a>:<a class="type" title="openfl.text._internal.UTF8String" href="../../../../openfl/text/_internal/UTF8String.html">UTF8String</a></code></h3><div class="doc"><p>Indicates the set of characters that a user can enter into the text field.
 If the value of the <code>restrict</code> property is <code>null</code>,
 you can enter any character. If the value of the <code>restrict</code>
 property is an empty string, you cannot enter any character. If the value
@@ -463,7 +465,7 @@ and the shader doesn't specify any image input or
 the first input is not an <code>image4</code> input.</p></td></tr><tr class="indent"><th style="width:25%;"><code>ArgumentError</code></th><td><p>When <code>filters</code> includes a ShaderFilter
 and the shader specifies an image input that isn't
 provided.</p></td></tr><tr class="indent"><th style="width:25%;"><code>ArgumentError</code></th><td><p>When <code>filters</code> includes a ShaderFilter, a
-ByteArray or Vector.<Number> instance as a shader
+ByteArray or Vector<Float> instance as a shader
 input, and the <code>width</code> and
 <code>height</code> properties aren't specified for
 the ShaderInput object, or the specified values
@@ -509,7 +511,9 @@ to the masked object in the display list.</p>
 more than one calling display object. When the <code>mask</code> is
 assigned to a second display object, it is removed as the mask of the
 first object, and that object's <code>mask</code> property becomes
-<code>null</code>.</p><p class="javadoc">See also:</p><ul><li><div class="inline-content"><p><a href="https://books.openfl.org/openfl-developers-guide/display-programming/manipulating-display-objects/masking-display-objects.html">Masking display objects</a></p></div></li></ul></div></div><div class="field "><a name="mouseX"></a><h3 class="anchor"><code><span class="label">read only</span><a href="#mouseX"><span class="identifier">mouseX</span></a>:<a class="type" title="Float - The standard Float type, this is a double-precision IEEE 64bit float." href="../../../../Float.html">Float</a></code></h3><div class="doc"><p>Indicates the x coordinate of the mouse or user input device position, in
+<code>null</code>.</p><p class="javadoc">See also:</p><ul><li><div class="inline-content"><p><a href="https://books.openfl.org/openfl-developers-guide/display-programming/manipulating-display-objects/masking-display-objects.html">Masking display objects</a></p></div></li></ul></div></div><div class="field "><a name="metaData"></a><h3 class="anchor"><code><a href="#metaData"><span class="identifier">metaData</span></a>:<a class="type" title="Dynamic - Dynamic is a special type which is compatible with all other types." href="../../../../Dynamic.html">Dynamic</a></code></h3><div class="doc"><p>Obtains the meta data object of the DisplayObject instance if meta data
+was stored alongside the the instance of this DisplayObject in the SWF
+file through a PlaceObject4 tag.</p></div></div><div class="field "><a name="mouseX"></a><h3 class="anchor"><code><span class="label">read only</span><a href="#mouseX"><span class="identifier">mouseX</span></a>:<a class="type" title="Float - The standard Float type, this is a double-precision IEEE 64bit float." href="../../../../Float.html">Float</a></code></h3><div class="doc"><p>Indicates the x coordinate of the mouse or user input device position, in
 pixels.</p>
 <p><strong>Note</strong>: For a DisplayObject that has been rotated, the returned x
 coordinate will reflect the non-rotated object.</p><p class="javadoc">See also:</p><ul><li><div class="inline-content"><p><a href="https://books.openfl.org/openfl-developers-guide/mouse-input/capturing-mouse-input.html">Capturing mouse input</a></p></div></li></ul></div></div><div class="field "><a name="mouseY"></a><h3 class="anchor"><code><span class="label">read only</span><a href="#mouseY"><span class="identifier">mouseY</span></a>:<a class="type" title="Float - The standard Float type, this is a double-precision IEEE 64bit float." href="../../../../Float.html">Float</a></code></h3><div class="doc"><p>Indicates the y coordinate of the mouse or user input device position, in

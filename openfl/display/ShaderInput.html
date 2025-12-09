@@ -7,7 +7,7 @@ kernel. A kernel can be defined to accept zero, one, or more source images
 that are used in the kernel execution. A ShaderInput instance provides a
 mechanism for specifying the input image that is used when the shader
 executes. To specify a value for the input, create a BitmapData,
-ByteArray, or Vector.&lt;Number&gt; instance containing the image data and
+ByteArray, or Vector&lt;Float&gt; instance containing the image data and
 assign it to the &lt;code&gt;input&lt;/code&gt; property.
 The ShaderInput instance representing a Shader instance&#039;s input image is
 accessed as a property of the Shader instance&#039;s &lt;code&gt;data&lt;/code&gt; property. The
@@ -26,7 +26,7 @@ kernel. A kernel can be defined to accept zero, one, or more source images
 that are used in the kernel execution. A ShaderInput instance provides a
 mechanism for specifying the input image that is used when the shader
 executes. To specify a value for the input, create a BitmapData,
-ByteArray, or Vector.<Number> instance containing the image data and
+ByteArray, or Vector<Float> instance containing the image data and
 assign it to the <code>input</code> property.
 The ShaderInput instance representing a Shader instance's input image is
 accessed as a property of the Shader instance's <code>data</code> property. The
@@ -52,23 +52,23 @@ A ShaderInput instance is created for each of a shader's inputs when the
 Shader instance is created.</p></div><h3 class="section">Constructor</h3><div class="fields"><div class="field "><a name="new"></a><h3 class="anchor"><code><a href="#new"><span class="identifier">new</span></a>()</code></h3><div class="doc"><p>Creates a ShaderInput instance. Developer code does not call the
 ShaderInput constructor directly. A ShaderInput instance is created
 for each of a shader's inputs when the Shader instance is created.</p></div></div></div><h3 class="section">Variables</h3><div class="fields"><div class="field "><a name="channels"></a><h3 class="anchor"><code><span class="label">read only</span><a href="#channels"><span class="identifier">channels</span></a>:<a class="type" title="Int - The standard Int type." href="../../Int.html">Int</a></code></h3><div class="doc"><p>The number of channels that a shader input expects. This property must
-be accounted for when the input data is a ByteArray or Vector.<Number>
+be accounted for when the input data is a ByteArray or Vector<Float>
 instance.</p></div></div><div class="field "><a name="filter"></a><h3 class="anchor"><code><a href="#filter"><span class="identifier">filter</span></a>:<a class="type" title="openfl.display3D.Context3DTextureFilter - Defines the values to use for sampler filter mode." href="../../openfl/display3D/Context3DTextureFilter.html">Context3DTextureFilter</a></code></h3><div class="doc"><p>The texture filter to use when binding this shader input.</p>
 <p>This property is not available when targeting Flash.</p></div></div><div class="field "><a name="height"></a><h3 class="anchor"><code><a href="#height"><span class="identifier">height</span></a>:<a class="type" title="Int - The standard Int type." href="../../Int.html">Int</a></code></h3><div class="doc"><p>The height of the shader input. This property is only used when the
-input data is a ByteArray or Vector.<Number> instance. When the input
+input data is a ByteArray or Vector<Float> instance. When the input
 is a BitmapData instance the height is automatically determined.</p></div></div><div class="field "><a name="index"></a><h3 class="anchor"><code><span class="label label-meta label-meta-uppressWarnings" title="">@SuppressWarnings(&quot;checkstyle:Dynamic&quot;)</span><span class="label">read only</span><a href="#index"><span class="identifier">index</span></a>:<a class="type" title="Dynamic - Dynamic is a special type which is compatible with all other types." href="../../Dynamic.html">Dynamic</a></code></h3><div class="doc"><p>The zero-based index of the input in the shader, indicating the order
 of the input definitions in the shader.</p></div></div><div class="field "><a name="input"></a><h3 class="anchor"><code><a href="#input"><span class="identifier">input</span></a>:<span class="type">T</span></code></h3><div class="doc"><p>The input data that is used when the shader executes. This property
 can be a BitmapData instance, a ByteArray instance, or a
-Vector.<Number> instance.
+Vector<Float> instance.
 If a ByteArray value is assigned to the <code>input</code> property, the
 following conditions must be met:</p><ul><li>The <code>height</code> and <code>width</code> properties must be set.</li><li>The byte array's contents must only consist of 32-bit floating-point
 values. These values can be written using the <code><a href="../../openfl/utils/ByteArray.html#writeFloat">ByteArray.writeFloat</a>()</code>
 method.</li><li>The total length in bytes of the ByteArray must be exactly <code>width</code>
 times <code>height</code> times <code>channels</code> times 4.</li><li>The byte array's <code>endian</code> property must be <code><a href="../../openfl/utils/Endian.html#LITTLE_ENDIAN">Endian.LITTLE_ENDIAN</a></code>.</li></ul>
-<p>If a Vector.<Number> instance is assigned to the <code>input</code> property, the
+<p>If a Vector<Float> instance is assigned to the <code>input</code> property, the
 length of the Vector must be equal to <code>width</code> times <code>height</code> times
 <code>channels</code>.</p></div></div><div class="field "><a name="mipFilter"></a><h3 class="anchor"><code><a href="#mipFilter"><span class="identifier">mipFilter</span></a>:<a class="type" title="openfl.display3D.Context3DMipFilter" href="../../openfl/display3D/Context3DMipFilter.html">Context3DMipFilter</a></code></h3><div class="doc"><p>The mip filter to use when binding this shader input.</p>
 <p>This property is not available when targeting Flash.</p></div></div><div class="field "><a name="width"></a><h3 class="anchor"><code><a href="#width"><span class="identifier">width</span></a>:<a class="type" title="Int - The standard Int type." href="../../Int.html">Int</a></code></h3><div class="doc"><p>The width of the shader input. This property is only used when the
-input data is a ByteArray or Vector.<Number> instance. When the input
+input data is a ByteArray or Vector<Float> instance. When the input
 is a BitmapData instance the width is automatically determined.</p></div></div><div class="field "><a name="wrap"></a><h3 class="anchor"><code><a href="#wrap"><span class="identifier">wrap</span></a>:<a class="type" title="openfl.display3D.Context3DWrapMode" href="../../openfl/display3D/Context3DWrapMode.html">Context3DWrapMode</a></code></h3><div class="doc"><p>The wrap mode to use when binding this shader input.</p>
 <p>This property is not available when targeting Flash.</p></div></div></div></div></div></div></div><footer class="section site-footer" style="background:#FAFAFA"><div class="container"><div class="copyright"><p style="color:#000000">&copy; 2025 &nbsp;</p></div></div></footer><script src="../..//highlighter.js"></script><link href="../../highlighter.css" rel="stylesheet"/></body></html>

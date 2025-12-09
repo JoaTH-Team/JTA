@@ -72,7 +72,7 @@ The triangle vertices do not contain z coordinates and do not necessarily
 represent 3D faces. However a triangle path can be used to support the
 rendering of 3D geometry in a 2D space.</p></td></tr><tr class="class"><td style="width:200px;"><a href="../../openfl/display/IBitmapDrawable.html" title="openfl.display.IBitmapDrawable">IBitmapDrawable</a></td><td><p>The IBitmapDrawable interface is implemented by objects that can be passed
 as the source parameter of the <code>draw()</code> method of the BitmapData class.
-These objects are of type BitmapData or DisplayObject.</p></td></tr><tr class="class"><td style="width:200px;"><a href="../../openfl/display/IGraphicsData.html" title="openfl.display.IGraphicsData">IGraphicsData</a></td><td><p>This interface is used to define objects that can be used as parameters in
+These objects are of type BitmapData or DisplayObject.</p></td></tr><tr class="class"><td style="width:200px;"><a href="../../openfl/display/IDisplayObjectLoader.html" title="openfl.display.IDisplayObjectLoader">IDisplayObjectLoader</a></td><td><p></p></td></tr><tr class="class"><td style="width:200px;"><a href="../../openfl/display/IGraphicsData.html" title="openfl.display.IGraphicsData">IGraphicsData</a></td><td><p>This interface is used to define objects that can be used as parameters in
 the <code><a href="../../openfl/display/Graphics.html#Graphics">openfl.display.Graphics</a></code> methods, including fills, strokes, and paths.
 Use the implementor classes of this interface to create and manage drawing
 property data, and to reuse the same data for different instances. Then, use
@@ -158,7 +158,7 @@ kernel. A kernel can be defined to accept zero, one, or more source images
 that are used in the kernel execution. A ShaderInput instance provides a
 mechanism for specifying the input image that is used when the shader
 executes. To specify a value for the input, create a BitmapData,
-ByteArray, or Vector.<Number> instance containing the image data and
+ByteArray, or Vector<Float> instance containing the image data and
 assign it to the <code>input</code> property.
 The ShaderInput instance representing a Shader instance's input image is
 accessed as a property of the Shader instance's <code>data</code> property. The
@@ -186,7 +186,8 @@ Stage represents the entire area where Flash content is shown. For content
 running in AIR on desktop operating systems, each NativeWindow object has
 a corresponding Stage object.</p></td></tr><tr class="abstract"><td style="width:200px;"><a href="../../openfl/display/StageAlign.html" title="openfl.display.StageAlign">StageAlign</a></td><td><p>The StageAlign class provides constant values to use for the
 <code><a href="../../openfl/display/Stage.html#align">Stage.align</a></code> property.</p></td></tr><tr class="abstract"><td style="width:200px;"><a href="../../openfl/display/StageDisplayState.html" title="openfl.display.StageDisplayState">StageDisplayState</a></td><td><p>The StageDisplayState class provides values for the
-<code><a href="../../openfl/display/Stage.html#displayState">Stage.displayState</a></code> property.</p></td></tr><tr class="abstract"><td style="width:200px;"><a href="../../openfl/display/StageQuality.html" title="openfl.display.StageQuality">StageQuality</a></td><td><p>The StageQuality class provides values for the <code><a href="../../openfl/display/Stage.html#quality">Stage.quality</a></code>
+<code><a href="../../openfl/display/Stage.html#displayState">Stage.displayState</a></code> property.</p></td></tr><tr class="abstract"><td style="width:200px;"><a href="../../openfl/display/StageOrientation.html" title="openfl.display.StageOrientation">StageOrientation</a></td><td><p>The StageOrientation class defines constants enumerating the possible
+orientations of the stage and the device.</p></td></tr><tr class="abstract"><td style="width:200px;"><a href="../../openfl/display/StageQuality.html" title="openfl.display.StageQuality">StageQuality</a></td><td><p>The StageQuality class provides values for the <code><a href="../../openfl/display/Stage.html#quality">Stage.quality</a></code>
 property.</p></td></tr><tr class="abstract"><td style="width:200px;"><a href="../../openfl/display/StageScaleMode.html" title="openfl.display.StageScaleMode">StageScaleMode</a></td><td><p>The StageScaleMode class provides values for the
 <code><a href="../../openfl/display/Stage.html#scaleMode">Stage.scaleMode</a></code> property.</p></td></tr><tr class="class"><td style="width:200px;"><a href="../../openfl/display/Tile.html" title="openfl.display.Tile">Tile</a></td><td><p>The Tile class is the base class for all objects that can be contained in a
 ITileContainer object. Use the Tilemap or TileContainer class to arrange the tile

@@ -21,29 +21,27 @@ value of a Vector element. Several Vector methods also provide mechanisms for
 setting and retrieving element values. These include <code>push()</code>, <code>pop()</code>, <code>shift()</code>,
 <code>unshift()</code>, and others. The properties and methods of a Vector object are
 similar — in most cases identical — to the properties and methods of an Array. In
-most cases where you would use an Array in which all the elements have the same
-data type, a Vector instance is preferable. However, Vector instances are dense
-arrays, meaning it must have a value (or <code>null</code>) in each index. Array instances
-don't have this same restriction.</p>
+some cases where you would use an Array in which all the elements have the same
+data type, a Vector instance may be preferable.</p>
 <p>The Vector's base type is specified using postfix type parameter syntax. Type
-parameter syntax is a sequence consisting of a dot (<code>.</code>), left angle bracket (<code>&lt;</code>),
+parameter syntax is a sequence consisting of a left angle bracket (<code>&lt;</code>),
 class name, then a right angle bracket (<code>&gt;</code>), as shown in this example:</p>
 <p>In the first line of the example, the variable <code>v</code> is declared as a
-Vector.<String> instance. In other words, it represents a Vector (an array) that
+<code><a href="../openfl/Vector.html#Vector">Vector</a>&lt;<a href="../String.html">String</a>&gt;</code> instance. In other words, it represents a Vector (an array) that
 can only hold String instances and from which only String instances can be
 retrieved. The second line constructs an instance of the same Vector type (that is,
 a Vector whose elements are all String objects) and assigns it to <code>v</code>.</p>
-<pre><code class="prettyprint as3">var v:Vector.&lt;String&gt;;
-v = new Vector.&lt;String&gt;();</code></pre>
-<p>A variable declared with the Vector.<T> data type can only store a Vector instance
+<pre><code class="prettyprint as3">var v:Vector&lt;String&gt;;
+v = new Vector&lt;String&gt;();</code></pre>
+<p>A variable declared with the Vector<T> data type can only store a Vector instance
 that is constructed with the same base type T. For example, a Vector that's
-constructed by calling <code>new <a href="../openfl/Vector.html#Vector">Vector</a>.&lt;<a href="../String.html">String</a>&gt;()</code> can't be assigned to a variable that's
-declared with the Vector.<int> data type. The base types must match exactly. For
+constructed by calling <code>new <a href="../openfl/Vector.html#Vector">Vector</a>&lt;<a href="../String.html">String</a>&gt;()</code> can't be assigned to a variable that's
+declared with the Vector<Int> data type. The base types must match exactly. For
 example, the following code doesn't compile because the object's base type isn't
 the same as the variable's declared base type (even though Sprite is a subclass of
 DisplayObject):</p>
 <pre><code class="prettyprint haxe">// This code doesn't compile even though Sprite is a DisplayObject subclass
-var v:Vector.&lt;DisplayObject&gt; = new Vector.&lt;Sprite&gt;();</code></pre>
+var v:Vector&lt;DisplayObject&gt; = new Vector&lt;Sprite&gt;();</code></pre>
 <p>To convert a Vector with base type T to a Vector of a superclass of T, use the
 <code><a href="../openfl/Vector.html#Vector">Vector</a>()</code> global function.</p>
 <p>In addition to the data type restriction, the Vector class has other restrictions
@@ -55,8 +53,12 @@ index greater than the final element (length - 1). You can never set a value wit
 index more than one beyond the current final index (in other words, you can only set
 a value at an existing index or at index [length]).</li></ul>
 <p>As a result of its restrictions, a Vector has three primary benefits over an Array
-instance whose elements are all instances of a single class:</p><ul><li>Performance: array element access and iteration are much faster when using a
-Vector instance than they are when using an Array.</li><li>Type safety: in strict mode the compiler can identify data type errors. Examples
+instance whose elements are all instances of a single class:</p><ul><li>Performance: array element access and iteration are much faster on the
+Flash and AIR targets when using a Vector instance than they are when using
+an Array. On other targets, Vectors are usually a bit slower. Vectors are
+mainly provided in OpenFL for backwards compatibility with ActionScript 3.0
+code ported to Haxe because Haxe Arrays have a type parameter by default. If
+not targeting Flash or AIR, prefer Array over Vector.</li><li>Type safety: in strict mode the compiler can identify data type errors. Examples
 of data type errors include assigning a value of the incorrect data type to a
 Vector or expecting the wrong data type when reading a value from a Vector. Note,
 however, that when using the push() method or unshift() method to add values to a
@@ -124,7 +126,7 @@ search starts at the last item in the Vector.
 If this parameter is negative, it is treated as <code>length + fromIndex</code>, meaning the
 search starts -fromIndex items from the end and searches from that position
 backward to index 0.</p></td></tr></table><p class="javadoc">Returns:</p><div class="indent inline-content"><p>A zero-based index position of the item in the Vector. If the
-<code>searchElement</code> argument is not found, the return value is -1.</p></div></div></div><div class="field "><a name="ofArray"></a><h3 class="anchor"><code><span class="label label-meta label-meta-generic" title="Marks a class or class field as generic so each type parameter combination generates its own type/field.">@:generic</span><span class="label label-static">static</span><span class="label label-inline">inline</span><a href="#ofArray"><span class="identifier">ofArray</span></a>&lt;<span class="type">T</span>&gt;(<span style="white-space:nowrap">array:<a class="type" title="Array - An Array is a storage for values." href="../Array.html">Array</a>&lt;<span class="type">T</span>&gt;</span>):<a class="type" title="openfl.Vector - The Vector class lets you access and manipulate a vector — an array whose elements all have the same data type." href="../openfl/Vector.html">Vector</a>&lt;<span class="type">T</span>&gt;</code></h3><div class="doc"><p>Creates a new Vector object using the values from an Array object</p><p class="javadoc">Parameters:</p><table class="table table-bordered params"><tr><th style="width:25%;"><code>array</code></th><td><p>An Array object</p></td></tr></table><p class="javadoc">Returns:</p><div class="indent inline-content"><p>A new Vector object</p></div></div></div><div class="field "><a name="pop"></a><h3 class="anchor"><code><span class="label label-static">static</span><span class="label label-inline">inline</span><a href="#pop"><span class="identifier">pop</span></a>(<span style="white-space:nowrap">this:<span class="type">IVector</span>&lt;<span class="type">T</span>&gt;</span>):<a class="type" title="Null - Null&amp;lt;T&amp;gt; is a wrapper that can be used to make the basic types Int, Float and Bool nullable on static targets." href="../Null.html">Null</a>&lt;<span class="type">T</span>&gt;</code></h3><div class="doc"><p>Removes the last element from the Vector and returns that element. The <code>length</code>
+<code>searchElement</code> argument is not found, the return value is -1.</p></div></div></div><div class="field "><a name="ofArray"></a><h3 class="anchor"><code><span class="label label-meta label-meta-generic" title="Marks a class or class field as generic so each type parameter combination generates its own type/field.">@:generic</span><span class="label label-static">static</span><span class="label label-inline">inline</span><a href="#ofArray"><span class="identifier">ofArray</span></a>&lt;<span class="type">T</span>&gt;(<span style="white-space:nowrap">array:<a class="type" title="Array - An Array is a storage for values." href="../Array.html">Array</a>&lt;<span class="type">T</span>&gt;</span>):<a class="type" title="openfl.Vector - The Vector class lets you access and manipulate a vector — an array whose elements all have the same data type." href="../openfl/Vector.html">Vector</a>&lt;<span class="type">T</span>&gt;</code></h3><div class="doc"><p>Creates a new Vector object using the values from an Array object</p><p class="javadoc">Parameters:</p><table class="table table-bordered params"><tr><th style="width:25%;"><code>array</code></th><td><p>An Array object</p></td></tr></table><p class="javadoc">Returns:</p><div class="indent inline-content"><p>A new Vector object</p></div></div></div><div class="field "><a name="ofValues"></a><h3 class="anchor"><code><span class="label label-static">static</span><span class="label label-inline">inline</span><a href="#ofValues"><span class="identifier">ofValues</span></a>&lt;<span class="type">T</span>&gt;(<span style="white-space:nowrap">values:<a class="type" title="haxe.Rest - A special type that represents a &quot;rest&quot; function argument." href="../haxe/Rest.html">Rest</a>&lt;<span class="type">T</span>&gt;</span>):<a class="type" title="openfl.Vector - The Vector class lets you access and manipulate a vector — an array whose elements all have the same data type." href="../openfl/Vector.html">Vector</a>&lt;<span class="type">T</span>&gt;</code></h3><div class="doc"><p>Creates a new Vector object populated with the specified parameters</p><p class="javadoc">Parameters:</p><table class="table table-bordered params"><tr><th style="width:25%;"><code>values</code></th><td><p>Objects of the specified type</p></td></tr></table><p class="javadoc">Returns:</p><div class="indent inline-content"><p>A new Vector object</p></div></div></div><div class="field "><a name="pop"></a><h3 class="anchor"><code><span class="label label-static">static</span><span class="label label-inline">inline</span><a href="#pop"><span class="identifier">pop</span></a>(<span style="white-space:nowrap">this:<span class="type">IVector</span>&lt;<span class="type">T</span>&gt;</span>):<a class="type" title="Null - Null&amp;lt;T&amp;gt; is a wrapper that can be used to make the basic types Int, Float and Bool nullable on static targets." href="../Null.html">Null</a>&lt;<span class="type">T</span>&gt;</code></h3><div class="doc"><p>Removes the last element from the Vector and returns that element. The <code>length</code>
 property of the Vector is decreased by one when this function is called.</p><p class="javadoc">Returns:</p><div class="indent inline-content"><p>The value of the last element in the specified Vector.</p></div><p class="javadoc">Throws:</p><table class="table table-bordered params"><tr class="indent"><th style="width:25%;"><code>RangeError</code></th><td><p>If this method is called while <code>fixed</code> is <code><a href="../Bool.html">true</a></code>.</p></td></tr></table></div></div><div class="field "><a name="push"></a><h3 class="anchor"><code><span class="label label-static">static</span><span class="label label-inline">inline</span><a href="#push"><span class="identifier">push</span></a>(<span style="white-space:nowrap">this:<span class="type">IVector</span>&lt;<span class="type">T</span>&gt;,</span> <span style="white-space:nowrap">value:<span class="type">T</span></span>):<a class="type" title="Int - The standard Int type." href="../Int.html">Int</a></code></h3><div class="doc"><p>Adds one or more elements to the end of the Vector and returns the new length of
 the Vector.</p>
 <p>Because this function can accept multiple arguments, the data type of the

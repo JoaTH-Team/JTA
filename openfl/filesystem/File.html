@@ -153,7 +153,7 @@ automatically.</p>
 <pre><code class="prettyprint haxe">import openfl.File;
 
 var temp:File = File.createTempFile();
-trace(temp.nativePath);</code></pre><p class="javadoc">Returns:</p><div class="indent inline-content"><p>File A File object referencing the new temporary file;</p></div><p class="javadoc">See also:</p><ul><li><div class="inline-content"><p><a href="https://books.openfl.org/openfl-developers-guide/working-with-the-file-system/working-with-files.html">Working with files</a></p></div></li></ul></div></div><div class="field "><a name="getRootDirectories"></a><h3 class="anchor"><code><span class="label label-static">static</span><a href="#getRootDirectories"><span class="identifier">getRootDirectories</span></a>():<a class="type" title="Array - An Array is a storage for values." href="../../Array.html">Array</a>&lt;<a class="type" title="openfl.filesystem.File - A File object represents a path to a file or directory." href="../../openfl/filesystem/File.html">File</a>&gt;</code></h3><div class="doc"><p>Returns an array of File objects, listing the file system root directories.</p>
+trace(temp.nativePath);</code></pre><p class="javadoc">Returns:</p><div class="indent inline-content"><p>File A File object referencing the new temporary file;</p></div><p class="javadoc">See also:</p><ul><li><div class="inline-content"><p><a href="https://books.openfl.org/openfl-developers-guide/working-with-the-file-system/working-with-files.html">Working with files</a></p></div></li></ul></div></div><div class="field "><a name="getFileBytes"></a><h3 class="anchor"><code><span class="label label-static">static</span><span class="label label-inline">inline</span><a href="#getFileBytes"><span class="identifier">getFileBytes</span></a>(<span style="white-space:nowrap">path:<a class="type" title="String - The basic String class." href="../../String.html">String</a></span>):<a class="type" title="openfl.utils.ByteArray - The ByteArray class provides methods and properties to optimize reading, writing, and working with binary data." href="../../openfl/utils/ByteArray.html">ByteArray</a></code></h3><div class="doc"><p>Reads the contents of a file as a <code><a href="../../openfl/utils/ByteArray.html#ByteArray">ByteArray</a></code>.</p><p class="javadoc">Parameters:</p><table class="table table-bordered params"><tr><th style="width:25%;"><code>path</code></th><td><p>The path to the file.</p></td></tr></table><p class="javadoc">Returns:</p><div class="indent inline-content"><p>A <code><a href="../../openfl/utils/ByteArray.html#ByteArray">ByteArray</a></code> containing the file's contents.</p></div></div></div><div class="field "><a name="getFileText"></a><h3 class="anchor"><code><span class="label label-static">static</span><span class="label label-inline">inline</span><a href="#getFileText"><span class="identifier">getFileText</span></a>(<span style="white-space:nowrap">path:<a class="type" title="String - The basic String class." href="../../String.html">String</a></span>):<a class="type" title="String - The basic String class." href="../../String.html">String</a></code></h3><div class="doc"><p>Reads the contents of a file as a <code><a href="../../String.html">String</a></code>.</p><p class="javadoc">Parameters:</p><table class="table table-bordered params"><tr><th style="width:25%;"><code>path</code></th><td><p>The path to the file.</p></td></tr></table><p class="javadoc">Returns:</p><div class="indent inline-content"><p>A <code><a href="../../String.html">String</a></code> containing the file's contents.</p></div></div></div><div class="field "><a name="getRootDirectories"></a><h3 class="anchor"><code><span class="label label-static">static</span><a href="#getRootDirectories"><span class="identifier">getRootDirectories</span></a>():<a class="type" title="Array - An Array is a storage for values." href="../../Array.html">Array</a>&lt;<a class="type" title="openfl.filesystem.File - A File object represents a path to a file or directory." href="../../openfl/filesystem/File.html">File</a>&gt;</code></h3><div class="doc"><p>Returns an array of File objects, listing the file system root directories.</p>
 <p>For example, on Windows this is a list of volumes such as the C: drive and the D: drive. An empty
 drive, such as a CD or DVD drive in which no disc is inserted, is not included in this array. On Mac
 OS and Linux, this method always returns the unique root directory for the machine (the "/" directory)</p>
@@ -166,7 +166,7 @@ var rootDirs:Array = File.getRootDirectories();
 
 for (i in 0...rootDirs.length) {
 	trace(rootDirs[i].nativePath);
-}</code></pre><p class="javadoc">Returns:</p><div class="indent inline-content"><p>Array An array of File objects, listing the root directories.</p></div></div></div></div><h3 class="section">Constructor</h3><div class="fields"><div class="field "><a name="new"></a><h3 class="anchor"><code><span class="label label-meta label-meta-value" title="Used to store default values for fields and function arguments.">@:value({ path : null })</span><a href="#new"><span class="identifier">new</span></a>(<span style="white-space:nowrap">?path:<a class="type" title="String - The basic String class." href="../../String.html">String</a></span>)</code></h3><div class="doc"><p>The constructor function for the File class.</p>
+}</code></pre><p class="javadoc">Returns:</p><div class="indent inline-content"><p>Array An array of File objects, listing the root directories.</p></div></div></div><div class="field "><a name="saveBytes"></a><h3 class="anchor"><code><span class="label label-static">static</span><span class="label label-inline">inline</span><a href="#saveBytes"><span class="identifier">saveBytes</span></a>(<span style="white-space:nowrap">path:<a class="type" title="String - The basic String class." href="../../String.html">String</a>,</span> <span style="white-space:nowrap">bytes:<a class="type" title="openfl.utils.ByteArray - The ByteArray class provides methods and properties to optimize reading, writing, and working with binary data." href="../../openfl/utils/ByteArray.html">ByteArray</a></span>):<a class="type" title="Void - The standard Void type." href="../../Void.html">Void</a></code></h3><div class="doc"><p>Saves a <code><a href="../../openfl/utils/ByteArray.html#ByteArray">ByteArray</a></code> to a file.</p><p class="javadoc">Parameters:</p><table class="table table-bordered params"><tr><th style="width:25%;"><code>path</code></th><td><p>The path where the file should be saved.</p></td></tr><tr><th style="width:25%;"><code>bytes</code></th><td><p>The <code><a href="../../openfl/utils/ByteArray.html#ByteArray">ByteArray</a></code> to write to the file.</p></td></tr></table></div></div><div class="field "><a name="saveText"></a><h3 class="anchor"><code><span class="label label-static">static</span><span class="label label-inline">inline</span><a href="#saveText"><span class="identifier">saveText</span></a>(<span style="white-space:nowrap">path:<a class="type" title="String - The basic String class." href="../../String.html">String</a>,</span> <span style="white-space:nowrap">text:<a class="type" title="String - The basic String class." href="../../String.html">String</a></span>):<a class="type" title="Void - The standard Void type." href="../../Void.html">Void</a></code></h3><div class="doc"><p>Saves a <code><a href="../../String.html">String</a></code> as a text file.</p><p class="javadoc">Parameters:</p><table class="table table-bordered params"><tr><th style="width:25%;"><code>path</code></th><td><p>The path where the file should be saved.</p></td></tr><tr><th style="width:25%;"><code>text</code></th><td><p>The <code><a href="../../String.html">String</a></code> content to write to the file.</p></td></tr></table></div></div></div><h3 class="section">Constructor</h3><div class="fields"><div class="field "><a name="new"></a><h3 class="anchor"><code><span class="label label-meta label-meta-value" title="Used to store default values for fields and function arguments.">@:value({ path : null })</span><a href="#new"><span class="identifier">new</span></a>(<span style="white-space:nowrap">?path:<a class="type" title="String - The basic String class." href="../../String.html">String</a></span>)</code></h3><div class="doc"><p>The constructor function for the File class.</p>
 <p>If you pass a path argument, the File object points to the specified path, and the nativePath property and and url
 property are set to reflect that path.</p>
 <p>Although you can pass a path argument to specify a file path, consider whether doing so may result in platform-specific
@@ -245,7 +245,7 @@ is null.</p>
 
 var tempFile:File = File.createTempDirectory();
 trace(tempFile.parent.nativePath);
-tempFile.deleteFile();</code></pre><p class="javadoc">See also:</p><ul><li><div class="inline-content"><p><a href="https://books.openfl.org/openfl-developers-guide/working-with-the-file-system/working-with-directories.html">Working with directories</a></p></div></li></ul></div></div><div class="field "><a name="url"></a><h3 class="anchor"><code><span class="label">read only</span><a href="#url"><span class="identifier">url</span></a>:<a class="type" title="String - The basic String class." href="../../String.html">String</a></code></h3><div class="doc"><p></p></div></div></div><h3 class="section">Methods</h3><div class="fields"><div class="field "><a name="browse"></a><h3 class="anchor"><code><span class="label label-meta label-meta-value" title="Used to store default values for fields and function arguments.">@:value({ typeFilter : null })</span><a href="#browse"><span class="identifier">browse</span></a>(<span style="white-space:nowrap">?typeFilter:<a class="type" title="Array - An Array is a storage for values." href="../../Array.html">Array</a>&lt;<a class="type" title="openfl.net.FileFilter - The FileFilter class is used to indicate what files on the user&#039;s system are shown in the file-browsing dialog box that is displayed when the FileReference." href="../../openfl/net/FileFilter.html">FileFilter</a>&gt;</span>):<a class="type" title="Bool - The standard Boolean type, which can either be true or false." href="../../Bool.html">Bool</a></code></h3><div class="doc"><p>Displays a file-browsing dialog box that lets the user select a file to upload.</p></div></div><div class="field "><a name="browseForDirectory"></a><h3 class="anchor"><code><a href="#browseForDirectory"><span class="identifier">browseForDirectory</span></a>(<span style="white-space:nowrap">title:<a class="type" title="String - The basic String class." href="../../String.html">String</a></span>):<a class="type" title="Void - The standard Void type." href="../../Void.html">Void</a></code></h3><div class="doc"><p>Displays a directory chooser dialog box, in which the user can select a directory.  When the user selects the
+tempFile.deleteFile();</code></pre><p class="javadoc">See also:</p><ul><li><div class="inline-content"><p><a href="https://books.openfl.org/openfl-developers-guide/working-with-the-file-system/working-with-directories.html">Working with directories</a></p></div></li></ul></div></div><div class="field "><a name="url"></a><h3 class="anchor"><code><a href="#url"><span class="identifier">url</span></a>:<a class="type" title="String - The basic String class." href="../../String.html">String</a></code></h3><div class="doc"><p></p></div></div></div><h3 class="section">Methods</h3><div class="fields"><div class="field "><a name="browse"></a><h3 class="anchor"><code><span class="label label-meta label-meta-value" title="Used to store default values for fields and function arguments.">@:value({ typeFilter : null })</span><a href="#browse"><span class="identifier">browse</span></a>(<span style="white-space:nowrap">?typeFilter:<a class="type" title="Array - An Array is a storage for values." href="../../Array.html">Array</a>&lt;<a class="type" title="openfl.net.FileFilter - The FileFilter class is used to indicate what files on the user&#039;s system are shown in the file-browsing dialog box that is displayed when the FileReference." href="../../openfl/net/FileFilter.html">FileFilter</a>&gt;</span>):<a class="type" title="Bool - The standard Boolean type, which can either be true or false." href="../../Bool.html">Bool</a></code></h3><div class="doc"><p>Displays a file-browsing dialog box that lets the user select a file to upload.</p></div></div><div class="field "><a name="browseForDirectory"></a><h3 class="anchor"><code><a href="#browseForDirectory"><span class="identifier">browseForDirectory</span></a>(<span style="white-space:nowrap">title:<a class="type" title="String - The basic String class." href="../../String.html">String</a></span>):<a class="type" title="Void - The standard Void type." href="../../Void.html">Void</a></code></h3><div class="doc"><p>Displays a directory chooser dialog box, in which the user can select a directory.  When the user selects the
 directory, the select event is dispatched. The target property of the select event is the File object pointing to
 the selected directory.</p>
 <p>The directory chooser dialog is not always displayed in front of windows that are "owned" by another window
@@ -262,13 +262,13 @@ try
 	directory.browseForDirectory("Select Directory");
 	directory.addEventListener(Event.SELECT, directorySelected);
 }
-catch (error:Error)
+catch (error:Dynamic)
 {
-	trace("Failed:", error.message);
+	trace("Failed: " + error);
 }
 function directorySelected(event:Event):Void
 {
-	directory = event.target as File;
+	directory = cast(event.target, File);
 	var files:Array = directory.getDirectoryListing();
 	for(i in 0...files.length)
 	{
@@ -293,9 +293,9 @@ try
 	fileToOpen.browseForOpen("Open", [txtFilter]);
 	fileToOpen.addEventListener(Event.SELECT, fileSelected);
 }
-catch (error:Error)
+catch (error:Dynamic)
 {
-	trace("Failed:", error.message);
+	trace("Failed: " + error);
 }
 function fileSelected(event:Event):Void
 {
@@ -322,9 +322,9 @@ try
 	docsDir.browseForOpenMultiple("Select Files");
 	docsDir.addEventListener(FileListEvent.SELECT_MULTIPLE, filesSelected);
 }
-catch (error:Error)
+catch (error:Dynamic)
 {
-	trace("Failed:", error.message);
+	trace("Failed: " + error);
 }
 function filesSelected(event:FileListEvent):Void
 {
@@ -350,13 +350,13 @@ try
 	docsDir.browseForSave("Save As");
 	docsDir.addEventListener(Event.SELECT, saveData);
 }
-catch (error:Error)
+catch (error:Dynamic)
 {
-	trace("Failed:", error.message);
+	trace("Failed: " + error);
 }
 function saveData(event:Event):Void
 {
-	var newFile:File = event.target as File;
+	var newFile:File = cast(event.target, File);
 	var str:String = "Hello.";
 	if (!newFile.exists)
 	{
@@ -413,9 +413,9 @@ try
 {
 	sourceFile.copyTo(destination, true);
 }
-catch (error:Error)
+catch (error:Dynamic)
 {
-	trace("Error:", error.message);
+	trace("Error: " + error);
 }</code></pre></td></tr></table><p class="javadoc">See also:</p><ul><li><div class="inline-content"><p><a href="https://books.openfl.org/openfl-developers-guide/working-with-the-file-system/working-with-files.html">Working with files</a></p></div></li></ul></div></div><div class="field "><a name="copyToAsync"></a><h3 class="anchor"><code><span class="label label-meta label-meta-value" title="Used to store default values for fields and function arguments.">@:value({ overwrite : false })</span><a href="#copyToAsync"><span class="identifier">copyToAsync</span></a>(<span style="white-space:nowrap">newLocation:<a class="type" title="openfl.net.FileReference - The FileReference class provides a means to upload and download files between a user&#039;s computer and a server." href="../../openfl/net/FileReference.html">FileReference</a>,</span> <span style="white-space:nowrap">overwrite:<a class="type" title="Bool - The standard Boolean type, which can either be true or false." href="../../Bool.html">Bool</a> = false</span>):<a class="type" title="Void - The standard Void type." href="../../Void.html">Void</a></code></h3><div class="doc"><p>Begins copying the file or directory at the location specified by this File object to the
 location specified by the destination parameter.</p>
 <p>Upon completion, either a complete event (successful) or an ioError event (unsuccessful) is dispatched.
@@ -528,9 +528,9 @@ try
 {
 	sourceFile.moveTo(destination, true);
 }
-catch (error:Error)
+catch (error:Dynamic)
 {
-	trace("Error:" + error.message);
+	trace("Error: " + error);
 }</code></pre></td></tr></table><p class="javadoc">See also:</p><ul><li><div class="inline-content"><p><a href="https://books.openfl.org/openfl-developers-guide/working-with-the-file-system/working-with-files.html">Working with files</a></p></div></li></ul></div></div><div class="field "><a name="moveToAsync"></a><h3 class="anchor"><code><span class="label label-meta label-meta-value" title="Used to store default values for fields and function arguments.">@:value({ overwrite : false })</span><a href="#moveToAsync"><span class="identifier">moveToAsync</span></a>(<span style="white-space:nowrap">newLocation:<a class="type" title="openfl.net.FileReference - The FileReference class provides a means to upload and download files between a user&#039;s computer and a server." href="../../openfl/net/FileReference.html">FileReference</a>,</span> <span style="white-space:nowrap">overwrite:<a class="type" title="Bool - The standard Boolean type, which can either be true or false." href="../../Bool.html">Bool</a> = false</span>):<a class="type" title="Void - The standard Void type." href="../../Void.html">Void</a></code></h3><div class="doc"><p>Begins moving the file or directory at the location specified by this File object to
 the location specified by the newLocation parameter.</p>
 <p>To rename a file, set the destination parameter to point to a path that is in the file's directory, but

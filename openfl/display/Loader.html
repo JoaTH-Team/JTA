@@ -50,7 +50,10 @@ Center Topic: <a href="http://www.adobe.com/go/devnet_security_en">Security</a>.
 than that of the Loader object's root SWF file), you may want to define a
 mask for the Loader object, to prevent the loaded content (which is a child
 of the Loader object) from drawing to portions of the Stage outside of that
-mask, as shown in the following code:</p><p class="javadoc">See also:</p><ul><li><div class="inline-content"><p><a href="https://books.openfl.org/openfl-developers-guide/display-programming/loading-display-content-dynamically/">Loading display content dynamically</a></p></div></li></ul></div><h3 class="section">Constructor</h3><div class="fields"><div class="field "><a name="new"></a><h3 class="anchor"><code><a href="#new"><span class="identifier">new</span></a>()</code></h3><div class="doc"><p>Creates a Loader object that you can use to load files, such as SWF, JPEG,
+mask, as shown in the following code:</p><p class="javadoc">See also:</p><ul><li><div class="inline-content"><p><a href="https://books.openfl.org/openfl-developers-guide/display-programming/loading-display-content-dynamically/">Loading display content dynamically</a></p></div></li></ul></div><h3 class="section">Static methods</h3><div class="fields"><div class="field "><a name="registerLoader"></a><h3 class="anchor"><code><span class="label label-static">static</span><a href="#registerLoader"><span class="identifier">registerLoader</span></a>(<span style="white-space:nowrap">loader:<a class="type" title="openfl.display.IDisplayObjectLoader" href="../../openfl/display/IDisplayObjectLoader.html">IDisplayObjectLoader</a></span>):<a class="type" title="Void - The standard Void type." href="../../Void.html">Void</a></code></h3><div class="doc"><p>Registers an IDisplayObjectLoader which customizes the loading behavior of
+supported URL requests. Each loader is called in chronological order, starting
+with the most recently registered.</p>
+<p>Only one IDisplayObjectLoader is used across multiple requests.</p></div></div></div><h3 class="section">Constructor</h3><div class="fields"><div class="field "><a name="new"></a><h3 class="anchor"><code><a href="#new"><span class="identifier">new</span></a>()</code></h3><div class="doc"><p>Creates a Loader object that you can use to load files, such as SWF, JPEG,
 GIF, or PNG files. Call the <code>load()</code> method to load the asset
 as a child of the Loader instance. You can then add the Loader object to
 the display list (for instance, by using the <code>addChild()</code>
@@ -579,7 +582,7 @@ and the shader doesn't specify any image input or
 the first input is not an <code>image4</code> input.</p></td></tr><tr class="indent"><th style="width:25%;"><code>ArgumentError</code></th><td><p>When <code>filters</code> includes a ShaderFilter
 and the shader specifies an image input that isn't
 provided.</p></td></tr><tr class="indent"><th style="width:25%;"><code>ArgumentError</code></th><td><p>When <code>filters</code> includes a ShaderFilter, a
-ByteArray or Vector.<Number> instance as a shader
+ByteArray or Vector<Float> instance as a shader
 input, and the <code>width</code> and
 <code>height</code> properties aren't specified for
 the ShaderInput object, or the specified values
@@ -625,7 +628,9 @@ to the masked object in the display list.</p>
 more than one calling display object. When the <code>mask</code> is
 assigned to a second display object, it is removed as the mask of the
 first object, and that object's <code>mask</code> property becomes
-<code>null</code>.</p><p class="javadoc">See also:</p><ul><li><div class="inline-content"><p><a href="https://books.openfl.org/openfl-developers-guide/display-programming/manipulating-display-objects/masking-display-objects.html">Masking display objects</a></p></div></li></ul></div></div><div class="field "><a name="mouseX"></a><h3 class="anchor"><code><span class="label">read only</span><a href="#mouseX"><span class="identifier">mouseX</span></a>:<a class="type" title="Float - The standard Float type, this is a double-precision IEEE 64bit float." href="../../Float.html">Float</a></code></h3><div class="doc"><p>Indicates the x coordinate of the mouse or user input device position, in
+<code>null</code>.</p><p class="javadoc">See also:</p><ul><li><div class="inline-content"><p><a href="https://books.openfl.org/openfl-developers-guide/display-programming/manipulating-display-objects/masking-display-objects.html">Masking display objects</a></p></div></li></ul></div></div><div class="field "><a name="metaData"></a><h3 class="anchor"><code><a href="#metaData"><span class="identifier">metaData</span></a>:<a class="type" title="Dynamic - Dynamic is a special type which is compatible with all other types." href="../../Dynamic.html">Dynamic</a></code></h3><div class="doc"><p>Obtains the meta data object of the DisplayObject instance if meta data
+was stored alongside the the instance of this DisplayObject in the SWF
+file through a PlaceObject4 tag.</p></div></div><div class="field "><a name="mouseX"></a><h3 class="anchor"><code><span class="label">read only</span><a href="#mouseX"><span class="identifier">mouseX</span></a>:<a class="type" title="Float - The standard Float type, this is a double-precision IEEE 64bit float." href="../../Float.html">Float</a></code></h3><div class="doc"><p>Indicates the x coordinate of the mouse or user input device position, in
 pixels.</p>
 <p><strong>Note</strong>: For a DisplayObject that has been rotated, the returned x
 coordinate will reflect the non-rotated object.</p><p class="javadoc">See also:</p><ul><li><div class="inline-content"><p><a href="https://books.openfl.org/openfl-developers-guide/mouse-input/capturing-mouse-input.html">Capturing mouse input</a></p></div></li></ul></div></div><div class="field "><a name="mouseY"></a><h3 class="anchor"><code><span class="label">read only</span><a href="#mouseY"><span class="identifier">mouseY</span></a>:<a class="type" title="Float - The standard Float type, this is a double-precision IEEE 64bit float." href="../../Float.html">Float</a></code></h3><div class="doc"><p>Indicates the y coordinate of the mouse or user input device position, in

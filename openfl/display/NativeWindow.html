@@ -197,7 +197,10 @@ operating system configuration is such that transparency is not
 available, the window will be created without transparency. Areas that
 would have been transparent are composited against black. Use the
 <code><a href="../../openfl/display/NativeWindow.html#supportsTransparency">NativeWindow.supportsTransparency</a></code> property to determine whether window
-transparency is supported.</p></div></div><div class="field "><a name="visible"></a><h3 class="anchor"><code><a href="#visible"><span class="identifier">visible</span></a>:<a class="type" title="Bool - The standard Boolean type, which can either be true or false." href="../../Bool.html">Bool</a></code></h3><div class="doc"><p>Specifies whether this window is visible.</p>
+transparency is supported.</p></div></div><div class="field "><a name="type"></a><h3 class="anchor"><code><span class="label">read only</span><a href="#type"><span class="identifier">type</span></a>:<a class="type" title="openfl.display.NativeWindowType - The NativeWindowType class defines constants for the type property of the NativeWindowInitOptions object used to create a native window." href="../../openfl/display/NativeWindowType.html">NativeWindowType</a></code></h3><div class="doc"><p>Reports the window <code>type</code> setting used to create this window.</p>
+<p>The values returned by <code><a href="../../openfl/display/NativeWindow.html#type">NativeWindow.type</a></code> will be one of the constants
+defined in the <code><a href="../../openfl/display/NativeWindowType.html#NativeWindowType">NativeWindowType</a></code> class.</p>
+<p>The <code>type</code> setting cannot be changed after a window is created.</p></div></div><div class="field "><a name="visible"></a><h3 class="anchor"><code><a href="#visible"><span class="identifier">visible</span></a>:<a class="type" title="Bool - The standard Boolean type, which can either be true or false." href="../../Bool.html">Bool</a></code></h3><div class="doc"><p>Specifies whether this window is visible.</p>
 <p>An invisible window is not displayed on the desktop, but all window
 properties and methods are valid.</p>
 <p>By default, <code>visible</code> is set to false. To display a window, set
