@@ -3,10 +3,9 @@
 * [ ] Music
 * [ ] World 1
     * [X] Level 1 (Fresh Start)
+        * [ ] Dialogue
     * [ ] Level 2 (Keep Going!)
     * [ ] Level 3 (Walkathon)
-    * [ ] World 1 End Cutscene
-    * [ ] Dialogue
 
 ## Demo 2
 * [ ] Interactive World Selection
