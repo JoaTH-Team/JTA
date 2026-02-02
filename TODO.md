@@ -15,6 +15,7 @@
 * [ ] Android Support
 * [ ] Save Files
 * [ ] Mod Menu
+* [ ] Timed Level Support
 
 ## Initial Release
 * [ ] Worlds 5-8
