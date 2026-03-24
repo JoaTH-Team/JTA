@@ -10,6 +10,7 @@ import hxwindowmode.WindowColorMode;
 import hxgamemode.GamemodeClient;
 #end
 import flixel.util.typeLimit.NextState;
+import openfl.system.System;
 
 /**
  * The main entry point for the game.
@@ -74,7 +75,10 @@ class Main extends openfl.display.Sprite
 	{
 		#if hxgamemode
 		if (GamemodeClient.request_start() != 0)
+		{
 			Sys.println('Failed to request gamemode start: ${GamemodeClient.error_string()}...');
+			System.exit(1);
+		}
 		else
 			Sys.println('Succesfully requested gamemode to start...');
 		#end
@@ -175,5 +179,18 @@ class Main extends openfl.display.Sprite
 		#if desktop
 		FlxG.mouse.visible = false;
 		#end
+
+		Lib.application.onExit.add(function()
+		{
+			#if hxgamemode
+			if (GamemodeClient.request_end() != 0)
+			{
+				Sys.println('Failed to request gamemode end: ${GamemodeClient.error_string()}...');
+				System.exit(1);
+			} 
+			else
+				Sys.println('Succesfully requested gamemode to end...');
+			#end
+		});
 	}
 }

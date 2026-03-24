@@ -55,6 +55,8 @@
 
 	<assets path="mobile" rename="assets/images/mobile" if="mobile" />
 
+	<assets path="gamemode.ini" if="linux" />
+
 	<define name="NO_REDIRECT_ASSETS_FOLDER" />
 
 	<!-- [ Libraries ] -->
