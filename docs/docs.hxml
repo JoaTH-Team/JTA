@@ -35,6 +35,7 @@
 
 --macro include('jta')
 --macro include('flixel', true, ['flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.system.macros.*'])
+--macro exclude('hxwindowmode.WindowBackend')
 --macro nullSafety('jta.registries')
 --macro nullSafety('jta.util')
 --macro keep('Main')
