@@ -9,6 +9,7 @@
 -L firetongue
 -L hxgamemode
 -L hxdiscord_rpc
+-L hxWindowColorMode
 -L hxcpp-debug-server
 -L jsonpath
 -L jsonpatch

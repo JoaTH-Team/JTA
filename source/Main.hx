@@ -5,6 +5,7 @@ import jta.debug.FPS;
 import jta.video.GlobalVideo;
 import jta.video.VideoHandler;
 import jta.video.WebmHandler;
+import hxwindowmode.WindowColorMode;
 #if hxgamemode
 import hxgamemode.GamemodeClient;
 #end
@@ -96,6 +97,9 @@ class Main extends openfl.display.Sprite
 
 		jta.util.WindowUtil.init();
 
+		WindowColorMode.setDarkMode();
+		WindowColorMode.redrawWindowHeader();
+
 		Lib.current.stage.align = openfl.display.StageAlign.TOP_LEFT;
 		Lib.current.stage.quality = openfl.display.StageQuality.LOW;
 		Lib.current.stage.scaleMode = openfl.display.StageScaleMode.NO_SCALE;
@@ -108,10 +112,6 @@ class Main extends openfl.display.Sprite
 	public function new():Void
 	{
 		super();
-
-		#if windows
-		jta.api.native.WindowsAPI.darkMode(true);
-		#end
 
 		#if hxdiscord_rpc
 		jta.api.DiscordClient.load();
