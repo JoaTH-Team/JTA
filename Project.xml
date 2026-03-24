@@ -70,9 +70,9 @@
 	<haxelib name="hscript" />
 	<haxelib name="polymod" />
 	<haxelib name="firetongue" />
+	<haxelib name="hxWindowColorMode" />
 	<haxelib name="hxgamemode" if="linux" />
 	<haxelib name="hxdiscord_rpc" if="desktop" />
-	<haxelib name="hxWindowColorMode" if="windows" />
 	<haxelib name="hxcpp-debug-server" if="desktop debug" />
 
 	<haxelib name="extension-androidtools" if="android" />
