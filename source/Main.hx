@@ -180,7 +180,7 @@ class Main extends openfl.display.Sprite
 		FlxG.mouse.visible = false;
 		#end
 
-		Lib.application.onExit.add(function()
+		Lib.current.stage.application.window.onClose.add(function()
 		{
 			#if hxgamemode
 			if (GamemodeClient.request_end() != 0)
