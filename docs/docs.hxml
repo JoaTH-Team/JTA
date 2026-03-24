@@ -17,7 +17,7 @@
 -L thx.semver
 -L extension-androidtools
 
--D cpp
+-D windows
 
 -cp source
 
