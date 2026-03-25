@@ -36,7 +36,7 @@ jobs:
           haxelib install hxcpp > /dev/null
           haxelib install lime
           haxelib install openfl
-          haxelib install flixel 6.1.0
+          haxelib install flixel 6.1.2
           haxelib install flixel-addons 3.3.2
           haxelib install actuate
           haxelib git extension-webm https://github.com/KadeDev/extension-webm
