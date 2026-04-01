@@ -5,7 +5,9 @@ import jta.debug.FPS;
 import jta.video.GlobalVideo;
 import jta.video.VideoHandler;
 import jta.video.WebmHandler;
+#if windows
 import hxwindowmode.WindowColorMode;
+#end
 #if hxgamemode
 import hxgamemode.GamemodeClient;
 #end
@@ -101,8 +103,10 @@ class Main extends openfl.display.Sprite
 
 		jta.util.WindowUtil.init();
 
+		#if windows
 		WindowColorMode.setDarkMode();
 		WindowColorMode.redrawWindowHeader();
+		#end
 
 		Lib.current.stage.align = openfl.display.StageAlign.TOP_LEFT;
 		Lib.current.stage.quality = openfl.display.StageQuality.LOW;
@@ -187,7 +191,7 @@ class Main extends openfl.display.Sprite
 			{
 				Sys.println('Failed to request gamemode end: ${GamemodeClient.error_string()}...');
 				System.exit(1);
-			} 
+			}
 			else
 				Sys.println('Succesfully requested gamemode to end...');
 			#end
