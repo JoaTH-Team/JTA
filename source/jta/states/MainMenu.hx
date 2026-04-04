@@ -85,14 +85,6 @@ class MainMenu extends BaseState
 		selectionGroup = new FlxTypedGroup<FlxText>();
 		add(selectionGroup);
 
-		for (i in 0...selections.length)
-		{
-			var selection:FlxText = new FlxText(10, 400 + i * 42, FlxG.width, Locale.getMenu(selections[i]));
-			selection.setFormat(Paths.font('main'), 36, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			selection.ID = i;
-			selectionGroup.add(selection);
-		}
-
 		player = new FlxSprite(0, 700).loadGraphic(Paths.image('menu/mainmenu/playerTitle'), true, 15, 38);
 		player.animation.add('idle', [0], 1);
 		player.animation.add('blink', [1], 1);
@@ -101,6 +93,14 @@ class MainMenu extends BaseState
 		player.scale.set(9.5, 9.5);
 		player.screenCenter(X);
 		add(player);
+
+		for (i in 0...selections.length)
+		{
+			var selection:FlxText = new FlxText(10, 400 + i * 42, FlxG.width, Locale.getMenu(selections[i]));
+			selection.setFormat(Paths.font('main'), 36, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			selection.ID = i;
+			selectionGroup.add(selection);
+		}
 
 		FlxTween.tween(player, {y: 500}, 1, {ease: FlxEase.quadOut});
 
