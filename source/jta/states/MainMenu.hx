@@ -82,6 +82,15 @@ class MainMenu extends BaseState
 
 		FlxTween.tween(logo, {y: logo.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
 
+		player = new FlxSprite(0, 700).loadGraphic(Paths.image('menu/mainmenu/playerTitle'), true, 15, 38);
+		player.animation.add('idle', [0], 1);
+		player.animation.add('blink', [1], 1);
+		player.animation.add('left', [2], 1);
+		player.animation.add('right', [3], 1);
+		player.scale.set(9.5, 9.5);
+		player.screenCenter(X);
+		add(player);
+
 		selectionGroup = new FlxTypedGroup<FlxText>();
 		add(selectionGroup);
 
@@ -92,15 +101,6 @@ class MainMenu extends BaseState
 			selection.ID = i;
 			selectionGroup.add(selection);
 		}
-
-		player = new FlxSprite(0, 700).loadGraphic(Paths.image('menu/mainmenu/playerTitle'), true, 15, 38);
-		player.animation.add('idle', [0], 1);
-		player.animation.add('blink', [1], 1);
-		player.animation.add('left', [2], 1);
-		player.animation.add('right', [3], 1);
-		player.scale.set(9.5, 9.5);
-		player.screenCenter(X);
-		add(player);
 
 		FlxTween.tween(player, {y: 500}, 1, {ease: FlxEase.quadOut});
 
