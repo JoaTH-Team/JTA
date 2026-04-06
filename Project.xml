@@ -120,7 +120,7 @@
 
 	<haxeflag name="--macro" value="include('jta')" />
 	<haxeflag name="--macro"
-		value="include('flixel', true, ['flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.system.macros.*'])" />
+		value="include('flixel', true, ['flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.addons.tile.FlxRayCastTilemap', 'flixel.system.macros.*'])" />
 	<haxeflag name="--macro" value="nullSafety('jta.registries')" />
 	<haxeflag name="--macro" value="nullSafety('jta.util')" />
 
