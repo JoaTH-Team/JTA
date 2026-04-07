@@ -20,7 +20,7 @@
 
     <!-- Spanish (Spain) -->
     <locale id="es-ES" sort="1">
-        <contributors value="Joalor64" />
+        <contributors value="Joalor64, infinite-kemonoyagi" />
         <ui language="Idioma" region="Región" accept="Okay" />
         <label id="en-US" language="Inglés" region="Estados Unidos" />
         <label id="es-ES" language="Español" region="España" />
