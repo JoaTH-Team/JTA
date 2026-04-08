@@ -1,8 +1,8 @@
-#if linux
 package jta.util.linux;
 
 using StringTools;
 
+#if linux
 /**
  * Utility class for linux current desktop enviroment functions.
  *
