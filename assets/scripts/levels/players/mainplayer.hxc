@@ -32,7 +32,7 @@ class MainPlayer extends Player
 			if (jumping && !Input.pressed('jump'))
 				jumping = false;
 
-			if (jumpTimer >= 0 && Input.pressed('jump') && velocity.y == 0)
+			if (jumpTimer >= 0 && Input.pressed('jump') && velocity.y == 0 && !isTouching(0x0100)) // can't access to UP field
 			{
 				FlxG.sound.play(Paths.sound('jump'));
 				jumpTimer += elapsed;
