@@ -224,12 +224,12 @@ jobs:
         with:
           sdk-version: 36
           build-tools-version: 36.0.0
-          ndk-version: 27.3.13750724
+          ndk-version: 25.2.9519653
           generate-job-summary: false
       
       - name: Install SDK components
         run: |
-          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platforms;android-36" "build-tools;36.0.0" "ndk;27.3.13750724" "cmdline-tools;latest"
+          $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --sdk_root=$ANDROID_SDK_ROOT "platforms;android-36" "build-tools;36.0.0" "ndk;25.2.9519653" "cmdline-tools;latest"
 
       - name: Restore Previous Cache
         id: cache-build-restore
@@ -253,19 +253,19 @@ jobs:
 
       - name: Configure lime
         run: |
-          export ANDROID_NDK_ROOT=$ANDROID_HOME/ndk/27.3.13750724
-          export NDK_ROOT=$ANDROID_HOME/ndk/27.3.13750724
+          export ANDROID_NDK_ROOT=$ANDROID_HOME/ndk/25.2.9519653
+          export NDK_ROOT=$ANDROID_HOME/ndk/25.2.9519653
           haxelib run lime config ANDROID_SDK $ANDROID_HOME
-          haxelib run lime config ANDROID_NDK_ROOT $ANDROID_HOME/ndk/27.3.13750724
+          haxelib run lime config ANDROID_NDK_ROOT $ANDROID_HOME/ndk/25.2.9519653
           haxelib run lime config JAVA_HOME $JAVA_HOME_21_X64
           haxelib run lime config ANDROID_SETUP true
 
       - name: Rebuild extension-webm
         timeout-minutes: 30
         run: |
-          export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/27.3.13750724
-          export ANDROID_NDK_ROOT=$ANDROID_HOME/ndk/27.3.13750724
-          export NDK_ROOT=$ANDROID_HOME/ndk/27.3.13750724
+          export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/25.2.9519653
+          export ANDROID_NDK_ROOT=$ANDROID_HOME/ndk/25.2.9519653
+          export NDK_ROOT=$ANDROID_HOME/ndk/25.2.9519653
           haxelib run lime rebuild extension-webm android -DPLATFORM=android-21 -DPLATFORM_NUMBER=21
 
       - name: Rebuild tools
