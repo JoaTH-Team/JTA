@@ -4,6 +4,7 @@ package jta.api;
 import hxdiscord_rpc.Discord;
 import hxdiscord_rpc.Types;
 import sys.thread.Thread;
+import haxe.EntryPoint;
 
 /**
  * Class to handle Discord Rich Presence integration.
@@ -129,7 +130,7 @@ class DiscordClient
 	}
 
 	@:noCompletion
-	private static function shutdown(exitCode:Int):Void
+	private static function shutdown(?exitCode:Int):Void
 	{
 		if (!initialized)
 			return;
