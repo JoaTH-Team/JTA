@@ -209,22 +209,23 @@ jobs:
     steps:
       - uses: actions/checkout@main
 
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r21e
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
       - uses: krdlab/setup-haxe@master
         with:
           haxe-version: 4.3.7
-
-      - name: Setup Android SDK Tools
-        uses: android-actions/setup-android@v2.0.2
-        
-      - name: Setup Java JDK
-        uses: actions/setup-java@v2.3.1
-        with:
-          distribution: 'zulu'
-          java-version: '11'
-        
-      - uses: nttld/setup-ndk@v1
-        with:
-          ndk-version: r15c
 
       - name: Restore Previous Cache
         id: cache-build-restore
@@ -242,11 +243,6 @@ jobs:
 
       - name: Installing Libraries
         run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
-
-      - name: Rebuild extension-webm
-        run: |
-          mkdir -p .haxelib/extension-webm/git/ndll/Android
-          cp -r .haxelib/extension-webm/git/Android/* .haxelib/extension-webm/git/ndll/Android/ 2>/dev/null || true
 
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
