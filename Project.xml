@@ -132,10 +132,6 @@
 	<haxeflag name="--macro" value="nullSafety('jta.registries')" />
 	<haxeflag name="--macro" value="nullSafety('jta.util')" />
 
-	<!-- [ Templates Path ] -->
-
-	<templatePath name="templates" />
-
 	<!-- [ Icons ] -->
 
 	<icon path="icon.png" unless="linux" />
