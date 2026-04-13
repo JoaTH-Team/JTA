@@ -221,7 +221,7 @@ jobs:
           java-version: 11
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v2
+        uses: android-actions/setup-android@v4
 
       - uses: krdlab/setup-haxe@master
         with:
