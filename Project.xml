@@ -132,6 +132,10 @@
 	<haxeflag name="--macro" value="nullSafety('jta.registries')" />
 	<haxeflag name="--macro" value="nullSafety('jta.util')" />
 
+	<!-- [ Templates Path ] -->
+
+	<templatePath name="templates" if="${lime &lt; 8.2.0}" />
+
 	<!-- [ Icons ] -->
 
 	<icon path="icon.png" unless="linux" />
