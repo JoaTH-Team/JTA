@@ -7,6 +7,9 @@ import openfl.system.System;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 import flixel.util.FlxStringUtil;
+#if !web
+import jta.external.memory.Memory;
+#end
 
 /**
  * Class for displaying FPS and memory usage in the game.
@@ -54,10 +57,17 @@ class FPS extends TextField
 			while (times[0] < now - 1000)
 				times.shift();
 
-			var mem:Float = System.totalMemory;
-			var memPeak:Float = 0;
+			var mem:Float;
+			var memPeak:Float;
+			#if !web
+			mem = Memory.getCurrentUsage();
+			memPeak = Memory.getPeakUsage();
+			#else
+			mem = System.totalMemory;
+			memPeak = 0;
 			if (mem > memPeak)
 				memPeak = mem;
+			#end
 
 			text = (visible) ? 'FPS: ${times.length}\nMEM: ${FlxStringUtil.formatBytes(mem)} / ${FlxStringUtil.formatBytes(memPeak)}' : '';
 

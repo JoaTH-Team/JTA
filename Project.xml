@@ -93,10 +93,12 @@
 		<haxedef name="REDIRECT_ASSETS_FOLDER" />
 	</section>
 
-	<section if="release" unless="html5">
+	<section if="cpp" unless="html5">
 		<haxedef name="HXCPP_CHECK_POINTER" />
+		<haxedef name="HXCPP_GC_CHECK_POINTER" />
 		<haxedef name="HXCPP_STACK_LINE" />
 		<haxedef name="HXCPP_STACK_TRACE" />
+		<haxedef name="HXCPP_CATCH_SEGV" />
 	</section>
 
 	<section if="polymod">
@@ -113,6 +115,12 @@
 	<haxedef name="analyzer-optimize" />
 	<haxedef name="no-deprecation-warnings" />
 	<haxedef name="message.reporting" value="pretty" />
+
+	<haxedef name="openfl_enable_handle_error" if="${openfl &ge; 9.4.0}" />
+
+	<!-- [ Undefinitions ] -->
+
+	<undefine name="openfl-disable-handle-error" if="debug" unless="${openfl &ge; 9.4.0}" />
 
 	<!-- [ Haxe Flags ] -->
 

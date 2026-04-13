@@ -75,6 +75,10 @@ class Main extends openfl.display.Sprite
 	 */
 	private static function __init__():Void
 	{
+		#if !web
+		jta.util.logging.ErrorHandler.initCriticalErrorHandler();
+		#end
+
 		#if hxgamemode
 		if (GamemodeClient.request_start() != 0)
 		{
@@ -97,8 +101,8 @@ class Main extends openfl.display.Sprite
 		Sys.setCwd(haxe.io.Path.addTrailingSlash(openfl.filesystem.File.documentsDirectory.nativePath));
 		#end
 
-		#if (!web && !debug)
-		jta.api.CrashHandler.init();
+		#if !web
+		jta.util.logging.ErrorHandler.initUncaughtErrorHandler();
 		#end
 
 		jta.util.WindowUtil.init();

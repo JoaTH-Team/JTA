@@ -49,7 +49,8 @@ class Locale
 
 		locale = tongue.locale;
 
-		locales = tongue.locales;
+		locales = tongue.locales.copy();
+		locales.sort(function(a, b) return Reflect.compare(a, b));
 
 		fontName = getData("$FONT_NAME");
 	}
@@ -117,6 +118,9 @@ class Locale
 			finishedCallback: onFinish,
 			checkMissing: true
 		});
+
+		locales = tongue.locales.copy();
+		locales.sort(function(a, b) return Reflect.compare(a, b));
 
 		fontName = getData("$FONT_NAME");
 	}

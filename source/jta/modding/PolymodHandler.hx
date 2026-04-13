@@ -7,8 +7,8 @@ import flixel.util.FlxStringUtil;
 import jta.modding.events.FocusEvent;
 import jta.modding.events.StateSwitchEvent;
 import jta.modding.module.ModuleHandler;
-#if windows
-import jta.api.native.WindowsAPI;
+#if (windows && cpp)
+import jta.external.windows.WindowsAPI;
 #end
 import jta.util.macro.ClassMacro;
 import jta.util.WindowUtil;
@@ -263,7 +263,7 @@ class PolymodHandler
 				FlxG.log.warn('($code) ${error.message}');
 
 				#if (windows && debug && cpp)
-				WindowsAPI.messageBox(code, error.message);
+				WindowsAPI.showWarning(code, error.message);
 				#elseif debug
 				WindowUtil.showAlert(code, error.message);
 				#end
@@ -271,7 +271,7 @@ class PolymodHandler
 				FlxG.log.error('($code) ${error.message}');
 
 				#if (windows && cpp)
-				WindowsAPI.messageBox(code, error.message, MSG_ERROR);
+				WindowsAPI.showError(code, error.message);
 				#else
 				WindowUtil.showAlert(code, error.message);
 				#end
