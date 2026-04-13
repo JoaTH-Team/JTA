@@ -134,7 +134,7 @@
 
 	<!-- [ Templates Path ] -->
 
-	<templatePath name="templates" if="${lime &lt; 8.2.0}" />
+	<templatePath name="templates" />
 
 	<!-- [ Icons ] -->
 
