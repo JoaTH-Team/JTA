@@ -67,3 +67,180 @@ jobs:
         with:
           name: windowsBuild
           path: export/debug/windows/bin
+  buildMac:
+    runs-on: macos-14
+
+    steps:
+      - uses: actions/checkout@main
+
+      - uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: 4.3.7
+
+      - name: Restore Previous Cache
+        id: cache-build-restore
+        uses: actions/cache/restore@main
+        with:
+          path: |
+            .haxelib/
+            export/debug/macos/haxe/
+            export/debug/macos/obj/
+          key: cache-macos-debug
+
+      - name: Set Cache Status
+        id: cache-status
+        run: echo "CACHE_HIT=${{ steps.cache-build-restore.outputs.cache-hit }}" >> $GITHUB_ENV
+
+      - name: Installing Libraries
+        run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
+
+      - name: Rebuild extension-webm
+        run: haxelib run lime rebuild extension-webm mac
+
+      - name: Create Version Tag
+        run: echo "${{github.run_id}}" > VERSION
+
+      - name: Compile
+        run: haxelib run lime build mac -debug && tar -zcvf build.tar.gz -C export/debug/macos/bin
+
+      - name: Clear Previous Cache
+        uses: actions/github-script@main
+        with:
+          script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-macos-debug');
+
+      - name: Save Current Cache
+        uses: actions/cache@main
+        with:
+          key: cache-macos-debug
+          path: |
+            .haxelib/
+            export/debug/macos/haxe/
+            export/debug/macos/obj/
+          restore-keys: |
+            cache-macos-debug
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: macosBuild
+          path: build.tar.gz
+  buildLinux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@main
+
+      - uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: 4.3.7
+
+      - name: Restore Previous Cache
+        id: cache-build-restore
+        uses: actions/cache/restore@main
+        with:
+          path: |
+            .haxelib/
+            export/debug/linux/haxe/
+            export/debug/linux/obj/
+          key: cache-linux-debug
+
+      - name: Set Cache Status
+        id: cache-status
+        run: echo "CACHE_HIT=${{ steps.cache-build-restore.outputs.cache-hit }}" >> $GITHUB_ENV
+
+      - name: Installing Libraries
+        run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
+
+      - name: Rebuild extension-webm
+        run: haxelib run lime rebuild extension-webm linux
+
+      - name: Create Version Tag
+        run: echo "${{github.run_id}}" > VERSION
+
+      - name: Compile
+        run: haxelib run lime build linux -debug
+
+      - name: Clear Previous Cache
+        uses: actions/github-script@main
+        with:
+          script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-linux-debug');
+
+      - name: Save Current Cache
+        uses: actions/cache@main
+        with:
+          key: cache-linux-debug
+          path: |
+            .haxelib/
+            export/debug/linux/haxe/
+            export/debug/linux/obj/
+          restore-keys: |
+            cache-linux-debug
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: linuxBuild
+          path: export/debug/linux/bin
+  buildAndroid:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@main
+
+      - uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: 4.3.7
+
+      - name: Restore Previous Cache
+        id: cache-build-restore
+        uses: actions/cache/restore@main
+        with:
+          path: |
+            .haxelib/
+            export/debug/android/haxe/
+            export/debug/android/obj/
+          key: cache-android-debug
+
+      - name: Set Cache Status
+        id: cache-status
+        run: echo "CACHE_HIT=${{ steps.cache-build-restore.outputs.cache-hit }}" >> $GITHUB_ENV
+
+      - name: Installing Libraries
+        run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
+
+      - name: Rebuild extension-webm
+        run: haxelib run lime rebuild extension-webm android
+
+      - name: Rebuild tools
+        run: cp -f -v tools/platforms/AndroidPlatform.hx $(haxelib libpath lime)tools/platforms/AndroidPlatform.hx && haxelib run lime rebuild tools -verbose
+
+      - name: Configure lime
+        run: haxelib run lime config ANDROID_SDK $ANDROID_HOME && haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_LATEST_HOME && haxelib run lime config JAVA_HOME $JAVA_HOME_11_X64 && haxelib run lime config ANDROID_SETUP true
+
+      - name: Create Version Tag
+        run: echo "${{github.run_id}}" > VERSION
+
+      - name: Compile
+        run: haxelib run lime build android -debug
+
+      - name: Clear Previous Cache
+        uses: actions/github-script@main
+        with:
+          script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-android-debug');
+
+      - name: Save Current Cache
+        uses: actions/cache@main
+        with:
+          key: cache-android-debug
+          path: |
+            .haxelib/
+            export/debug/android/haxe/
+            export/debug/android/obj/
+          restore-keys: |
+            cache-android-debug
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: androidBuild
+          path: export/android/bin/app/build/outputs/apk/debug
