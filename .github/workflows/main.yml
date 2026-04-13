@@ -95,7 +95,16 @@ jobs:
         run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
 
       - name: Rebuild extension-webm
-        run: haxelib run openfl rebuild extension-webm macos
+        run: haxelib run lime rebuild extension-webm mac
+
+      - name: Fix extension-webm naming for ARM64
+        run: |
+          mkdir -p .haxelib/extension-webm/git/ndll/MacArm64
+          if [ -f ".haxelib/extension-webm/git/ndll/MacArm64/extension-webm-64.ndll" ]; then
+            cp .haxelib/extension-webm/git/ndll/MacArm64/extension-webm-64.ndll .haxelib/extension-webm/git/ndll/MacArm64/extension-webm.ndll
+          elif [ -f ".haxelib/extension-webm/git/ndll/Mac64/extension-webm.ndll" ]; then
+            cp .haxelib/extension-webm/git/ndll/Mac64/extension-webm.ndll .haxelib/extension-webm/git/ndll/MacArm64/extension-webm.ndll
+          fi
 
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -225,20 +234,25 @@ jobs:
       - name: Set Cache Status
         id: cache-status
         run: echo "CACHE_HIT=${{ steps.cache-build-restore.outputs.cache-hit }}" >> $GITHUB_ENV
-      
-      - name: Setup Android NDK
-        run: |
-          echo "ANDROID_NDK_HOME=$ANDROID_NDK_LATEST_HOME" >> $GITHUB_ENV
-          echo "NDK_ROOT=$ANDROID_NDK_LATEST_HOME" >> $GITHUB_ENV
+
+      - name: Install multilib dependencies
+        run: sudo apt-get update && sudo apt-get install -y gcc-multilib g++-multilib libc6-dev-i386
 
       - name: Installing Libraries
         run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
 
       - name: Configure lime
-        run: haxelib run lime config ANDROID_SDK $ANDROID_HOME && haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_LATEST_HOME && haxelib run lime config JAVA_HOME $JAVA_HOME_11_X64 && haxelib run lime config ANDROID_SETUP true
+        run: |
+          haxelib run lime config ANDROID_SDK $ANDROID_HOME
+          haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_LATEST_HOME
+          haxelib run lime config JAVA_HOME $JAVA_HOME_21_X64
+          haxelib run lime config ANDROID_SETUP true
 
       - name: Rebuild extension-webm
         run: haxelib run lime rebuild extension-webm android
+        env:
+          ANDROID_NDK_HOME: ${{ env.ANDROID_NDK_LATEST_HOME }}
+          NDK_ROOT: ${{ env.ANDROID_NDK_LATEST_HOME }}
 
       - name: Rebuild tools
         run: cp -f -v tools/platforms/AndroidPlatform.hx $(haxelib libpath lime)tools/platforms/AndroidPlatform.hx && haxelib run lime rebuild tools -verbose
