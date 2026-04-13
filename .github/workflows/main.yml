@@ -68,7 +68,7 @@ jobs:
           name: windowsBuild
           path: export/debug/windows/bin
   buildMac:
-    runs-on: macos-latest
+    runs-on: macos-14
 
     steps:
       - uses: actions/checkout@main
@@ -93,6 +93,13 @@ jobs:
 
       - name: Installing Libraries
         run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
+
+      - name: Patch hxcpp zlib for Xcode compatibility
+        run: |
+          ZUTIL_PATH=".haxelib/hxcpp/4,3,2/project/thirdparty/zlib-1.2.11/zutil.h"
+          if [ -f "$ZUTIL_PATH" ]; then
+            sed -i '' '/define fdopen(fd,mode)/d' "$ZUTIL_PATH"
+          fi
 
       - name: Rebuild extension-webm
         run: haxelib run lime rebuild extension-webm mac
@@ -248,11 +255,12 @@ jobs:
           haxelib run lime config JAVA_HOME $JAVA_HOME_21_X64
           haxelib run lime config ANDROID_SETUP true
 
-      - name: Rebuild extension-webm
-        run: haxelib run lime rebuild extension-webm android
-        env:
-          ANDROID_NDK_HOME: ${{ env.ANDROID_NDK_LATEST_HOME }}
-          NDK_ROOT: ${{ env.ANDROID_NDK_LATEST_HOME }}
+      - name: Rebuild extension-webm with timeout
+        timeout-minutes: 30
+        run: |
+          export ANDROID_NDK_HOME=$ANDROID_NDK_LATEST_HOME
+          export NDK_ROOT=$ANDROID_NDK_LATEST_HOME
+          haxelib run lime rebuild extension-webm android -verbose
 
       - name: Rebuild tools
         run: cp -f -v tools/platforms/AndroidPlatform.hx $(haxelib libpath lime)tools/platforms/AndroidPlatform.hx && haxelib run lime rebuild tools -verbose
