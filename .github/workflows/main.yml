@@ -68,7 +68,7 @@ jobs:
           name: windowsBuild
           path: export/debug/windows/bin
   buildMac:
-    runs-on: macos-14
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@main
@@ -190,6 +190,20 @@ jobs:
     steps:
       - uses: actions/checkout@main
 
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r21e
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
       - uses: krdlab/setup-haxe@master
         with:
           haxe-version: 4.3.7
@@ -207,9 +221,6 @@ jobs:
       - name: Set Cache Status
         id: cache-status
         run: echo "CACHE_HIT=${{ steps.cache-build-restore.outputs.cache-hit }}" >> $GITHUB_ENV
-
-      - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y gcc-multilib g++-multilib
       
       - name: Setup Android NDK
         run: |
@@ -254,4 +265,4 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           name: androidBuild
-          path: export/android/bin/app/build/outputs/apk/debug
+          path: export/debug/android/bin/app/build/outputs/apk/debug
