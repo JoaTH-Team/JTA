@@ -63,11 +63,9 @@
 
 	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />
-
-	<section if="desktop || web">
-		<haxelib name="actuate" />
-		<haxelib name="extension-webm"/>
-	</section>
+	
+	<haxelib name="actuate" />
+	<haxelib name="extension-webm" if="desktop || web" />
 
 	<haxelib name="hscript" />
 	<haxelib name="polymod" />
