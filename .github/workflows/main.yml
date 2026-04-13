@@ -95,7 +95,7 @@ jobs:
         run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
 
       - name: Rebuild extension-webm
-        run: haxelib run lime rebuild extension-webm mac
+        run: haxelib run lime rebuild extension-webm macarm64
 
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -147,6 +147,9 @@ jobs:
       - name: Set Cache Status
         id: cache-status
         run: echo "CACHE_HIT=${{ steps.cache-build-restore.outputs.cache-hit }}" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y gcc-multilib g++-multilib
 
       - name: Installing Libraries
         run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
@@ -208,14 +211,14 @@ jobs:
       - name: Installing Libraries
         run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
 
+      - name: Configure lime
+        run: haxelib run lime config ANDROID_SDK $ANDROID_HOME && haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_LATEST_HOME && haxelib run lime config JAVA_HOME $JAVA_HOME_11_X64 && haxelib run lime config ANDROID_SETUP true
+
       - name: Rebuild extension-webm
         run: haxelib run lime rebuild extension-webm android
 
       - name: Rebuild tools
         run: cp -f -v tools/platforms/AndroidPlatform.hx $(haxelib libpath lime)tools/platforms/AndroidPlatform.hx && haxelib run lime rebuild tools -verbose
-
-      - name: Configure lime
-        run: haxelib run lime config ANDROID_SDK $ANDROID_HOME && haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_LATEST_HOME && haxelib run lime config JAVA_HOME $JAVA_HOME_11_X64 && haxelib run lime config ANDROID_SETUP true
 
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
