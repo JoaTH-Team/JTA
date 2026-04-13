@@ -101,6 +101,8 @@
 		<haxedef name="HXCPP_CATCH_SEGV" />
 	</section>
 
+	<haxedef name="DISCORD_DISABLE_IO_THREAD" if="hxdiscord_rpc" />
+
 	<section if="polymod">
 		<haxedef name="POLYMOD_DEBUG" value="true" if="debug" />
 		<haxedef name="POLYMOD_SCRIPT_CLASS_EXT" value=".hxc" />

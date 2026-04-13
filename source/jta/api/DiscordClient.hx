@@ -14,11 +14,18 @@ class DiscordClient
 	/**
 	 * If Discord Rich Presence has been initialized.
 	 */
-	public static var initialized:Bool = false;
+	public static var initialized(default, null):Bool = false;
+
+	/**
+	 * Whether the thread is running or not;
+	 */
+	@:noCompletion
+	private static var deamonThreadRunning:Bool = false;
 
 	/**
 	 * The default Discord Client ID.
 	 */
+	@:noCompletion
 	private static final _defaultID:String = '1390837442701168730';
 
 	public static var clientID(default, set):String = _defaultID;
@@ -39,6 +46,9 @@ class DiscordClient
 
 	/**
 	 * Initializes Discord Rich Presence.
+	 *
+	 * Sets up the Discord Rich Presence, starts a background thread for updates,
+	 * and ensures proper shutdown on application exit.
 	 */
 	public static function load():Void
 	{
@@ -51,14 +61,24 @@ class DiscordClient
 		handlers.errored = cpp.Function.fromStaticFunction(onError);
 		Discord.Initialize(clientID, cpp.RawPointer.addressOf(handlers), false, null);
 
-		Thread.create(function():Void
+		if (!deamonThreadRunning)
 		{
-			while (true)
+			deamonThreadRunning = true;
+
+			EntryPoint.addThread(function():Void
 			{
-				Discord.RunCallbacks();
-				Sys.sleep(1);
-			}
-		});
+				while (deamonThreadRunning)
+				{
+					#if DISCORD_DISABLE_IO_THREAD
+					Discord.UpdateConnection();
+					#end
+
+					Discord.RunCallbacks();
+
+					Sys.sleep(2);
+				}
+			});
+		}
 
 		if (Lib.application != null && !Lib.application.onExit.has(shutdown))
 			Lib.application.onExit.add(shutdown);
@@ -88,14 +108,17 @@ class DiscordClient
 		Discord.UpdatePresence(cpp.RawConstPointer.addressOf(discordPresence));
 	}
 
+	@:noCompletion
 	private static function onReady(request:cpp.RawConstPointer<DiscordUser>):Void
 	{
-		final user:cpp.Star<DiscordUser> = cpp.ConstPointer.fromRaw(request).ptr;
+		final username:String = request[0].username;
 
-		if (Std.parseInt(cast(user.discriminator, String)) != 0)
-			trace('(Discord) Connected to User "${cast (user.username, String)}#${cast (user.discriminator, String)}"');
+		final discriminator:Int = Std.parseInt(request[0].discriminator);
+
+		if (discriminator != 0)
+			FlxG.log.notice('(Discord) Connected to User "$username#$discriminator"');
 		else
-			trace('(Discord) Connected to User "${cast (user.username, String)}"');
+			FlxG.log.notice('(Discord) Connected to User "$username"');
 
 		changePresence('Just Started');
 	}
@@ -105,22 +128,26 @@ class DiscordClient
 		clientID = _defaultID;
 	}
 
-	public static function shutdown(?exitCode:Int):Void
+	@:noCompletion
+	private static function shutdown(exitCode:Int):Void
 	{
 		if (!initialized)
 			return;
+		deamonThreadRunning = false;
 		initialized = false;
 		Discord.Shutdown();
 	}
 
+	@:noCompletion
 	private static function onDisconnected(errorCode:Int, message:cpp.ConstCharStar):Void
 	{
-		trace('(Discord) Disconnected ($errorCode: ${cast (message, String)})');
+		FlxG.log.notice('(Discord) Disconnected ($errorCode: $message)');
 	}
 
+	@:noCompletion
 	private static function onError(errorCode:Int, message:cpp.ConstCharStar):Void
 	{
-		trace('(Discord) Error ($errorCode: ${cast (message, String)})');
+		FlxG.log.notice('(Discord) Error ($errorCode: $message)');
 	}
 }
 #end
