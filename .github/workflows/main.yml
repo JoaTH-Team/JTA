@@ -95,7 +95,7 @@ jobs:
         run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
 
       - name: Rebuild extension-webm
-        run: haxelib run lime rebuild extension-webm macarm64
+        run: haxelib run lime rebuild extension-webm mac -DHXCPP_ARM64
 
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -207,6 +207,11 @@ jobs:
       - name: Set Cache Status
         id: cache-status
         run: echo "CACHE_HIT=${{ steps.cache-build-restore.outputs.cache-hit }}" >> $GITHUB_ENV
+      
+      - name: Setup Android NDK
+        run: |
+          echo "ANDROID_NDK_HOME=$ANDROID_NDK_LATEST_HOME" >> $GITHUB_ENV
+          echo "NDK_ROOT=$ANDROID_NDK_LATEST_HOME" >> $GITHUB_ENV
 
       - name: Installing Libraries
         run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
