@@ -23,7 +23,7 @@ jobs:
             title: Linux
             runs-on: ubuntu-latest
 
-    name: build${{ matrix.target }}
+    name: build${{ matrix.title }}
     runs-on: ${{ matrix.runs-on }}
 
     steps:
