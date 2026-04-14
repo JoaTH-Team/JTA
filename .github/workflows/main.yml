@@ -61,6 +61,15 @@ jobs:
       - name: Installing Libraries
         run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
 
+      - name: Setup hxcpp | In Windows
+        if: env.CACHE_HIT != 'true' && matrix.target == 'windows'
+        run: haxelib git hxcpp https://github.com/MAJigsaw77/hxcpp.git patch-1 --quiet && haxelib run lime rebuild hxcpp -verbose
+        shell: cmd
+
+      - name: Setup hxcpp | In Unix
+        if: env.CACHE_HIT != 'true' && matrix.target != 'windows'
+        run: haxelib git hxcpp https://github.com/MAJigsaw77/hxcpp.git patch-1 --quiet && haxelib run lime rebuild hxcpp -verbose
+
       - name: Patch hxcpp zlib for Xcode compatibility
         if: matrix.target == 'macos'
         run: |
@@ -154,6 +163,10 @@ jobs:
 
       - name: Installing Libraries
         run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
+
+      - name: Setup hxcpp
+        if: env.CACHE_HIT != 'true'
+        run: haxelib git hxcpp https://github.com/MAJigsaw77/hxcpp.git patch-1 --quiet && haxelib run lime rebuild hxcpp -verbose
 
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION

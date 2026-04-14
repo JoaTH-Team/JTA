@@ -18,9 +18,7 @@
         },
         {
             "name": "hxcpp",
-            "type": "git",
-            "ref": "patch-1",
-            "url": "https://github.com/MAJigsaw77/hxcpp"
+            "type": "haxelib"
         },
         {
             "name": "hxcpp-debug-server",
