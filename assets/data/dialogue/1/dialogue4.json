@@ -3,22 +3,22 @@
         {
             "typer": "sign",
             "portrait": "sign",
-            "text": "If you don't feel\nlike using a\ntrampoline,"
+            "text": "If you don't feel like\nusing a trampoline,"
         },
         {
             "typer": "sign",
             "portrait": "sign",
-            "text": "[speed:2](...party pooper.)"
-        },
-        {
-            "typer": "sign",
-            "portrait": "sign",
-            "text": "you can just double\n-jump instead by\npressing SPACE twice!"
+            "text": "you're honestly no fun."
         },
         {
             "typer": "player",
             "portrait": "player",
-            "text": "That actually sounds\npretty nifty."
+            "text": "But wouldn't I have\nto use a trampoline\nanyways?"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "You raise a fair point."
         }
     ]
 }
