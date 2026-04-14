@@ -36,6 +36,12 @@ class Level extends BaseState
 	public var levelName:String;
 
 	/**
+	 * Whether the level is a base game level or not.
+	 * Mostly made to prevent saving a non-existent flag when completing a level.
+	 */
+	public var baseLevel:Bool = true;
+
+	/**
 	 * Current player character in the level.
 	 */
 	private var player:Player;

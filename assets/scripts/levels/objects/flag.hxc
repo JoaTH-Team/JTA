@@ -29,8 +29,11 @@ class FlagObject extends Object
 		FlxG.state.persistentUpdate = false;
 		FlxG.state.openSubState(new LevelComplete(function():Void 
 		{
-			Global.flags[FlxG.state.levelNumber - 1] = 1;
-			// Global.save();
+			if (FlxG.state.baseLevel)
+			{
+				Global.flags[FlxG.state.levelNumber - 1] = 1;
+				Global.save();
+			}
 			FlxG.switchState(new LevelSelect());
 		}));
 	}
