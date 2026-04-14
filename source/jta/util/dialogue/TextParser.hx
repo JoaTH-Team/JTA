@@ -1,4 +1,4 @@
-package jta.objects.dialogue;
+package jta.util.dialogue;
 
 /**
  * Represents parsed text with cleaned content and extracted actions.

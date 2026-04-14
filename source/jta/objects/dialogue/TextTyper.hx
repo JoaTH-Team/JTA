@@ -1,7 +1,7 @@
 package jta.objects.dialogue;
 
 import jta.objects.dialogue.typers.Typer;
-import jta.objects.dialogue.TextParser;
+import jta.util.dialogue.TextParser;
 import flixel.sound.FlxSound;
 import flixel.util.FlxSignal;
 import flixel.util.FlxDestroyUtil;
