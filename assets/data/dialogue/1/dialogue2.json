@@ -3,7 +3,42 @@
         {
             "typer": "sign",
             "portrait": "sign",
-            "text": "Hello, I am test dialogue!"
+            "text": "Along the way, you can\nfind some neat\ngolden coins!"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "And they give you\npoints!"
+        },
+        {
+            "typer": "player",
+            "portrait": "player",
+            "text": "That sounds cool, but\nwhat can I use\nthem for?"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "I mean, if you collect\nenough, you can get\nan extra life."
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "Or something like that.\nIDK."
+        },
+        {
+            "typer": "player",
+            "portrait": "player",
+            "text": "Did you really just\nsay 'IDK' out loud?"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "Yeah."
+        },
+        {
+            "typer": "player",
+            "portrait": "player",
+            "text": "[face:bruh]..."
         }
     ]
 }

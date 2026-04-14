@@ -3,7 +3,22 @@
         {
             "typer": "sign",
             "portrait": "sign",
-            "text": "Hello, I am test dialogue!"
+            "text": "If you don't feel\nlike using a\ntrampoline,"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "[speed:2](...party pooper.)"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "you can just double\n-jump instead by\npressing SPACE twice!"
+        },
+        {
+            "typer": "player",
+            "portrait": "player",
+            "text": "That actually sounds\npretty nifty."
         }
     ]
 }

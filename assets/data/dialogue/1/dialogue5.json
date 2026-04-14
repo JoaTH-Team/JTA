@@ -3,7 +3,22 @@
         {
             "typer": "sign",
             "portrait": "sign",
-            "text": "Hello, I am test dialogue!"
+            "text": "Now you know the\nbasics!"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "But we'll still appear\nthroughout levels\nfrom time to time"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "if you need any help!"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "Have fun!"
         }
     ]
 }

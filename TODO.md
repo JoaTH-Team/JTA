@@ -3,7 +3,7 @@
 * [ ] Music
 * [ ] World 1
     * [X] Level 1 (Fresh Start)
-        * [ ] Dialogue
+        * [X] Dialogue
     * [ ] Level 2 (Keep Going!)
     * [ ] Level 3 (Walkathon)
 

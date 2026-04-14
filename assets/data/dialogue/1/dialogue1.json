@@ -3,7 +3,77 @@
         {
             "typer": "sign",
             "portrait": "sign",
-            "text": "Hello, I am test dialogue!"
+            "text": "Hello, and welcome to\nJourney Through\nAubekhia!"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "I, amongst other signs,\nare here to guide you\non your quest!"
+        },
+        {
+            "typer": "player",
+            "portrait": "player",
+            "text": "What quest? I'm just\ngoing for long walk."
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "Wait, really? You don't\nhave something\nimportant to do?"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "Like saving the world\nor something?"
+        },
+        {
+            "typer": "player",
+            "portrait": "player",
+            "text": "No, not really."
+        },
+        {
+            "typer": "player",
+            "portrait": "player",
+            "text": "Also, do all signs\nhere talk?"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "...[wait:1]Yeah?"
+        },
+        {
+            "typer": "player",
+            "portrait": "player",
+            "text": "[face:bruh]..."
+        },
+        {
+            "typer": "player",
+            "portrait": "player",
+            "text": "[face:default]Okay, so what are you\nhere to help me with?"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "The basics, of course!\nHow to get to\nplaces and such!"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "For example:\nUse LEFT and RIGHT\nto move."
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "Use SPACE to jump."
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "And SHIFT to run!"
+        },
+        {
+            "typer": "player",
+            "portrait": "player",
+            "text": "Sounds good to me."
         }
     ]
 }

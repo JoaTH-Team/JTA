@@ -3,7 +3,32 @@
         {
             "typer": "sign",
             "portrait": "sign",
-            "text": "Hello, I am test dialogue!"
+            "text": "If you're having\ntrouble getting\nsomewhere high,"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "use a trampoline!\nI always loved\njumping on these!"
+        },
+        {
+            "typer": "player",
+            "portrait": "player",
+            "text": "But, how can you\njump? You're a sign."
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "One can dream, okay?"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "One can dream."
+        },
+        {
+            "typer": "player",
+            "portrait": "player",
+            "text": "If you say so."
         }
     ]
 }

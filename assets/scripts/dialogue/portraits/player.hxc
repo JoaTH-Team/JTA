@@ -21,5 +21,7 @@ class PlayerPortrait extends Portrait
 	{
 		if (Assets.exists(Paths.image('portraits/face_player' + name)))
 			loadGraphic(Paths.image('portraits/face_player' + name));
+		else
+			loadGraphic(Paths.image('portraits/face_player'));
 	}
 }
