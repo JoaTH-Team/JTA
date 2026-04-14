@@ -70,14 +70,6 @@ jobs:
         if: env.CACHE_HIT != 'true' && matrix.target != 'windows'
         run: haxelib git hxcpp https://github.com/MAJigsaw77/hxcpp.git patch-1 --quiet && haxelib run lime rebuild hxcpp -verbose
 
-      - name: Patch hxcpp zlib for Xcode compatibility
-        if: matrix.target == 'macos'
-        run: |
-          ZUTIL_PATH=".haxelib/hxcpp/4,3,2/project/thirdparty/zlib-1.2.11/zutil.h"
-          if [ -f "$ZUTIL_PATH" ]; then
-            sed -i '' '/define fdopen(fd,mode)/d' "$ZUTIL_PATH"
-          fi
-
       - name: Rebuild extension-webm
         run: haxelib run lime rebuild extension-webm ${{ matrix.target }}
 
