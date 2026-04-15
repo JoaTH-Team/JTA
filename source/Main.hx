@@ -1,5 +1,6 @@
 package;
 
+import winapi.WindowsAPI;
 import jta.Game;
 import jta.debug.FPS;
 import jta.video.GlobalVideo;
@@ -110,6 +111,8 @@ class Main extends openfl.display.Sprite
 		#if windows
 		WindowColorMode.setDarkMode();
 		WindowColorMode.redrawWindowHeader();
+
+		WindowsAPI.centerWindow();
 		#end
 
 		Lib.current.stage.align = openfl.display.StageAlign.TOP_LEFT;

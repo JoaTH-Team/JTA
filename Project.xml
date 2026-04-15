@@ -15,7 +15,7 @@
 	<!-- [ Window Settings ] -->
 
 	<!-- All targets -->
-	<window width="800" height="600" fps="60" background="#000000" hardware="true" vsync="false" />
+	<window width="1024" height="768" fps="60" background="#000000" hardware="true" vsync="false" />
 
 	<!-- HTML5 -->
 	<window if="html5" resizable="true" />
@@ -73,6 +73,7 @@
 	<haxelib name="hxgamemode" if="linux" />
 	<haxelib name="hxdiscord_rpc" if="desktop" />
 	<haxelib name="hxWindowColorMode" if="windows" />
+	<haxelib name="sl-windows-api" if="windows" />
 	<haxelib name="hxcpp-debug-server" if="desktop debug" />
 
 	<haxelib name="extension-androidtools" if="android" />
