@@ -10,6 +10,7 @@
 -L hxgamemode
 -L hxdiscord_rpc
 -L hxWindowColorMode
+-L sl-windows-api
 -L hxcpp-debug-server
 -L jsonpath
 -L jsonpatch

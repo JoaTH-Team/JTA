@@ -50,6 +50,7 @@ jobs:
           haxelib install hxgamemode
           haxelib install hxdiscord_rpc
           haxelib install hxWindowColorMode
+          haxelib install sl-windows-api
           haxelib install hxcpp-debug-server
           haxelib install extension-androidtools
           haxelib install dox
