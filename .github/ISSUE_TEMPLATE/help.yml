@@ -18,6 +18,7 @@ body:
         - "Linux"
         - "Mac"
         - "HTML5"
+        - "Android"
     validations:
       required: true
 
