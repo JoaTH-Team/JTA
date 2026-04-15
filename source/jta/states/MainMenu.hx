@@ -75,14 +75,14 @@ class MainMenu extends BaseState
 			});
 		}
 
-		var logo:FlxSprite = new FlxSprite(0, 125).loadGraphic(Paths.image('menu/mainmenu/logo'));
+		var logo:FlxSprite = new FlxSprite(0, FlxG.height * 0.2).loadGraphic(Paths.image('menu/mainmenu/logo'));
 		logo.scale.set(4, 4);
 		logo.screenCenter(X);
 		add(logo);
 
 		FlxTween.tween(logo, {y: logo.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
 
-		player = new FlxSprite(0, 700).loadGraphic(Paths.image('menu/mainmenu/playerTitle'), true, 15, 38);
+		player = new FlxSprite(0, FlxG.height + 100).loadGraphic(Paths.image('menu/mainmenu/playerTitle'), true, 15, 38);
 		player.animation.add('idle', [0], 1);
 		player.animation.add('blink', [1], 1);
 		player.animation.add('left', [2], 1);
@@ -96,13 +96,13 @@ class MainMenu extends BaseState
 
 		for (i in 0...selections.length)
 		{
-			var selection:FlxText = new FlxText(10, 400 + i * 42, FlxG.width, Locale.getMenu(selections[i]));
+			var selection:FlxText = new FlxText(10, (FlxG.height * 0.55) + (i * 42), FlxG.width, Locale.getMenu(selections[i]));
 			selection.setFormat(Paths.font('main'), 36, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			selection.ID = i;
 			selectionGroup.add(selection);
 		}
 
-		FlxTween.tween(player, {y: 500}, 1, {ease: FlxEase.quadOut});
+		FlxTween.tween(player, {y: FlxG.height * 0.65}, 1, {ease: FlxEase.quadOut});
 
 		versionTxt = new FlxText(0, FlxG.height - 30, 250, 'v${Lib.application.meta.get('version')}', 24);
 		versionTxt.text += #if (debug && !web) ' (${jta.util.macro.git.GitMacro.getCommitId()})' #else ' (DEMO)' #end;
