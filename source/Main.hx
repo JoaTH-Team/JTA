@@ -1,12 +1,12 @@
 package;
 
-import winapi.WindowsAPI;
 import jta.Game;
 import jta.debug.FPS;
 import jta.video.GlobalVideo;
 import jta.video.VideoHandler;
 import jta.video.WebmHandler;
 #if windows
+import winapi.WindowsAPI;
 import hxwindowmode.WindowColorMode;
 #end
 #if hxgamemode
