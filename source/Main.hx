@@ -24,12 +24,12 @@ class Main extends openfl.display.Sprite
 	/**
 	 * The width of the game window in pixels.
 	 */
-	private static final GAME_WIDTH:Int = 800;
+	private static final GAME_WIDTH:Int = 1024;
 
 	/**
 	 * The height of the game window in pixels.
 	 */
-	private static final GAME_HEIGHT:Int = 600;
+	private static final GAME_HEIGHT:Int = 768;
 
 	/**
 	 * The frame rate of the game, in frames per second (FPS).
