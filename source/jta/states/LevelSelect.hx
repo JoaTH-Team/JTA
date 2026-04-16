@@ -6,6 +6,7 @@ import jta.input.Input;
 import jta.states.MainMenu;
 import jta.states.BaseState;
 import jta.registries.LevelRegistry;
+import jta.modding.PolymodHandler;
 
 class LevelSelect extends BaseState
 {
@@ -28,20 +29,47 @@ class LevelSelect extends BaseState
 		bg.screenCenter();
 		add(bg);
 
-		var initLevels:Array<String> = Paths.getTextArray(Paths.txt('levels/levelList'));
-
-		if (Assets.exists(Paths.txt('levels/levelList')))
+		var initLevels:Array<String> = [];
+		var corePath:String = 'assets/levels/levelList.txt';
+		if (sys.FileSystem.exists(corePath))
 		{
-			initLevels = Assets.getText(Paths.txt('levels/levelList')).trim().split('\n');
+			var coreContent:String = sys.io.File.getContent(corePath);
+			var coreLevels = coreContent.trim().split('\n');
+			for (i in 0...coreLevels.length)
+			{
+				var trimmed = coreLevels[i].trim();
+				if (trimmed != "")
+					initLevels.push(trimmed);
+			}
+		}
 
-			for (i in 0...initLevels.length)
-				initLevels[i] = initLevels[i].trim();
+		for (modId in PolymodHandler.getModIDs())
+		{
+			var modPath:String = 'mods/$modId/levels/levelList.txt';
+			if (sys.FileSystem.exists(modPath))
+			{
+				var modContent:String = sys.io.File.getContent(modPath);
+				var modLevels = modContent.trim().split('\n');
+				for (i in 0...modLevels.length)
+				{
+					var trimmed = modLevels[i].trim();
+					if (trimmed != "")
+						initLevels.push(trimmed);
+				}
+			}
 		}
 
 		for (i in 0...initLevels.length)
 		{
 			var data:Array<String> = initLevels[i].split('|');
-			levelList.push({name: data[0], id: data[1], cover: (data.length > 2) ? data[2] : null});
+			if (data.length >= 2)
+			{
+				levelList.push({
+					name: data[0], 
+					id: data[1], 
+					cover: (data.length > 2) ? data[2] : null
+				});
+			}
 		}
 
 		titleText = new FlxText(0, 60, FlxG.width, '');

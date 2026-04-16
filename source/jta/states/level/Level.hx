@@ -151,7 +151,7 @@ class Level extends BaseState
 				FlxG.collide(map, player);
 
 			if (camFollowControllable && player.y >= 0 && player.y <= FlxG.height)
-				FlxG.camera.follow(player, LOCKON, 0.9);
+				FlxG.camera.follow(player, LOCKON, 0.5);
 
 			if (objects != null)
 			{
