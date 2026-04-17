@@ -71,12 +71,18 @@
 	<haxelib name="polymod" />
 	<haxelib name="firetongue" />
 	<haxelib name="hxgamemode" if="linux" />
-	<haxelib name="hxdiscord_rpc" if="desktop" />
-	<haxelib name="hxWindowColorMode" if="windows" />
-	<haxelib name="sl-windows-api" if="windows" />
-	<haxelib name="hxcpp-debug-server" if="desktop debug" />
-
-	<haxelib name="extension-androidtools" if="android" />
+	<section if="desktop">
+		<haxelib name="hxdiscord_rpc" />
+		<haxelib name="hxcpp-debug-server" if="debug" />
+	</section>
+	<section if="windows">
+		<haxelib name="hxWindowColorMode" />
+		<haxelib name="sl-windows-api" />
+	</section>
+	<section if="android">
+		<haxelib name="extension-androidtools" />
+		<haxelib name="extension-videoview" />
+	</section>
 
 	<!-- [ Haxe Defines ] -->
 

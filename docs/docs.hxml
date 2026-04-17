@@ -17,6 +17,7 @@
 -L thx.core
 -L thx.semver
 -L extension-androidtools
+-L extension-videoview
 
 -D windows
 
