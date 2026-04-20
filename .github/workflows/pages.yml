@@ -53,7 +53,7 @@ jobs:
           haxelib install sl-windows-api
           haxelib install hxcpp-debug-server
           haxelib install extension-androidtools
-          haxelib git extension-videoview https://github.com/Joalor64/extension-videoview
+          haxelib install extension-videoview
           haxelib install dox
           haxelib install format
           haxelib list

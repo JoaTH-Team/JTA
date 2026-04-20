@@ -31,6 +31,11 @@ class Paths
 	public static final SOUND_EXT:String = #if !web 'ogg' #else 'mp3' #end;
 
 	/**
+	 * The video extension to use.
+	 */
+	public static final VIDEO_EXT:String = #if (desktop || web) 'webm' #else 'mp4' #end;
+
+	/**
 	 * Finds an asset by checking the given path with multiple extensions.
 	 * @param path The base path of the asset.
 	 * @param exts What extensions to check for the asset.
@@ -117,7 +122,7 @@ class Paths
 	 * @return The path to the video file.
 	 */
 	inline static public function video(key:String):String
-		return 'assets/videos/$key.webm';
+		return 'assets/videos/$key.${VIDEO_EXT}';
 
 	/**
 	 * Gets a sound file for a video as a `Sound` object.

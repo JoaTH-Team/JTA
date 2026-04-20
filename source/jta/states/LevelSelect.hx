@@ -31,9 +31,9 @@ class LevelSelect extends BaseState
 
 		var initLevels:Array<String> = [];
 		var corePath:String = 'assets/levels/levelList.txt';
-		if (sys.FileSystem.exists(corePath))
+		if (Assets.exists(corePath))
 		{
-			var coreContent:String = sys.io.File.getContent(corePath);
+			var coreContent:String = Assets.getText(corePath);
 			var coreLevels = coreContent.trim().split('\n');
 			for (i in 0...coreLevels.length)
 			{
@@ -46,9 +46,9 @@ class LevelSelect extends BaseState
 		for (modId in PolymodHandler.getModIDs())
 		{
 			var modPath:String = 'mods/$modId/levels/levelList.txt';
-			if (sys.FileSystem.exists(modPath))
+			if (Assets.exists(modPath))
 			{
-				var modContent:String = sys.io.File.getContent(modPath);
+				var modContent:String = Assets.getText(modPath);
 				var modLevels = modContent.trim().split('\n');
 				for (i in 0...modLevels.length)
 				{
@@ -65,8 +65,8 @@ class LevelSelect extends BaseState
 			if (data.length >= 2)
 			{
 				levelList.push({
-					name: data[0], 
-					id: data[1], 
+					name: data[0],
+					id: data[1],
 					cover: (data.length > 2) ? data[2] : null
 				});
 			}
