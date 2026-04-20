@@ -97,7 +97,8 @@ class VideoState extends BaseState
 		gfx.endFill();
 		skipSprite.x = FlxG.width - 80;
 		skipSprite.y = FlxG.height - 72;
-		FlxG.stage.addChild(skipSprite);
+		if (canSkip)
+			FlxG.stage.addChild(skipSprite);
 
 		super.create();
 	}
@@ -140,16 +141,19 @@ class VideoState extends BaseState
 		ourVideo.played = false;
 		#end
 
-		if (Input.pressed('confirm'))
+		if (canSkip)
 		{
-			holdTimer = Math.max(0, Math.min(timeToSkip, holdTimer + elapsed));
-		}
-		else if (holdTimer > 0)
-		{
-			holdTimer = Math.max(0, FlxMath.lerp(holdTimer, -0.1, FlxMath.bound(elapsed * 3, 0, 1)));
-		}
+			if (Input.pressed('confirm'))
+			{
+				holdTimer = Math.max(0, Math.min(timeToSkip, holdTimer + elapsed));
+			}
+			else if (holdTimer > 0)
+			{
+				holdTimer = Math.max(0, FlxMath.lerp(holdTimer, -0.1, FlxMath.bound(elapsed * 3, 0, 1)));
+			}
 
-		skipSprite.alpha = FlxMath.remapToRange(holdTimer / timeToSkip, 0.025, 1, 0, 1);
+			skipSprite.alpha = FlxMath.remapToRange(holdTimer / timeToSkip, 0.025, 1, 0, 1);
+		}
 
 		if (holdTimer >= timeToSkip)
 		{
@@ -171,7 +175,7 @@ class VideoState extends BaseState
 		}
 		#end
 
-		if (skipSprite != null && skipSprite.parent != null)
+		if (skipSprite != null && skipSprite.parent != null && canSkip)
 		{
 			skipSprite.parent.removeChild(skipSprite);
 			skipSprite = null;
