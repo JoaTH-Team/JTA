@@ -14,6 +14,7 @@ import hxgamemode.GamemodeClient;
 #end
 import flixel.util.typeLimit.NextState;
 import openfl.system.System;
+import openfl.events.Event;
 
 /**
  * The main entry point for the game.
@@ -24,31 +25,37 @@ class Main extends openfl.display.Sprite
 	/**
 	 * The width of the game window in pixels.
 	 */
+	@:noCompletion
 	private static final GAME_WIDTH:Int = 1024;
 
 	/**
 	 * The height of the game window in pixels.
 	 */
+	@:noCompletion
 	private static final GAME_HEIGHT:Int = 768;
 
 	/**
 	 * The frame rate of the game, in frames per second (FPS).
 	 */
+	@:noCompletion
 	private static final GAME_FRAMERATE:Int = 60;
 
 	/**
 	 * The initial state of the game.
 	 */
+	@:noCompletion
 	private static final GAME_INITIAL_STATE:InitialState = () -> new jta.states.Startup();
 
 	/**
 	 * Whether to skip the splash screen on startup.
 	 */
+	@:noCompletion
 	private static final GAME_SKIP_SPLASH:Bool = true;
 
 	/**
 	 * Whether to start the game in fullscreen mode on desktop.
 	 */
+	@:noCompletion
 	private static final GAME_START_FULLSCREEN:Bool = false;
 
 	/**
@@ -74,6 +81,7 @@ class Main extends openfl.display.Sprite
 	/**
 	 * This will make it so it is run right at startup.
 	 */
+	@:noCompletion
 	private static function __init__():Void
 	{
 		#if !web
@@ -127,6 +135,18 @@ class Main extends openfl.display.Sprite
 	public function new():Void
 	{
 		super();
+
+		if (stage != null)
+			setupGame();
+		else
+			addEventListener(Event.ADDED_TO_STAGE, setupGame);
+	}
+
+	@:noCompletion
+	private function setupGame(?event:Event):Void
+	{
+		if (hasEventListener(Event.ADDED_TO_STAGE))
+			removeEventListener(Event.ADDED_TO_STAGE, setupGame);
 
 		#if hxdiscord_rpc
 		jta.api.DiscordClient.load();

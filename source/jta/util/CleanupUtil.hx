@@ -28,6 +28,7 @@ class CleanupUtil
 		#end
 	}
 
+	@:noCompletion
 	private static inline function onPreStateCreate(state:FlxState):Void
 	{
 		final cacheClearingStart:Float = TimerUtil.start();
@@ -38,6 +39,7 @@ class CleanupUtil
 	}
 
 	#if (cpp || neko || hl)
+	@:noCompletion
 	private static inline function onPostStateSwitch():Void
 	{
 		final gcStart:Float = TimerUtil.start();

@@ -15,6 +15,7 @@ class FilterUtil
 	 * Map of color blindness simulation filters as arrays of floats.
 	 * Each entry represents a color matrix that can be used to simulate specific types of color blindness.
 	 */
+	@:noCompletion
 	private static final filters:Map<String, Array<Float>> = [
 		'Deuteranopia' => [
 			 0.43, 0.72, -0.15, 0, 0,

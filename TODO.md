@@ -18,6 +18,6 @@
 * [ ] Timed Level Support
 
 ## Initial Release
-* [ ] IOS Support
+* [ ] iOS Support
 * [ ] Worlds 5-8
 * [ ] Secret Final Level

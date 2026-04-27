@@ -47,6 +47,7 @@ class TimerUtil
 	 * @param end The end time (optional).
 	 * @return The elapsed time.
 	 */
+	@:noCompletion
 	private static function took(start:Float, ?end:Float):Float
 	{
 		return (end != null ? end : Timer.stamp()) - start;

@@ -24,8 +24,6 @@ class MainMenu extends BaseState
 	var animCooldown:Float = 3 + FlxG.random.float(0, 2);
 	var isAnimating:Bool = false;
 
-	var versionTxt:FlxText;
-
 	var weather:Int = 0;
 
 	public function new():Void
@@ -104,9 +102,10 @@ class MainMenu extends BaseState
 
 		FlxTween.tween(player, {y: FlxG.height * 0.65}, 1, {ease: FlxEase.quadOut});
 
-		versionTxt = new FlxText(0, FlxG.height - 30, 250, 'v${Lib.application.meta.get('version')}', 24);
+		var versionTxt:FlxText = new FlxText(0, FlxG.height - 30, 250, 'v${Lib.application.meta.get('version')}', 24);
 		versionTxt.text += #if (debug && !web) ' (${jta.util.macro.git.GitMacro.getCommitId()})' #else ' (DEMO)' #end;
 		versionTxt.setFormat(Paths.font('main'), 24, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionTxt.x = FlxG.width - versionTxt.width - 10;
 		add(versionTxt);
 
 		super.create();
@@ -154,8 +153,6 @@ class MainMenu extends BaseState
 		#end
 
 		super.update(elapsed);
-
-		versionTxt.x = FlxG.width - versionTxt.width - 10;
 
 		animTimer += elapsed;
 
