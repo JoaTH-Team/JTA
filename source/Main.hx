@@ -63,21 +63,6 @@ class Main extends openfl.display.Sprite
 	 */
 	public static var fpsDisplay:Null<FPS>;
 
-	public static var framerate(get, set):Float;
-
-	static function set_framerate(cap:Float):Float
-	{
-		if (FlxG.game != null)
-		{
-			FlxG.updateFramerate = Std.int(cap);
-			FlxG.drawFramerate = Std.int(cap);
-		}
-		return Lib.current.stage.frameRate = cap;
-	}
-
-	static function get_framerate():Float
-		return Lib.current.stage.frameRate;
-
 	/**
 	 * This will make it so it is run right at startup.
 	 */
@@ -155,32 +140,10 @@ class Main extends openfl.display.Sprite
 		jta.util.CleanupUtil.init();
 		jta.util.ResizeUtil.init();
 
-		framerate = GAME_FRAMERATE; // Default framerate
-		addChild(new Game(GAME_WIDTH, GAME_HEIGHT, GAME_INITIAL_STATE, GAME_FRAMERATE, GAME_FRAMERATE, GAME_SKIP_SPLASH, GAME_START_FULLSCREEN));
+		final game:Game = new Game(GAME_WIDTH, GAME_HEIGHT, GAME_INITIAL_STATE, GAME_FRAMERATE, GAME_FRAMERATE, GAME_SKIP_SPLASH, GAME_START_FULLSCREEN);
 
 		#if debug
 		FlxG.log.redirectTraces = true;
-		#end
-
-		var vidSource:String = 'assets/videos/DO NOT DELETE OR GAME WILL CRASH/dontDelete.webm';
-
-		#if web
-		var str1:String = 'HTML VIDEO';
-		var vHandler:VideoHandler = new VideoHandler();
-		vHandler.init1();
-		vHandler.video.name = str1;
-		addChild(vHandler.video);
-		vHandler.init2();
-		GlobalVideo.setVid(vHandler);
-		vHandler.source(vidSource);
-		#elseif desktop
-		var str1:String = 'WEBM VIDEO';
-		var webmHandle:WebmHandler = new WebmHandler();
-		webmHandle.source(vidSource);
-		webmHandle.makePlayer();
-		webmHandle.webm.name = str1;
-		addChild(webmHandle.webm);
-		GlobalVideo.setWebm(webmHandle);
 		#end
 
 		#if android
@@ -204,12 +167,37 @@ class Main extends openfl.display.Sprite
 		FlxG.mouse.useSystemCursor = true;
 		#end
 
-		fpsDisplay = new FPS(10, 10, 0xffffff);
-		addChild(fpsDisplay);
-
 		#if desktop
 		FlxG.mouse.visible = false;
 		#end
+
+		addChild(game);
+
+		var vidSource:String = 'assets/videos/DO NOT DELETE OR GAME WILL CRASH/dontDelete.webm';
+
+		#if web
+		var str1:String = 'HTML VIDEO';
+		var vHandler:VideoHandler = new VideoHandler();
+		vHandler.init1();
+		vHandler.video.name = str1;
+		addChild(vHandler.video);
+		vHandler.init2();
+		GlobalVideo.setVid(vHandler);
+		vHandler.source(vidSource);
+		#elseif desktop
+		var str1:String = 'WEBM VIDEO';
+		var webmHandle:WebmHandler = new WebmHandler();
+		webmHandle.source(vidSource);
+		webmHandle.makePlayer();
+		webmHandle.webm.name = str1;
+		addChild(webmHandle.webm);
+		GlobalVideo.setWebm(webmHandle);
+		#end
+
+		fpsDisplay = new FPS(10, 10, 0xffffff);
+		addChild(fpsDisplay);
+
+		jta.util.FramerateUtil.adjustStageFramerate();
 
 		Lib.current.stage.application.window.onClose.add(function()
 		{

@@ -38,15 +38,15 @@ class FPS extends TextField
 			border.mouseEnabled = false;
 			border.autoSize = LEFT;
 			border.multiline = true;
-			border.width = 1280;
-			border.height = 720;
+			border.width = 1024;
+			border.height = 768;
 		}
 
 		text = '';
 		this.x = x;
 		this.y = y;
-		width = 1280;
-		height = 720;
+		width = 1024;
+		height = 768;
 		selectable = false;
 		defaultTextFormat = new TextFormat(Paths.font((font != null) ? font : 'main'), 16, color);
 

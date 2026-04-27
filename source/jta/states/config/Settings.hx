@@ -36,17 +36,6 @@ class Settings extends BaseState
 		};
 		options.push(option);
 
-		#if !html5
-		var option:Option = new Option(Locale.getSettings("$FRAMERATE"), OptionType.Integer(60, 240, 10),
-			Std.int(FlxMath.bound(FlxG.stage.application.window.displayMode.refreshRate, 60, 240)));
-		option.onChange = (value:Dynamic) ->
-		{
-			Data.settings.framerate = value;
-			Main.framerate = Data.settings.framerate;
-		};
-		options.push(option);
-		#end
-
 		var option:Option = new Option(Locale.getSettings("$FPS_DISP"), OptionType.Toggle, Data.settings.fpsCounter);
 		option.onChange = (value:Dynamic) ->
 		{

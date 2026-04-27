@@ -73,9 +73,6 @@ class BaseState extends FlxTransitionableState
 
 		super.update(elapsed);
 
-		if (FlxG.stage != null)
-			FlxG.stage.frameRate = Data.settings.framerate;
-
 		ModuleHandler.callEvent(module ->
 		{
 			module.update(new UpdateEvent(module, id, elapsed));

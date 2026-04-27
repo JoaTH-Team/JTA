@@ -43,8 +43,6 @@ class BaseSubState extends FlxSubState
 	{
 		super.update(elapsed);
 
-		FlxG.stage.frameRate = Data.settings.framerate;
-
 		ModuleHandler.callEvent(module ->
 		{
 			module.update(new UpdateEvent(module, id, elapsed));

@@ -7,7 +7,6 @@ import flixel.input.gamepad.FlxGamepadInputID;
 @:structInit class Settings
 {
 	public var volume:Int = 100;
-	public var framerate:Int = 60;
 	public var fpsCounter:Bool = true;
 	#if desktop
 	public var fullscreen:Bool = false;
@@ -43,14 +42,6 @@ class Data
 
 		if (Main.fpsDisplay != null)
 			Main.fpsDisplay.visible = settings.fpsCounter;
-
-		if (FlxG.save.data.framerate == null)
-		{
-			final refreshRate:Int = FlxG.stage.application.window.displayMode.refreshRate;
-			settings.framerate = Std.int(FlxMath.bound(refreshRate, 60, 240));
-		}
-
-		Main.framerate = settings.framerate;
 
 		if (settings.filter != null)
 			FilterUtil.reloadGameFilter(settings.filter);

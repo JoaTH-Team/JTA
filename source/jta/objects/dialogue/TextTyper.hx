@@ -2,6 +2,7 @@ package jta.objects.dialogue;
 
 import jta.objects.dialogue.typers.Typer;
 import jta.util.dialogue.TextParser;
+import jta.util.FramerateUtil;
 import flixel.sound.FlxSound;
 import flixel.util.FlxSignal;
 import flixel.util.FlxDestroyUtil;
@@ -159,7 +160,7 @@ class TextTyper extends FlxText
 			sounds.push(sound);
 		}
 
-		delay = (1.0 / Main.framerate) * typer.typerFPS;
+		delay = FramerateUtil.SINGLE_FRAME_TIMING * typer.typerFPS;
 
 		this.typer = typer;
 	}
@@ -226,7 +227,7 @@ class TextTyper extends FlxText
 						final speed:Null<Float> = Std.parseFloat(action.value);
 
 						if (speed != null && speed > 0)
-							delay = (1.0 / Main.framerate) * speed;
+							delay = FramerateUtil.SINGLE_FRAME_TIMING * speed;
 					case 'wait':
 						final waitTime:Null<Float> = Std.parseFloat(action.value);
 
@@ -242,7 +243,7 @@ class TextTyper extends FlxText
 						if (waitTime != null && waitTime > 0)
 						{
 							waiting = true;
-							FlxTimer.wait((1.0 / Main.framerate) * waitTime, () -> waiting = false);
+							FlxTimer.wait(FramerateUtil.SINGLE_FRAME_TIMING * waitTime, () -> waiting = false);
 							break;
 						}
 					case 'function':
