@@ -40,8 +40,8 @@ class Settings extends BaseState
 		option.onChange = (value:Dynamic) ->
 		{
 			Data.settings.fpsCounter = value;
-			if (Main.fpsDisplay != null)
-				Main.fpsDisplay.visible = Data.settings.fpsCounter;
+			if (Main.fps != null)
+				Main.fps.visible = Data.settings.fpsCounter;
 		};
 		options.push(option);
 

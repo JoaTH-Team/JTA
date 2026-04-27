@@ -61,7 +61,7 @@ class Main extends openfl.display.Sprite
 	/**
 	 * The frame rate display.
 	 */
-	public static var fpsDisplay:Null<FPS>;
+	public static var fps:Null<FPS>;
 
 	/**
 	 * This will make it so it is run right at startup.
@@ -194,8 +194,8 @@ class Main extends openfl.display.Sprite
 		GlobalVideo.setWebm(webmHandle);
 		#end
 
-		fpsDisplay = new FPS(10, 10, 0xffffff);
-		addChild(fpsDisplay);
+		fps = new FPS(10, 10, 0xffffff);
+		addChild(fps);
 
 		jta.util.FramerateUtil.adjustStageFramerate();
 

@@ -40,8 +40,8 @@ class Data
 			if (Reflect.field(FlxG.save.data, key) != null)
 				Reflect.setField(settings, key, Reflect.field(FlxG.save.data, key));
 
-		if (Main.fpsDisplay != null)
-			Main.fpsDisplay.visible = settings.fpsCounter;
+		if (Main.fps != null)
+			Main.fps.visible = settings.fpsCounter;
 
 		if (settings.filter != null)
 			FilterUtil.reloadGameFilter(settings.filter);
