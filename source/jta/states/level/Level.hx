@@ -296,7 +296,7 @@ class Level extends BaseState
 	 * @param id The level ID to load the dialogue file from.
 	 * @return The dialogue file.
 	 */
-	public function loadDialogue(path:Dynamic, id:Int):Dynamic
+	public function loadDialogue(path:String, id:Int):Dynamic
 	{
 		return Json.parse(Assets.getText(Paths.json('data/dialogue/$id/$path')));
 	}
