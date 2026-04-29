@@ -10,7 +10,3 @@ import openfl.Lib;
 #end
 
 using StringTools;
-
-#if !debug
-@:noDebug
-#end

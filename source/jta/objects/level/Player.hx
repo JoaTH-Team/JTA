@@ -18,18 +18,18 @@ class Player extends FlxSprite
 	public var speed:Vector = new Vector(0, 0);
 
 	/**
-	 * The ID of the player character.
+	 * The ID of the player.
 	 */
 	public var characterID:String;
 
 	/**
-	 * Whether or not the player character is controllable.
+	 * Whether or not the player is controllable.
 	 */
 	public var characterControllable:Bool = true;
 
 	/**
 	 * Initializes the object with a specified ID.
-	 * @param characterID The ID of the player character.
+	 * @param characterID The ID of the player.
 	 */
 	public function new(characterID:String):Void
 	{

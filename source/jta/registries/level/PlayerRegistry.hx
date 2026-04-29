@@ -76,9 +76,7 @@ class PlayerRegistry
 	}
 
 	/**
-	 * Fetches a player by its ID.
-	 * @param characterID The ID of the character.
-	 * @return The character or null if not found.
+	 * Clears all loaded player classes.
 	 */
 	public static function clearPlayers():Void
 	{

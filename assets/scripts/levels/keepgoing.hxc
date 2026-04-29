@@ -16,7 +16,7 @@ class KeepGoingLevel extends Level
 	{
 		camFollowControllable = true;
 
-		// FlxG.sound.music.play(Paths.music('grasslands' + FlxG.random.int(1, 2)));
+		// FlxG.sound.playMusic(Paths.music('grasslands' + FlxG.random.int(1, 2)));
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF00B5E2);
 		bg.scrollFactor.set();

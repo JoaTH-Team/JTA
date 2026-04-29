@@ -42,43 +42,51 @@ class Level extends BaseState
 	public var baseLevel:Bool = true;
 
 	/**
-	 * Current player character in the level.
+	 * The current player in the level.
 	 */
+	@:noCompletion
 	private var player:Player;
 
 	/**
 	 * Main tilemap for the level.
 	 */
+	@:noCompletion
 	private var map:FlxTilemap;
 
 	/**
 	 * Background tilemap for the level.
 	 */
+	@:noCompletion
 	private var background:FlxTilemap;
 
 	/**
-	 * Group containing all objects in the level.
+	 * A group containing the interactive objects in the level.
 	 */
+	@:noCompletion
 	private var objects:FlxTypedGroup<Object>;
 
 	/**
-	 * `FlxCamera` used for the HUD.
+	 * The HUD camera used for displaying overlays like dialogue boxes.
 	 */
+	@:noCompletion
 	private var camHUD:FlxCamera;
 
 	/**
-	 * UI used by `Level`.
+	 * HUD used by `Level`.
 	 */
+	@:noCompletion
 	private var hud:HUD;
 
 	/**
-	 * Whether the camera should follow the `Player` or not.
+	 * Determines whether the camera's following behavior can be controlled.
 	 */
+	@:noCompletion
 	private var camFollowControllable:Bool = false;
 
 	/**
 	 * Dialogue box used for displaying dialogue.
 	 */
+	@:noCompletion
 	private var dialogueBox:DialogueBox;
 
 	var paused:Bool = false;
@@ -191,7 +199,7 @@ class Level extends BaseState
 	}
 
 	/**
-	 * Creates a new player character in the level.
+	 * Creates a new player in the level.
 	 * @param id The player ID to load.
 	 * @param x The x position to spawn the player at.
 	 * @param y The y position to spawn the player at.
