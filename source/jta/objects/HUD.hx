@@ -12,17 +12,17 @@ class HUD extends FlxTypedGroup<FlxSprite>
 	/**
 	 * Displays the current score.
 	 */
-	var scoreTxt:FlxText;
+	public var scoreTxt:FlxText;
 
 	/**
 	 * Displays the current coins.
 	 */
-	var coinsTxt:FlxText;
+	public var coinsTxt:FlxText;
 
 	/**
 	 * Displays the current lives.
 	 */
-	var livesTxt:FlxText;
+	public var livesTxt:FlxText;
 
 	public function new():Void
 	{
