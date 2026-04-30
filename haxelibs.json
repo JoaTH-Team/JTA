@@ -36,13 +36,13 @@
             "name": "extension-webm",
             "type": "git",
             "ref": "master",
-            "url": "https://github.com/KadeDev/extension-webm"
+            "url": "https://github.com/Kade-github/extension-webm"
         },
         {
             "name": "polymod",
             "type": "git",
             "ref": "scripting-updates",
-            "url": "https://github.com/larsiusprime/polymod"
+            "url": "https://github.com/FunkinCrew/polymod"
         },
         {
             "name": "thx.core",
