@@ -4,7 +4,7 @@
 "$EXIT","Salir"
 "$BACK","Volver"
 "$PAUSE","¿PAUSADO?"
-"$GAME_OVER","SE ACABÓ EL JUEGO"
+"$GAME_OVER","FIN DEL JUEGO"
 "$LEVEL_COMPLETE","NIVEL COMPLETADO"
 "$RESUME","Reanudar"
 "$RESTART","Reiniciar"

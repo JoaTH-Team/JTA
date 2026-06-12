@@ -42,7 +42,7 @@
             "name": "polymod",
             "type": "git",
             "ref": "scripting-updates",
-            "url": "https://github.com/FunkinCrew/polymod"
+            "url": "https://github.com/JoaTH-Team/polymod"
         },
         {
             "name": "thx.core",
