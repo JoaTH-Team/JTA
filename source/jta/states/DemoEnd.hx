@@ -7,25 +7,30 @@ import jta.states.BaseState;
 
 class DemoEnd extends BaseState
 {
+	var soundPlayed:Bool = false;
+
 	override public function create():Void
 	{
-		var text:FlxText = new FlxText(0, 0, FlxG.width, 'END OF DEMO\nThanks for playing!', 12);
+		var text:FlxText = new FlxText(0, 340, FlxG.width, 'END OF DEMO\nThanks for playing!', 12);
 		text.setFormat(Paths.font('main'), 40, FlxColor.WHITE, CENTER);
-		text.screenCenter();
+		text.screenCenter(X);
 		add(text);
-
-		var text2:FlxText = new FlxText(0, text.y + 300, FlxG.width, 'PRESS ANYTHING TO CONTINUE', 12);
-		text2.setFormat(Paths.font('main'), 20, FlxColor.WHITE, CENTER);
-		add(text2);
 
 		super.create();
 
-		FlxG.sound.play(Paths.sound('end'));
+		FlxG.sound.play(Paths.sound('end'), function():Void
+		{
+			new FlxTimer().start(1, function(tmr:FlxTimer):Void
+			{
+				text.text += '\n\nPRESS ANYTHING TO CONTINUE';
+				soundPlayed = true;
+			});
+		});
 	}
 
 	override public function update(elapsed:Float):Void
 	{
-		if (Input.justPressed('any'))
+		if (soundPlayed && Input.justPressed('any'))
 		{
 			FlxG.sound.play(Paths.sound('select'));
 			transitionState(new MainMenu());

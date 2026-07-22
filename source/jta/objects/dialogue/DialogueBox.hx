@@ -24,11 +24,13 @@ class DialogueBox extends FlxSpriteGroup
 	/**
 	 * The width of the dialogue box.
 	 */
+	@:noCompletion
 	private static final BOX_WIDTH:Int = 600;
 
 	/**
 	 * The height of the dialogue box.
 	 */
+	@:noCompletion
 	private static final BOX_HEIGHT:Int = 150;
 
 	/**
@@ -39,16 +41,19 @@ class DialogueBox extends FlxSpriteGroup
 	/**
 	 * The background box of the dialogue, rendered as a `FlxShapeBox`.
 	 */
+	@:noCompletion
 	private var box:FlxShapeBox;
 
 	/**
 	 * The current portrait being displayed in the dialogue box.
 	 */
+	@:noCompletion
 	private var portrait:Portrait;
 
 	/**
 	 * The writer that handles displaying text in the dialogue box.
 	 */
+	@:noCompletion
 	private var writer(default, null):Writer;
 
 	/**

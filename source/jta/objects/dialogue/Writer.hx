@@ -35,16 +35,19 @@ class Writer extends TextTyper
 	/**
 	 * Whether or not the dialogue has been completed.
 	 */
+	@:noCompletion
 	private var done:Bool = false;
 
 	/**
 	 * A list of `WriterData` objects, each containing a typer and text for the dialogue.
 	 */
+	@:noCompletion
 	private var list:Array<WriterData> = [];
 
 	/**
 	 * The current page of the dialogue being displayed.
 	 */
+	@:noCompletion
 	private var page:Int = 0;
 
 	/**

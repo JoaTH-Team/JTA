@@ -24,6 +24,8 @@ class SpikeObject extends Object
 		var player = FlxG.state.player;
 		if (player != null)
 		{
+			if (FlxG.sound.music != null)
+				FlxG.sound.music.stop();
 			FlxG.sound.play(Paths.sound('die'));
 			Global.lives -= 1;
 			Global.save();

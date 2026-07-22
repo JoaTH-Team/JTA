@@ -3,6 +3,7 @@ import jta.Global;
 import jta.objects.level.Object;
 import jta.substates.LevelComplete;
 import jta.states.LevelSelect;
+import jta.video.VideoState;
 import flixel.FlxG;
 
 class FlagObject extends Object
@@ -34,7 +35,17 @@ class FlagObject extends Object
 				Global.flags[FlxG.state.levelNumber - 1] = 1;
 				Global.save();
 			}
-			FlxG.switchState(new LevelSelect());
+			if (FlxG.state.levelNumber == 3)
+			{
+				FlxG.switchState(new VideoState('endCutscenes/world1', true, function():Void
+				{
+					FlxG.switchState(new DemoEnd(false));
+				}));
+			}
+			else
+			{
+				FlxG.switchState(new LevelSelect());
+			}
 		}));
 	}
 }

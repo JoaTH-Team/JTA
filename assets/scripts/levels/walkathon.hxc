@@ -4,12 +4,12 @@ import jta.states.level.Level;
 import jta.Global;
 import jta.Paths;
 
-class KeepGoingLevel extends Level
+class WalkathonLevel extends Level
 {
 	public function new():Void
 	{
-		super(2);
-		levelName = 'Keep Going!';
+		super(3);
+		levelName = 'Walkathon';
 	}
 
 	public override function create():Void
@@ -25,10 +25,10 @@ class KeepGoingLevel extends Level
 		FlxG.camera.zoom = 2.95;
 
 		// loadMapBackground('test', 'test');
-		loadMap('world1/lev2', 'w1_tiles');
-		loadObjects('world1/lev2');
+		loadMap('world1/lev3', 'w1_tiles');
+		loadObjects('world1/lev3');
 
-		loadPlayer('mainplayer', 16, 145);
+		loadPlayer('mainplayer', 16, 200);
 
 		super.create();
 	}

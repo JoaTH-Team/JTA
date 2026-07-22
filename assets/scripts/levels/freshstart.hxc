@@ -16,7 +16,7 @@ class FreshStartLevel extends Level
 	{
 		camFollowControllable = true;
 
-		// FlxG.sound.playMusic(Paths.music('grasslands' + FlxG.random.int(1, 2)));
+		// FlxG.sound.playMusic(Paths.music('Is_Grass_Green'));
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF00B5E2);
 		bg.scrollFactor.set();
@@ -35,16 +35,6 @@ class FreshStartLevel extends Level
 
 	public override function update(elapsed:Float):Void
 	{
-		var player = FlxG.state.player;
-		if (player != null && player.y > FlxG.camera.scroll.y + FlxG.height)
-		{
-			FlxG.sound.play(Paths.sound('die'));
-			Global.lives -= 1;
-			Global.save();
-			if (Global.lives > 0)
-				Level.resetLevel();
-		}
-
 		super.update(elapsed);
 	}
 }

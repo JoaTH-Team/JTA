@@ -74,18 +74,18 @@ class MainMenu extends BaseState
 		}
 
 		var logo:FlxSprite = new FlxSprite(0, FlxG.height * 0.2).loadGraphic(Paths.image('menu/mainmenu/logo'));
-		logo.scale.set(4, 4);
+		logo.scale.set(4.5, 4.5);
 		logo.screenCenter(X);
 		add(logo);
 
 		FlxTween.tween(logo, {y: logo.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
 
-		player = new FlxSprite(0, FlxG.height + 100).loadGraphic(Paths.image('menu/mainmenu/playerTitle'), true, 15, 38);
+		player = new FlxSprite(0, FlxG.height + 175).loadGraphic(Paths.image('menu/mainmenu/playerTitle'), true, 15, 38);
 		player.animation.add('idle', [0], 1);
 		player.animation.add('blink', [1], 1);
 		player.animation.add('left', [2], 1);
 		player.animation.add('right', [3], 1);
-		player.scale.set(9.5, 9.5);
+		player.scale.set(11.5, 11.5);
 		player.screenCenter(X);
 		add(player);
 
@@ -94,17 +94,17 @@ class MainMenu extends BaseState
 
 		for (i in 0...selections.length)
 		{
-			var selection:FlxText = new FlxText(10, (FlxG.height * 0.55) + (i * 42), FlxG.width, Locale.getMenu(selections[i]));
+			var selection:FlxText = new FlxText(10, (FlxG.height * 0.6) + (i * 42), FlxG.width, Locale.getMenu(selections[i]));
 			selection.setFormat(Paths.font('main'), 36, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 			selection.ID = i;
 			selectionGroup.add(selection);
 		}
 
-		FlxTween.tween(player, {y: FlxG.height * 0.65}, 1, {ease: FlxEase.quadOut});
+		FlxTween.tween(player, {y: FlxG.height * 0.8}, 1, {ease: FlxEase.quadOut});
 
-		var versionTxt:FlxText = new FlxText(0, FlxG.height - 30, 250, 'v${Lib.application.meta.get('version')}', 24);
+		var versionTxt:FlxText = new FlxText(0, FlxG.height - 48, 250, 'v${Lib.application.meta.get('version')}', 24);
 		versionTxt.text += #if (debug && !web) ' (${jta.util.macro.git.GitMacro.getCommitId()})' #else ' (DEMO)' #end;
-		versionTxt.setFormat(Paths.font('main'), 24, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		versionTxt.setFormat(Paths.font('main'), 36, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		versionTxt.x = FlxG.width - versionTxt.width - 10;
 		add(versionTxt);
 
@@ -142,7 +142,7 @@ class MainMenu extends BaseState
 			text.color = (text.ID == selectedIndex) ? FlxColor.YELLOW : FlxColor.WHITE;
 		});
 
-		#if debug
+		#if (debug && !mobile)
 		if (Input.justPressed('v'))
 		{
 			transitionState(new jta.video.VideoState('paint', () ->

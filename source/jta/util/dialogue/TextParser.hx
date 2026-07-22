@@ -45,6 +45,7 @@ class TextParser
 	/**
 	 * Regex for matching tags in the text.
 	 */
+	@:noCompletion
 	private static final PARSE_REGEX:EReg = ~/(\[([a-zA-Z]+):([^\]]+)\])/;
 
 	/**

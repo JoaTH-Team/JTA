@@ -16,6 +16,7 @@ class TextTyper extends FlxText
 	/**
 	 * Characters that will not trigger sound playback during the typing effect.
 	 */
+	@:noCompletion
 	private static final IGNORE_CHARACTERS:Array<String> = [' ', '\n', '*', '^', '/', '\\'];
 
 	/**
@@ -31,26 +32,40 @@ class TextTyper extends FlxText
 	/**
 	 * Stores the original text that is being typed out.
 	 */
+	@:noCompletion
 	private var originalText:String = '';
 
+	@:noCompletion
 	private var actions:Array<Action> = [];
 
 	/**
 	 * Current position in the text that has been revealed.
 	 */
+	@:noCompletion
 	private var textPos:Int = 0;
 
 	/**
 	 * The `Typer` object controlling the appearance and behavior of the typing effect.
 	 */
+	@:noCompletion
 	private var typer:Typer;
 
+	@:noCompletion
 	private var delay:Float = 0;
+
+	@:noCompletion
 	private var counter:Float = 0;
 
+	@:noCompletion
 	private var typing:Bool = false;
+
+	@:noCompletion
 	private var waiting:Bool = false;
+
+	@:noCompletion
 	private var finished:Bool = false;
+
+	@:noCompletion
 	private var sounds:Array<FlxSound> = [];
 
 	/**
@@ -126,6 +141,7 @@ class TextTyper extends FlxText
 		}
 	}
 
+	@:noCompletion
 	private inline function setupTyper(typer:Typer):Void
 	{
 		if (this.typer != null && this.typer != typer)
@@ -165,6 +181,7 @@ class TextTyper extends FlxText
 		this.typer = typer;
 	}
 
+	@:noCompletion
 	private function processText():Void
 	{
 		processActions();
@@ -173,6 +190,7 @@ class TextTyper extends FlxText
 			updateText();
 	}
 
+	@:noCompletion
 	private function updateTextPos():Bool
 	{
 		if (waiting)
@@ -193,6 +211,7 @@ class TextTyper extends FlxText
 		return true;
 	}
 
+	@:noCompletion
 	private function updateText():Void
 	{
 		final curText:String = originalText.substr(0, textPos);
@@ -211,6 +230,7 @@ class TextTyper extends FlxText
 		}
 	}
 
+	@:noCompletion
 	private function processActions():Void
 	{
 		if (actions != null && actions.length > 0)
@@ -257,6 +277,7 @@ class TextTyper extends FlxText
 		}
 	}
 
+	@:noCompletion
 	private function playSounds(currentChar:String):Void
 	{
 		if (sounds?.length > 0 && !IGNORE_CHARACTERS.contains(currentChar))

@@ -7,7 +7,6 @@ import flixel.tile.FlxTilemap;
 import jta.states.BaseState;
 import jta.substates.GameOver;
 import jta.substates.PauseMenu;
-import jta.registries.LevelRegistry;
 import jta.registries.level.PlayerRegistry;
 import jta.registries.level.ObjectRegistry;
 import jta.objects.dialogue.DialogueBox;
@@ -139,6 +138,20 @@ class Level extends BaseState
 
 	override public function update(elapsed:Float):Void
 	{
+		if (player != null)
+		{
+			if (player.y > FlxG.camera.scroll.y + FlxG.height)
+			{
+				if (FlxG.sound.music != null)
+					FlxG.sound.music.stop();
+				FlxG.sound.play(Paths.sound('die'));
+				Global.lives--;
+				Global.save();
+				if (Global.lives > 0)
+					Level.resetLevel();
+			}
+		}
+
 		if (Input.justPressed('cancel') && !dialogueBox.alive)
 		{
 			persistentUpdate = false;
@@ -160,6 +173,11 @@ class Level extends BaseState
 
 			if (camFollowControllable && player.y >= 0 && player.y <= FlxG.height)
 				FlxG.camera.follow(player, LOCKON, 0.5);
+
+			if (player.x < 0)
+				player.x = 0;
+			else if (map != null && player.x > map.width - player.width)
+				player.x = map.width - player.width;
 
 			if (objects != null)
 			{
@@ -332,8 +350,19 @@ class Level extends BaseState
 	{
 		if (Std.isOfType(FlxG.state, Level))
 		{
-			var level = cast(FlxG.state, Level);
-			FlxG.switchState(LevelRegistry.fetchLevel(level.levelNumber));
+			var level:Level = cast(FlxG.state, Level);
+			var registryClass:Class<Dynamic> = Type.resolveClass("jta.registries.LevelRegistry");
+
+			if (registryClass != null)
+			{
+				var fetchMethod:Dynamic = Reflect.field(registryClass, "fetchLevel");
+
+				if (Reflect.isFunction(fetchMethod))
+				{
+					var newState:Dynamic = Reflect.callMethod(registryClass, fetchMethod, [level.levelNumber]);
+					FlxG.switchState(newState);
+				}
+			}
 		}
 	}
 }
