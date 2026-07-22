@@ -28,7 +28,7 @@ class FreshStartLevel extends Level
 		loadMap('world1/lev1', 'w1_tiles');
 		loadObjects('world1/lev1');
 
-		loadPlayer('mainplayer', 16, 200);
+		loadPlayer('mainplayer', 16, 145);
 
 		super.create();
 	}

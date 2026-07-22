@@ -48,7 +48,7 @@ class FPS extends TextField
 		width = 1024;
 		height = 768;
 		selectable = false;
-		defaultTextFormat = new TextFormat(Paths.font((font != null) ? font : 'main'), 16, color);
+		defaultTextFormat = new TextFormat(Paths.font((font != null) ? font : 'main'), 12, color);
 
 		addEventListener(Event.ENTER_FRAME, function(_):Void
 		{

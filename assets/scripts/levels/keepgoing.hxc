@@ -9,7 +9,7 @@ class KeepGoingLevel extends Level
 	public function new():Void
 	{
 		super(2);
-		levelName = 'Keep Going!';
+		levelName = 'Keep Going';
 	}
 
 	public override function create():Void
@@ -28,7 +28,7 @@ class KeepGoingLevel extends Level
 		loadMap('world1/lev2', 'w1_tiles');
 		loadObjects('world1/lev2');
 
-		loadPlayer('mainplayer', 16, 200);
+		loadPlayer('mainplayer', 16, 145);
 
 		super.create();
 	}

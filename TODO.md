@@ -6,6 +6,7 @@
         * [X] Dialogue
     * [ ] Level 2 (Keep Going!)
     * [ ] Level 3 (Walkathon)
+* [ ] Fix Trampoline cause lag 
 
 ## Demo 2
 * [ ] Interactive World Selection

@@ -15,7 +15,7 @@
 	<!-- [ Window Settings ] -->
 
 	<!-- All targets -->
-	<window width="1024" height="768" fps="60" background="#000000" hardware="true" vsync="false" />
+	<window width="1280" height="720" fps="60" background="#000000" hardware="true" vsync="false" />
 
 	<!-- HTML5 -->
 	<window if="html5" resizable="true" />
@@ -63,7 +63,7 @@
 
 	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />
-	
+
 	<haxelib name="actuate" />
 	<haxelib name="extension-webm" if="desktop || web" />
 
