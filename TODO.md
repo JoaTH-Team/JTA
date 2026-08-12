@@ -10,8 +10,9 @@
 
 ## Demo 2
 * [ ] Interactive World Selection
+* [ ] Remake Main Menu
 * [ ] Credits Menu
-* [ ] Minigames
+* [ ] Minigames/Challenges
 * [ ] Worlds 2-4
 * [ ] Android Support
 * [ ] Save Files
