@@ -41,7 +41,7 @@ jobs:
           haxelib install actuate
           haxelib git extension-webm https://github.com/KadeDev/extension-webm
           haxelib install hscript
-          haxelib git polymod https://github.com/larsiusprime/polymod scripting-updates
+          haxelib git polymod https://github.com/JoaTH-Team/polymod scripting-updates
           haxelib git thx.core https://github.com/fponticelli/thx.core.git
           haxelib install thx.semver
           haxelib git jsonpath https://github.com/EliteMasterEric/jsonpath.git
