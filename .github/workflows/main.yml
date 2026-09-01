@@ -10,6 +10,7 @@ on:
 
 jobs:
   build:
+    permissions: write-all
     strategy:
       matrix:
         include:
@@ -117,6 +118,7 @@ jobs:
 
   buildAndroid:
     runs-on: ubuntu-latest
+    permissions: write-all
 
     steps:
       - uses: actions/checkout@main
