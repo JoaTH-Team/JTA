@@ -96,15 +96,14 @@ jobs:
           script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-${{ matrix.target }}-debug');
 
       - name: Save Current Cache
-        uses: actions/cache@main
+        id: cache-build-save
+        uses: actions/cache/save@main
         with:
-          key: cache-${{ matrix.target }}-debug
           path: |
             .haxelib/
             export/debug/${{ matrix.target }}/haxe/
             export/debug/${{ matrix.target }}/obj/
-          restore-keys: |
-            cache-${{ matrix.target }}-debug
+          key: cache-${{ matrix.target }}-debug
 
       - name: Tar files
         if: matrix.target == 'macos'
@@ -187,15 +186,14 @@ jobs:
           script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-android-debug');
 
       - name: Save Current Cache
-        uses: actions/cache@main
+        id: cache-build-save
+        uses: actions/cache/save@main
         with:
-          key: cache-android-debug
           path: |
             .haxelib/
             export/debug/android/haxe/
             export/debug/android/obj/
-          restore-keys: |
-            cache-android-debug
+          key: cache-android-debug
 
       - name: Upload Artifact
         uses: actions/upload-artifact@main
