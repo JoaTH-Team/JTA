@@ -43,6 +43,11 @@ class MainMenu extends BaseState
 		jta.api.DiscordClient.changePresence('Main Menu', null);
 		#end
 
+		/*
+		if (!(FlxG.sound.music?.playing ?? false))
+			FlxG.sound.playMusic(Paths.music('Pumpin_Pixels'));
+		*/
+
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menu/menu_bg'));
 		bg.screenCenter();
 		add(bg);
@@ -145,6 +150,9 @@ class MainMenu extends BaseState
 		#if (debug && !mobile)
 		if (Input.justPressed('v'))
 		{
+			if (FlxG.sound.music != null && FlxG.sound.music.playing)
+				FlxG.sound.music.stop();
+			
 			transitionState(new jta.video.VideoState('paint', () ->
 			{
 				transitionState(new jta.states.MainMenu());
@@ -175,6 +183,7 @@ class MainMenu extends BaseState
 		}
 	}
 
+	@:noCompletion
 	private function changeSelection(num:Int):Void
 	{
 		FlxG.sound.play(Paths.sound('scroll'));

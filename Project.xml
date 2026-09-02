@@ -50,8 +50,8 @@
 	<assets path="assets/music" exclude="*.mp3" unless="web" />
 	<assets path="assets/sounds" exclude="*.ogg" if="web" />
 	<assets path="assets/sounds" exclude="*.mp3" unless="web" />
-	<assets path="assets/videos" exclude="*.ogg" if="web" />
-	<assets path="assets/videos" exclude="*.mp3" unless="web" />
+	<assets path="assets/videos" exclude="*.ogg|*.mp4" if="web" />
+	<assets path="assets/videos" exclude="*.mp3|*.mp4" unless="web" />
 
 	<assets path="mobile" rename="assets/images/mobile" if="mobile" />
 

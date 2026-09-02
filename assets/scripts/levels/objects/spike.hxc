@@ -27,7 +27,7 @@ class SpikeObject extends Object
 			if (FlxG.sound.music != null)
 				FlxG.sound.music.stop();
 			FlxG.sound.play(Paths.sound('die'));
-			Global.lives -= 1;
+			Global.lives--;
 			Global.save();
 			player.characterControllable = false;
 			player.animation.play('dead');

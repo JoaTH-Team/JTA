@@ -6,7 +6,6 @@ import flixel.util.typeLimit.NextState;
 import jta.modding.module.ModuleHandler;
 import jta.modding.events.CreateEvent;
 import jta.modding.events.UpdateEvent;
-import jta.Data;
 
 /**
  * Base class used for all substates in the game.

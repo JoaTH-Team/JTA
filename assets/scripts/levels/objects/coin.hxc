@@ -25,13 +25,13 @@ class CoinObject extends Object
 			return;
 		objectInteractable = false;
 		FlxG.sound.play(Paths.sound('coin'));
-		Global.coins += 1;
+		Global.coins++;
 		Global.score += 200;
 		if (Global.coins > 99)
 		{
 			FlxG.sound.play(Paths.sound('life'));
 			Global.coins = 0;
-			Global.lives += 1;
+			Global.lives++;
 		}
 		Global.save();
 		kill();

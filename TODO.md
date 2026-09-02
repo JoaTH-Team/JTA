@@ -1,11 +1,11 @@
 # To-Dos
 ## Demo 1
 * [ ] Music
-* [ ] World 1
+* [X] World 1
     * [X] Level 1 (Fresh Start)
         * [X] Dialogue
-    * [ ] Level 2 (Keep Going!)
-    * [ ] Level 3 (Walkathon)
+    * [X] Level 2 (Keep Going!)
+    * [X] Level 3 (Walkathon)
 * [ ] Fix Trampoline cause lag 
 
 ## Demo 2

@@ -1,0 +1,44 @@
+{
+    "dialogueData": [
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "Watch out for spikes!"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "They might hurt you!"
+        },
+        {
+            "typer": "player",
+            "portrait": "player",
+            "text": "But what exactly\nhappens if I\ntouch them?"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "You die."
+        },
+        {
+            "typer": "player",
+            "portrait": "player",
+            "text": "Really?"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "Like, what do you think?"
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "You should already\nknow that?"
+        },
+        {
+            "typer": "player",
+            "portrait": "player",
+            "text": "Well okay, I guess?"
+        }
+    ]
+}

@@ -3,42 +3,42 @@
         {
             "typer": "sign",
             "portrait": "sign",
-            "text": "Be careful about\ntouching the spike."
+            "text": "Along the way, you can\nfind some neat\ngolden coins!"
         },
         {
             "typer": "sign",
             "portrait": "sign",
-            "text": "Is gonna get you hurt!"
+            "text": "And they give you\npoints!"
         },
         {
             "typer": "player",
             "portrait": "player",
-            "text": "But what if i\ntouch them?"
+            "text": "That sounds cool, but\nwhat can I use\nthem for?"
         },
         {
             "typer": "sign",
             "portrait": "sign",
-            "text": "You die."
+            "text": "I mean, if you collect\nenough, you can get\nan extra life."
+        },
+        {
+            "typer": "sign",
+            "portrait": "sign",
+            "text": "Or something like that.\nIDK."
         },
         {
             "typer": "player",
             "portrait": "player",
-            "text": "Really?"
+            "text": "Did you really just\nsay 'IDK' out loud?"
         },
         {
             "typer": "sign",
             "portrait": "sign",
-            "text": "Like what do you think?"
-        },
-        {
-            "typer": "sign",
-            "portrait": "sign",
-            "text": "You should already\nknow that?"
+            "text": "Yeah."
         },
         {
             "typer": "player",
             "portrait": "player",
-            "text": "Well okay i guess?"
+            "text": "[face:bruh]..."
         }
     ]
 }
