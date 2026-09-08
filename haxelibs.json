@@ -29,6 +29,10 @@
 			"type": "haxelib"
 		},
         {
+			"name": "hxp",
+			"type": "haxelib"
+		},
+        {
             "name": "hscript",
             "type": "haxelib"
         },
