@@ -8,3 +8,8 @@ Will be downloadable on [itch.io](https://joalor64.itch.io/journey-through-aubek
 
 Keep in mind that this game is very early in development, so not everything will be final! <br>
 Check out the [To-Do List](/TODO.md) to see what needs to be done!
+
+## Credits
+* Joalor64 - Creator, Main Programmer, Artist, Composer
+* Huy1234Th - Additional Programmer
+* Infinite Kemonoyagi - Minor Fixes
