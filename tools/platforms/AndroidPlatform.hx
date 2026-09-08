@@ -453,17 +453,16 @@ class AndroidPlatform extends PlatformTarget
 		context.ANDROID_USE_ANDROIDX = project.config.getString("android.useAndroidX", "true");
 		context.ANDROID_ENABLE_JETIFIER = project.config.getString("android.enableJetifier", "false");
 
-        context.NDLLS = [];
-
-        if (project.ndlls != null)
-        {
-            for (ndll in project.ndlls)
-            {
-                context.NDLLS.push({name: ndll});
-            }
-        }
-
 		context.ANDROID_LIBRARY_PROJECTS = [];
+
+		context.ndlls = [];
+		if (project.ndlls != null)
+		{
+			for (ndll in project.ndlls)
+			{
+				context.ndlls.push({name: ndll});
+			}
+		}
 
 		if (!project.environment.exists("ANDROID_SDK") || !project.environment.exists("ANDROID_NDK_ROOT"))
 		{
