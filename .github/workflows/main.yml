@@ -162,6 +162,9 @@ jobs:
       - name: Setup hxcpp
         if: env.CACHE_HIT != 'true'
         run: haxelib git hxcpp https://github.com/MAJigsaw77/hxcpp.git patch-1 --quiet && haxelib run lime rebuild hxcpp -verbose
+      
+      - name: Rebuild tools
+        run: cp -f -v tools/platforms/AndroidPlatform.hx $(haxelib libpath lime)tools/platforms/AndroidPlatform.hx && haxelib run lime rebuild tools -verbose
 
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
