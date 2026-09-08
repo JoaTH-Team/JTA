@@ -1,92 +1,55 @@
 package;
 
-import haxe.Json;
+import haxe.io.Path;
 import sys.io.File;
 import sys.FileSystem;
 
-/**
- * Represents the configuration structure for the HMM tool, containing an array of library dependencies.
- */
-typedef HmmConfig =
+class AssetsOptimizer
 {
-	dependencies:Array<LibraryConfig>
-}
+	private static final OXIPNG_COMPRESSION:Int = 4;
 
-/**
- * Represents the configuration for a single library, including its name, type, version, directory, reference, and URL.
- */
-typedef LibraryConfig =
-{
-	name:String,
-	type:String,
-	?version:String,
-	?dir:String,
-	?ref:String,
-	?url:String
-}
-
-/**
- * The Main class is designed specifically for use with GitHub Actions.
- * Its purpose is to install libraries specified in a configuration file (`haxelibs.json`)
- * without their dependencies.
- */
-class Main
-{
-	/**
-	 * The main function is the entry point of the program.
-	 * It checks for the existence of the `.haxelib` directory, creating it if it does not exist.
-	 * Then it reads the `haxelibs.json` configuration file, parses it, and installs each library
-	 * according to its specified type, using the appropriate commands while skipping dependencies.
-	 */
 	public static function main():Void
 	{
-		// Ensure the .haxelib directory exists
-		if (!FileSystem.exists('.haxelib'))
-			runCommand(['haxelib', 'newrepo', '--quiet', '--never']);
+		final args:Array<String> = Sys.args();
 
-		// Read and parse the hmm.json configuration file
-		final config:HmmConfig = Json.parse(File.getContent('./haxelibs.json'));
+		if (args == null || args.length <= 0)
+			throw 'Usage: AssetsOptimizer <directory>';
 
-		// Options to run with the commands
-		final options:Array<String> = ['--quiet', '--never', '--skip-dependencies'];
+		final directory:String = Path.normalize(FileSystem.absolutePath(args[0]));
 
-		// Iterate over each library dependency in the configuration
-		for (lib in config.dependencies)
+		if (!FileSystem.exists(directory) || !FileSystem.isDirectory(directory))
+			throw 'Directory not Found: $directory';
+
+		processDirectory(directory);
+	}
+
+	public static function processDirectory(directory:String):Void
+	{
+		for (file in FileSystem.readDirectory(directory))
 		{
-			// Skip hxcpp to set up the git one on our own
-			if (lib.name == 'hxcpp')
-				continue;
+			final path:String = Path.join([directory, file]);
 
-			switch (lib.type)
+			if (FileSystem.isDirectory(path))
+				processDirectory(path);
+			else
 			{
-				case 'haxelib':
-					// Prepare the haxelib install command arguments
-					final args:Array<String> = ['haxelib', 'install'];
-
-					args.push(lib.name);
-
-					if (lib.version != null)
-						args.push(lib.version);
-
-					// Execute the haxelib install command
-					runCommand(args.concat(options));
-				case 'git':
-					// Prepare the haxelib git command arguments
-					final args:Array<String> = ['haxelib', 'git'];
-
-					args.push(lib.name);
-					args.push(lib.url);
-
-					if (lib.ref != null)
-						args.push(lib.ref);
-
-					// Execute the haxelib git command
-					runCommand(args.concat(options));
+				switch (Path.extension(path))
+				{
+					case 'ogg':
+						runCommand(['optivorbis', path, '-']);
+					case 'png':
+						runCommand([
+							'oxipng',
+							'-o',
+							Std.string(OXIPNG_COMPRESSION),
+							'--strip',
+							'safe',
+							'--alpha',
+							path
+						]);
+				}
 			}
 		}
-
-		// List installed haxelib packages
-		runCommand(['haxelib', 'list']);
 	}
 
 	/**
@@ -97,8 +60,15 @@ class Main
 	{
 		final command:String = args.join(' ');
 
-		if (command != AnsiColors.yellow(command))
-			Sys.println(AnsiColors.yellow(command));
+		switch (args[0])
+		{
+			case 'optivorbis':
+				if (command != AnsiColors.cyan(command))
+					Sys.println(AnsiColors.cyan(command));
+			default:
+				if (command != AnsiColors.yellow(command))
+					Sys.println(AnsiColors.yellow(command));
+		}
 
 		Sys.command(args.shift(), args);
 	}

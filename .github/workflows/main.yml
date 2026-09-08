@@ -114,6 +114,7 @@ jobs:
         with:
           name: ${{ matrix.target }}Build
           path: export/debug/${{ matrix.target }}/bin
+          if-no-files-found: error
 
   buildAndroid:
     runs-on: ubuntu-latest
@@ -160,7 +161,7 @@ jobs:
 
       - name: Setup hxcpp
         if: env.CACHE_HIT != 'true'
-        run: haxelib run lime rebuild hxcpp -verbose
+        run: haxelib git hxcpp https://github.com/MAJigsaw77/hxcpp.git patch-1 --quiet && haxelib run lime rebuild hxcpp -verbose
 
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
@@ -200,3 +201,4 @@ jobs:
         with:
           name: androidBuild
           path: export/debug/android/bin/app/build/outputs/apk/debug
+          if-no-files-found: error
