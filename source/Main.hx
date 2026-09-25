@@ -13,6 +13,7 @@ import hxwindowmode.WindowColorMode;
 import hxgamemode.GamemodeClient;
 #end
 import flixel.util.typeLimit.NextState;
+import openfl.system.System;
 import openfl.events.Event;
 
 /**
