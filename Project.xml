@@ -57,6 +57,11 @@
 
 	<assets path="gamemode.ini" if="linux" />
 
+	<section if="desktop">
+		<assets path="alsoft.txt" rename="alsoft.ini" type="text" if="windows" />
+		<assets path="alsoft.txt" rename="alsoft.conf" type="text" unless="windows" />
+	</section>
+
 	<define name="NO_REDIRECT_ASSETS_FOLDER" />
 
 	<!-- [ Libraries ] -->
@@ -64,7 +69,6 @@
 	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />
 
-	<haxelib name="actuate" />
 	<haxelib name="extension-webm" if="desktop || web" />
 
 	<haxelib name="hscript" />

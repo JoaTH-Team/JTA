@@ -7,6 +7,8 @@ import flixel.input.gamepad.FlxGamepadInputID;
 @:structInit class Settings
 {
 	public var volume:Int = 100;
+	public var musicVolume:Int = 100;
+	public var sfxVolume:Int = 100;
 	public var fpsCounter:Bool = true;
 	#if desktop
 	public var fullscreen:Bool = false;
@@ -34,7 +36,7 @@ class Data
 	/**
 	 * Loads the settings from the save data and applies them.
 	 */
-	public static function init():Void
+	public static function load():Void
 	{
 		for (key in Reflect.fields(settings))
 			if (Reflect.field(FlxG.save.data, key) != null)
@@ -50,7 +52,7 @@ class Data
 	/**
 	 * Saves the current settings to the save data.
 	 */
-	public static function saveSettings():Void
+	public static function save():Void
 	{
 		for (key in Reflect.fields(settings))
 			Reflect.setField(FlxG.save.data, key, Reflect.field(settings, key));

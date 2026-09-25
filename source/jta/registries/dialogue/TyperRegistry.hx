@@ -28,7 +28,7 @@ class TyperRegistry
 
 			for (scriptedTyper in scriptedTypers)
 			{
-				final typer:Typer = ScriptedTyper.init(scriptedTyper, 'unknown');
+				final typer:Typer = ScriptedTyper.scriptInit(scriptedTyper, 'unknown');
 
 				if (typer == null)
 					continue;
@@ -60,7 +60,7 @@ class TyperRegistry
 
 		if (typerScriptedClass != null)
 		{
-			final typer:Typer = ScriptedTyper.init(typerScriptedClass, typerID);
+			final typer:Typer = ScriptedTyper.scriptInit(typerScriptedClass, typerID);
 
 			if (typer == null)
 			{

@@ -1,7 +1,5 @@
 package jta.substates;
 
-import jta.Paths;
-import jta.input.Input;
 import jta.locale.Locale;
 import jta.states.MainMenu;
 import jta.states.LevelSelect;
@@ -26,8 +24,6 @@ class LevelComplete extends BaseSubState
 	override public function create():Void
 	{
 		cameras = [FlxG.cameras.list[1]];
-
-		FlxG.sound.play(Paths.sound('win'));
 
 		var title:FlxText = new FlxText(10, 10, FlxG.width, Locale.getMenu("$LEVEL_COMPLETE"));
 		title.setFormat(Paths.font('main'), 40, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -61,13 +57,13 @@ class LevelComplete extends BaseSubState
 			switch (selectedIndex)
 			{
 				case 0:
-					FlxG.sound.play(Paths.sound('select'));
+					SoundController.play(Paths.sound('select'));
 					if (onContinue != null)
 						onContinue();
 					else
 						transitionState(new LevelSelect());
 				case 1:
-					FlxG.sound.play(Paths.sound('cancel'));
+					SoundController.play(Paths.sound('cancel'));
 					transitionState(new MainMenu());
 			}
 		}
@@ -80,9 +76,10 @@ class LevelComplete extends BaseSubState
 		super.update(elapsed);
 	}
 
+	@:noCompletion
 	private function changeSelection(num:Int):Void
 	{
-		FlxG.sound.play(Paths.sound('scroll'));
+		SoundController.play(Paths.sound('scroll'));
 		selectedIndex = FlxMath.wrap(selectedIndex + num, 0, selections.length - 1);
 	}
 }

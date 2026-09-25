@@ -1,7 +1,11 @@
 import jta.Paths;
 import jta.Global;
+import jta.audio.SoundController;
 import jta.objects.level.Object;
 import jta.substates.LevelComplete;
+import jta.states.LevelSelect;
+import jta.states.DemoEnd;
+import jta.video.VideoState;
 import flixel.util.FlxTimer;
 import flixel.FlxG;
 
@@ -25,35 +29,59 @@ class RouletteObject extends Object
 
 	public override function overlap():Void
 	{
+		if (FlxG.sound.music != null)
+			FlxG.sound.music.stop();
+
 		var player = FlxG.state.player;
 		if (player != null && !locked)
 		{
 			locked = true;
 			animation.curAnim.stop();
 
-			FlxG.sound.play(Paths.sound('coin'));
+			SoundController.play(Paths.sound('coin'));
 
 			switch (animation.curAnim.curFrame)
 			{
 				case 0:
 					Global.score += 100;
+					SoundController.play(Paths.sound('win'));
 				case 1:
 					Global.score += 300;
+					SoundController.play(Paths.sound('win'));
 				case 2:
 					Global.score += 500;
+					SoundController.play(Paths.sound('win'));
 				case 3:
 					Global.lives += 1;
+					SoundController.play(Paths.sound('life'));
 			}
 			Global.save();
 
 			player.characterControllable = false;
-			player.animation.play('idle');
+			player.animation.play('dance');
 			player.velocity.x = 0;
 
-			new FlxTimer().start(2, function(tmr:FlxTimer):Void
+			new FlxTimer().start(3, function(tmr:FlxTimer):Void
 			{
 				FlxG.state.persistentUpdate = false;
-				FlxG.state.openSubState(new LevelComplete());
+				FlxG.state.openSubState(new LevelComplete(function():Void 
+				{
+					if (FlxG.state.baseLevel)
+					{
+						Global.flags[FlxG.state.levelNumber - 1] = 1;
+						Global.save();
+						if (FlxG.state.levelNumber == 3)
+						{
+							FlxG.switchState(new VideoState('endCutscenes/world1', true, function():Void
+							{
+								FlxG.switchState(new DemoEnd('default', true));
+							}));
+							return;
+						}
+					}
+				
+					FlxG.switchState(new LevelSelect());
+				}));
 			});
 		}
 	}

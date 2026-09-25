@@ -56,7 +56,7 @@ class WindowUtil
 
 	#if linux
 	/**
-	 * this is exclusive for Hyprland users
+	 * This is exclusive for Hyprland users.
 	 */
 	public static inline function setWindowAddress():Void
 	{
@@ -77,7 +77,7 @@ class WindowUtil
 	/**
 	 * Toggle the floating mode in the game window.
 	 *
-	 * this is exclusive for Hyprland users.
+	 * This is exclusive for Hyprland users.
 	 */
 	public static inline function toggleFloatingMode():Void
 	{
@@ -87,7 +87,7 @@ class WindowUtil
 	/**
 	 * center the game window.
 	 *
-	 * this is exclusive for Hyprland users.
+	 * This is exclusive for Hyprland users.
 	 */
 	public static inline function centerHyprWindow():Void
 	{

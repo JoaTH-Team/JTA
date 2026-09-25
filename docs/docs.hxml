@@ -2,7 +2,6 @@
 -L openfl
 -L flixel
 -L flixel-addons
--L actuate
 -L extension-webm
 -L hscript
 -L polymod

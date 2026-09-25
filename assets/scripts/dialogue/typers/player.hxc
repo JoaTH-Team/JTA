@@ -11,7 +11,7 @@ class PlayerTyper extends Typer
 		fontSize = 32;
 
 		typerOffset.set(-20, -20);
-		typerSounds = [{sound: Paths.sound('txt_player', false), volume: 1}];
+		typerSounds = [{sound: Paths.sound('txt_player', false), volume: 0.5}];
 		typerFPS = 2;
 	}
 }

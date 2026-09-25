@@ -1,9 +1,6 @@
 package jta.video;
 
-import motion.Actuate;
-import openfl.display.Sprite;
 import openfl.events.AsyncErrorEvent;
-import openfl.events.MouseEvent;
 import openfl.events.NetStatusEvent;
 import openfl.media.Video;
 import openfl.net.NetConnection;
@@ -72,6 +69,11 @@ class VideoHandler
 
 	public function play():Void
 	{
+		stopped = false;
+		restarted = false;
+		played = false;
+		ended = false;
+
 		#if web
 		ignoreShit = true;
 		netStream.close();

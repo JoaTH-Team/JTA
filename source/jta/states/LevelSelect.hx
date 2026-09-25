@@ -1,16 +1,21 @@
 package jta.states;
 
-import jta.Paths;
 import jta.Assets;
-import jta.input.Input;
 import jta.states.MainMenu;
 import jta.states.BaseState;
 import jta.registries.LevelRegistry;
 import jta.modding.PolymodHandler;
 
+typedef LevelData =
+{
+	name:String,
+	id:String,
+	?cover:String
+}
+
 class LevelSelect extends BaseState
 {
-	var levelList:Array<{name:String, id:String, ?cover:String}> = [];
+	var levelList:Array<LevelData> = [];
 	var selectedIndex:Int = 0;
 
 	var coverGroup:FlxTypedGroup<FlxSprite>;
@@ -25,6 +30,9 @@ class LevelSelect extends BaseState
 		jta.api.DiscordClient.changePresence('Level Selection Menu', null);
 		#end
 
+		if (!(FlxG.sound.music?.playing ?? false))
+			SoundController.playMusic(Paths.music('Pumpin_Pixels'));
+
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menu/level_bg'));
 		bg.screenCenter();
 		add(bg);
@@ -34,10 +42,10 @@ class LevelSelect extends BaseState
 		if (Assets.exists(corePath))
 		{
 			var coreContent:String = Assets.getText(corePath);
-			var coreLevels = coreContent.trim().split('\n');
+			var coreLevels:Array<String> = coreContent.trim().split('\n');
 			for (i in 0...coreLevels.length)
 			{
-				var trimmed = coreLevels[i].trim();
+				var trimmed:String = coreLevels[i].trim();
 				if (trimmed != "")
 					initLevels.push(trimmed);
 			}
@@ -52,7 +60,7 @@ class LevelSelect extends BaseState
 				var modLevels = modContent.trim().split('\n');
 				for (i in 0...modLevels.length)
 				{
-					var trimmed = modLevels[i].trim();
+					var trimmed:String = modLevels[i].trim();
 					if (trimmed != "")
 						initLevels.push(trimmed);
 				}
@@ -115,14 +123,15 @@ class LevelSelect extends BaseState
 
 		for (i in -1...2)
 		{
-			var idx = selectedIndex + i;
+			var idx:Int = selectedIndex + i;
 			if (idx < 0 || idx >= levelList.length)
 				continue;
 
-			var level = levelList[idx];
-			var sprite = new FlxSprite();
+			var level:LevelData = levelList[idx];
+			var sprite:FlxSprite = new FlxSprite();
 
-			var imagePath:String = 'menu/level/' + ((level.cover != null) ? formatLevelPath(level.cover) : formatLevelPath(level.name));
+			var str:String = level.cover != null ? level.cover : level.name;
+			var imagePath:String = 'menu/level/${str.toLowerCase().replace(' ', '_')}';
 			if (Assets.exists(Paths.image(imagePath)))
 				sprite.loadGraphic(Paths.image(imagePath));
 			else
@@ -180,31 +189,30 @@ class LevelSelect extends BaseState
 
 		if (Input.justPressed('left'))
 		{
-			FlxG.sound.play(Paths.sound('scroll'));
+			SoundController.play(Paths.sound('scroll'));
 			selectedIndex = (selectedIndex - 1 + levelList.length) % levelList.length;
 			updateCovers();
 		}
 		else if (Input.justPressed('right'))
 		{
-			FlxG.sound.play(Paths.sound('scroll'));
+			SoundController.play(Paths.sound('scroll'));
 			selectedIndex = (selectedIndex + 1) % levelList.length;
 			updateCovers();
 		}
 
 		if (Input.justPressed('confirm'))
 		{
-			FlxG.sound.play(Paths.sound('select'));
+			if (FlxG.sound.music != null && FlxG.sound.music.playing)
+				FlxG.sound.music.stop();
+			SoundController.play(Paths.sound('select'));
 			transitionState(LevelRegistry.fetchLevel(Std.parseInt(levelList[selectedIndex].id)));
 		}
 		else if (Input.justPressed('cancel'))
 		{
-			FlxG.sound.play(Paths.sound('cancel'));
+			SoundController.play(Paths.sound('cancel'));
 			transitionState(new MainMenu());
 		}
 
 		super.update(elapsed);
 	}
-
-	private function formatLevelPath(path:String):String
-		return path.toLowerCase().replace(' ', '-');
 }

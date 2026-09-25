@@ -28,7 +28,7 @@ class PlayerRegistry
 
 			for (player in playerList)
 			{
-				final play:Player = ScriptedPlayer.init(player, 'unknown');
+				final play:Player = ScriptedPlayer.scriptInit(player, 'unknown');
 
 				if (play == null)
 					continue;
@@ -60,7 +60,7 @@ class PlayerRegistry
 
 		if (playerClass != null)
 		{
-			final player:Player = ScriptedPlayer.init(playerClass, characterID);
+			final player:Player = ScriptedPlayer.scriptInit(playerClass, characterID);
 
 			if (player == null)
 			{

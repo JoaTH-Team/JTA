@@ -65,6 +65,11 @@ class WebmHandler
 
 	public function restart():Void
 	{
+		stopped = false;
+		restarted = false;
+		played = false;
+		ended = false;
+
 		if (initialized)
 			webm.restart();
 	}

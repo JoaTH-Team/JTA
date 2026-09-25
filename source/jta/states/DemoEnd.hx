@@ -1,17 +1,16 @@
 package jta.states;
 
-import jta.Paths;
-import jta.input.Input;
 import jta.states.MainMenu;
 import jta.states.BaseState;
 
 class DemoEnd extends BaseState
 {
-	var soundPlayed:Bool = false;
+	@:noCompletion
+	private var soundPlayed:Bool = false;
 
 	override public function create():Void
 	{
-		var text:FlxText = new FlxText(0, 340, FlxG.width, 'END OF DEMO\nThanks for playing!', 12);
+		var text:FlxText = new FlxText(0, 290, FlxG.width, 'END OF DEMO\nThanks for playing!', 12);
 		text.setFormat(Paths.font('main'), 40, FlxColor.WHITE, CENTER);
 		text.screenCenter(X);
 		add(text);
@@ -32,7 +31,7 @@ class DemoEnd extends BaseState
 	{
 		if (soundPlayed && Input.justPressed('any'))
 		{
-			FlxG.sound.play(Paths.sound('select'));
+			SoundController.play(Paths.sound('select'));
 			transitionState(new MainMenu());
 		}
 

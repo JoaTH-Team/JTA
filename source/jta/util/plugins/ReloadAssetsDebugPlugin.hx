@@ -3,6 +3,7 @@ package jta.util.plugins;
 import flixel.FlxBasic;
 import jta.states.level.Level;
 import jta.modding.PolymodHandler;
+import jta.modding.base.ScriptedFlxState;
 import jta.modding.base.ScriptedBaseState;
 
 /**
@@ -31,12 +32,19 @@ class ReloadAssetsDebugPlugin extends FlxBasic
 		if (FlxG.keys.justPressed.F5)
 		#end
 		{
-			PolymodHandler.forceReloadAssets();
+			PolymodHandler.load();
 
-			if (Std.isOfType(FlxG.state, ScriptedBaseState))
+			if (FlxG.state is ScriptedBaseState)
 			{
-				var scriptedState = cast(FlxG.state, ScriptedBaseState);
-				FlxG.switchState(ScriptedBaseState.init(scriptedState.id));
+				var scriptedState:ScriptedBaseState = cast(FlxG.state, ScriptedBaseState);
+				ScriptedBaseState.scriptInit(scriptedState.id);
+			}
+			else if (FlxG.state is ScriptedFlxState)
+			{
+				@:privateAccess {
+					var scriptedState:ScriptedFlxState = cast(FlxG.state, ScriptedFlxState);
+					ScriptedFlxState.scriptInit(scriptedState._asc.fullyQualifiedName);
+				}
 			}
 			else if (Std.isOfType(FlxG.state, Level))
 				Level.resetLevel();

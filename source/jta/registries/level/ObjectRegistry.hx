@@ -28,7 +28,7 @@ class ObjectRegistry
 
 			for (scriptedObject in scriptedObjects)
 			{
-				final object:Object = ScriptedObject.init(scriptedObject, 'unknown');
+				final object:Object = ScriptedObject.scriptInit(scriptedObject, 'unknown');
 
 				if (object == null)
 					continue;
@@ -60,7 +60,7 @@ class ObjectRegistry
 
 		if (objectScriptedClass != null)
 		{
-			final object:Object = ScriptedObject.init(objectScriptedClass, objectID);
+			final object:Object = ScriptedObject.scriptInit(objectScriptedClass, objectID);
 
 			if (object == null)
 			{

@@ -1,7 +1,5 @@
 package jta.substates;
 
-import jta.Paths;
-import jta.input.Input;
 import jta.locale.Locale;
 import jta.states.MainMenu;
 import jta.states.level.Level;
@@ -55,13 +53,13 @@ class PauseMenu extends BaseSubState
 			switch (selectedIndex)
 			{
 				case 0:
-					FlxG.sound.play(Paths.sound('select'));
+					SoundController.play(Paths.sound('select'));
 					close();
 				case 1:
-					FlxG.sound.play(Paths.sound('select'));
+					SoundController.play(Paths.sound('select'));
 					Level.resetLevel();
 				case 2:
-					FlxG.sound.play(Paths.sound('cancel'));
+					SoundController.play(Paths.sound('cancel'));
 					transitionState(new MainMenu());
 			}
 		}
@@ -74,9 +72,10 @@ class PauseMenu extends BaseSubState
 		super.update(elapsed);
 	}
 
+	@:noCompletion
 	private function changeSelection(num:Int):Void
 	{
-		FlxG.sound.play(Paths.sound('scroll'));
+		SoundController.play(Paths.sound('scroll'));
 		selectedIndex = FlxMath.wrap(selectedIndex + num, 0, selections.length - 1);
 	}
 }

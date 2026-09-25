@@ -28,7 +28,7 @@ class PortraitRegistry
 
 			for (scriptedPortrait in scriptedPortraits)
 			{
-				final portrait:Portrait = ScriptedPortrait.init(scriptedPortrait, 'unknown');
+				final portrait:Portrait = ScriptedPortrait.scriptInit(scriptedPortrait, 'unknown');
 
 				if (portrait == null)
 					continue;
@@ -60,7 +60,7 @@ class PortraitRegistry
 
 		if (portraitScriptedClass != null)
 		{
-			final portrait:Portrait = ScriptedPortrait.init(portraitScriptedClass, portraitID);
+			final portrait:Portrait = ScriptedPortrait.scriptInit(portraitScriptedClass, portraitID);
 
 			if (portrait == null)
 			{

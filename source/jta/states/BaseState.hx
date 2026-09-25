@@ -11,7 +11,6 @@ import jta.modding.module.ModuleHandler;
 import jta.modding.events.CreateEvent;
 import jta.modding.events.UpdateEvent;
 import jta.states.Startup;
-import jta.Data;
 
 /**
  * Base class used for all states in the game.
@@ -67,7 +66,7 @@ class BaseState extends FlxTransitionableState
 	override public function update(elapsed:Float):Void
 	{
 		#if desktop
-		if (FlxG.save.data != null)
+		if (FlxG.save.data != null && FlxG.fullscreen != Data.settings.fullscreen)
 			FlxG.fullscreen = Data.settings.fullscreen;
 		#end
 

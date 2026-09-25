@@ -7,6 +7,7 @@ import flixel.tile.FlxTilemap;
 import jta.states.BaseState;
 import jta.substates.GameOver;
 import jta.substates.PauseMenu;
+import flixel.addons.transition.Transition;
 import jta.registries.level.PlayerRegistry;
 import jta.registries.level.ObjectRegistry;
 import jta.objects.dialogue.DialogueBox;
@@ -14,9 +15,6 @@ import jta.objects.dialogue.Writer;
 import jta.objects.level.Player;
 import jta.objects.level.Object;
 import jta.objects.HUD;
-import jta.input.Input;
-import jta.Global;
-import jta.Paths;
 
 /**
  * Base class for all levels in the game.
@@ -111,18 +109,6 @@ class Level extends BaseState
 		camHUD.bgColor = 0;
 		FlxG.cameras.add(camHUD, false);
 
-		if (background != null)
-			add(background);
-
-		if (map != null)
-			add(map);
-
-		if (objects != null)
-			add(objects);
-
-		if (player != null)
-			add(player);
-
 		hud = new HUD();
 		hud.cameras = [camHUD];
 		add(hud);
@@ -144,7 +130,7 @@ class Level extends BaseState
 			{
 				if (FlxG.sound.music != null)
 					FlxG.sound.music.stop();
-				FlxG.sound.play(Paths.sound('die'));
+				SoundController.play(Paths.sound('die'));
 				Global.lives--;
 				Global.save();
 				if (Global.lives > 0)
@@ -181,32 +167,37 @@ class Level extends BaseState
 
 			if (objects != null)
 			{
-				objects.forEach(function(obj:Object):Void
+				final pressedConfirm:Bool = Input.pressed('confirm');
+
+				for (obj in objects.members)
 				{
 					if (obj != null && player.characterControllable && player.overlaps(obj) && obj.objectInteractable)
 					{
-						if (Input.pressed('confirm'))
+						if (pressedConfirm)
 							obj.interact();
 						else
 							obj.overlap();
 					}
-				});
+				}
 			}
 		}
 	}
 
 	override function openSubState(SubState:FlxSubState):Void
 	{
-		if (paused)
+		if (!paused && !(SubState is Transition))
+		{
 			if (FlxG.sound.music != null)
 				FlxG.sound.music.pause();
+			paused = true;
+		}
 
 		super.openSubState(SubState);
 	}
 
 	override function closeSubState():Void
 	{
-		if (paused)
+		if (paused && !(subState is Transition))
 		{
 			if (FlxG.sound.music != null)
 				FlxG.sound.music.resume();
@@ -241,7 +232,10 @@ class Level extends BaseState
 	public function createObject(id:String, x:Float, y:Float):Object
 	{
 		if (objects == null)
+		{
 			objects = new FlxTypedGroup<Object>();
+			add(objects);
+		}
 
 		final object:Object = ObjectRegistry.fetchObject(id);
 		object.setPosition(x, y);

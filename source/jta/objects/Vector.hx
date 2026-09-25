@@ -2,7 +2,7 @@ package jta.objects;
 
 /**
  * A simple 2D vector class.
- * @author Huy1234Th
+ * @author Huy1234TH
  */
 class Vector
 {

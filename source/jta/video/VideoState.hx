@@ -5,6 +5,7 @@ import jta.states.BaseState;
 import jta.video.GlobalVideo;
 import flixel.sound.FlxSound;
 import openfl.display.Sprite;
+import openfl.display.Graphics;
 #if android
 import extension.videoview.VideoView;
 #end
@@ -91,7 +92,7 @@ class VideoState extends BaseState
 		#end
 
 		skipSprite = new Sprite();
-		var gfx = skipSprite.graphics;
+		var gfx:Graphics = skipSprite.graphics;
 		gfx.beginFill(0xFFFFFF);
 		gfx.drawCircle(0, 0, 20);
 		gfx.endFill();

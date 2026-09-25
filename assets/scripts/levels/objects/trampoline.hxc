@@ -1,4 +1,5 @@
 import jta.Paths;
+import jta.audio.SoundController;
 import jta.objects.level.Object;
 import flixel.FlxG;
 
@@ -18,8 +19,10 @@ class TrampolineObject extends Object
 
 	public override function overlap():Void
 	{
-		FlxG.sound.play(Paths.sound('boing'));
-		if (FlxG.state.player != null)
+		if (FlxG.state.player != null && FlxG.state.player.velocity.y >= 0)
+		{
+			SoundController.play(Paths.sound('boing'));
 			FlxG.state.player.velocity.y = -300;
+		}
 	}
 }

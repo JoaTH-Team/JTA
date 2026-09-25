@@ -11,9 +11,9 @@ class SignObject extends Object
 
 		loadGraphic(Paths.image('objects/' + objectID), true, 16, 16);
 
-		animation.add("idle", [0], 1, true);
-		animation.add("highlight", [1], 1, true);
-		animation.play("idle");
+		animation.add('idle', [0], 1, true);
+		animation.add('highlight', [1], 1, true);
+		animation.play('idle');
 
 		immovable = true;
 		solid = false;
@@ -21,13 +21,13 @@ class SignObject extends Object
 
 	public override function update(elapsed:Float):Void
 	{
-		animation.play("idle");
+		animation.play('idle');
 
 		super.update(elapsed);
 	}
 
 	public override function overlap():Void
 	{
-		animation.play("highlight");
+		animation.play('highlight');
 	}
 }

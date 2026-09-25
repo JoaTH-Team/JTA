@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <data>
-
     <file id="data" value="data.csv" />
     <file id="menu" value="menu.csv" />
     <file id="playState" value="playState.csv" />

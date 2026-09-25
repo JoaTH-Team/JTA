@@ -38,10 +38,9 @@ jobs:
           haxelib install openfl
           haxelib install flixel
           haxelib install flixel-addons
-          haxelib install actuate
           haxelib git extension-webm https://github.com/KadeDev/extension-webm
           haxelib install hscript
-          haxelib git polymod https://github.com/JoaTH-Team/polymod scripting-updates
+          haxelib git polymod https://github.com/FunkinCrew/polymod acfdc2e26722f20339a2bc0cc8cd7dd5fe0c6b5e
           haxelib git thx.core https://github.com/fponticelli/thx.core.git
           haxelib install thx.semver
           haxelib git jsonpath https://github.com/EliteMasterEric/jsonpath.git

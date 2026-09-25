@@ -9,11 +9,14 @@ import flixel.sound.FlxSound;
 
 class Startup extends BaseState
 {
-	var bg:FlxSprite;
-	var haxeflixel:FlxSprite;
-	var haxeflixelTxt:FlxText;
+	@:noCompletion
+	private var haxeflixel:FlxSprite;
 
-	var blipSnd:FlxSound;
+	@:noCompletion
+	private var haxeflixelTxt:FlxText;
+
+	@:noCompletion
+	private var blipSnd:FlxSound;
 
 	static public var transitionsAllowed:Bool = false;
 
@@ -21,16 +24,16 @@ class Startup extends BaseState
 	{
 		FlxG.autoPause = FlxG.fixedTimestep = false;
 
-		Data.init();
+		Data.load();
 		Global.load();
 		Input.refreshControls();
-		PolymodHandler.init();
+		PolymodHandler.load();
 
 		if (!Data.settings.skipSplash)
 		{
 			blipSnd = FlxG.sound.load(Paths.sound('blip'));
 
-			bg = new FlxSprite().loadGraphic(Paths.image('menu/start_bg'));
+			final bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menu/start_bg'));
 			bg.screenCenter();
 			add(bg);
 

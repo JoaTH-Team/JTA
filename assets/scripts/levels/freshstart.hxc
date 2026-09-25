@@ -1,5 +1,6 @@
 import flixel.FlxG;
 import flixel.FlxSprite;
+import jta.audio.SoundController;
 import jta.states.level.Level;
 import jta.Global;
 import jta.Paths;
@@ -16,7 +17,7 @@ class FreshStartLevel extends Level
 	{
 		camFollowControllable = true;
 
-		// FlxG.sound.playMusic(Paths.music('Is_Grass_Green'));
+		SoundController.playMusic(Paths.music('Is_Grass_Green'));
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF00B5E2);
 		bg.scrollFactor.set();
@@ -24,17 +25,11 @@ class FreshStartLevel extends Level
 
 		FlxG.camera.zoom = 2.95;
 
-		// loadMapBackground('test', 'test');
 		loadMap('world1/lev1', 'w1_tiles');
 		loadObjects('world1/lev1');
 
-		loadPlayer('mainplayer', 16, 145);
+		loadPlayer('mainplayer', 16, 208);
 
 		super.create();
-	}
-
-	public override function update(elapsed:Float):Void
-	{
-		super.update(elapsed);
 	}
 }

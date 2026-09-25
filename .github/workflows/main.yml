@@ -5,7 +5,6 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-
   workflow_dispatch:
 
 jobs:
@@ -17,18 +16,56 @@ jobs:
           - target: windows
             title: Windows
             runs-on: windows-latest
+            artifact_path: export/debug/windows/bin
+            artifact_name: windowsBuild
+
           - target: macos
-            title: Mac
+            title: macOS
             runs-on: macos-14
+            artifact_path: export/debug/macos/bin
+            artifact_name: macOSBuild
+
           - target: linux
             title: Linux
             runs-on: ubuntu-latest
+            artifact_path: export/debug/linux/bin
+            artifact_name: linuxBuild
+
+          - target: html5
+            title: HTML5
+            runs-on: ubuntu-latest
+            artifact_path: export/debug/html5/bin
+            artifact_name: html5Build
+
+          - target: android
+            title: Android
+            runs-on: ubuntu-latest
+            artifact_path: export/debug/android/bin/app/build/outputs/apk/debug
+            artifact_name: androidBuild
 
     name: build${{ matrix.title }}
     runs-on: ${{ matrix.runs-on }}
 
     steps:
       - uses: actions/checkout@main
+
+      - name: Setup Android NDK
+        if: matrix.target == 'android'
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r21e
+
+      - name: Setup Java JDK
+        if: matrix.target == 'android'
+        uses: actions/setup-java@v5
+        with:
+          java-version: 17
+          distribution: "zulu"
+
+      - name: Setup Android SDK
+        if: matrix.target == 'android'
+        uses: android-actions/setup-android@v4
 
       - uses: krdlab/setup-haxe@master
         with:
@@ -85,10 +122,23 @@ jobs:
           fi
 
       - name: Create Version Tag
-        run: echo "${{github.run_id}}" > VERSION
+        run: echo "${{ github.run_id }}" > VERSION
+
+      - name: Setup Lime (Android)
+        if: matrix.target == 'android'
+        run: |
+          haxelib run lime setup -alias -y
+          haxelib run lime config ANDROID_SDK $ANDROID_HOME
+          haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_HOME
+          haxelib run lime config JAVA_HOME $JAVA_HOME
+          haxelib run lime config ANDROID_SETUP true
+        env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
       - name: Compile
-        run: haxelib run lime build ${{ matrix.target }} -debug
+        run: |
+          ${{ matrix.target == 'android' && 'haxelib run lime setup android' || '' }}
+          haxelib run lime build ${{ matrix.target }} -debug
 
       - name: Clear Previous Cache
         uses: actions/github-script@main
@@ -105,100 +155,13 @@ jobs:
             export/debug/${{ matrix.target }}/obj/
           key: cache-${{ matrix.target }}-debug
 
-      - name: Tar files
+      - name: Tar files (macOS)
         if: matrix.target == 'macos'
         run: tar -zcvf build.tar.gz export/debug/macos/bin
 
       - name: Upload Artifact
         uses: actions/upload-artifact@main
         with:
-          name: ${{ matrix.target }}Build
-          path: export/debug/${{ matrix.target }}/bin
-          if-no-files-found: error
-
-  buildAndroid:
-    runs-on: ubuntu-latest
-    permissions: write-all
-
-    steps:
-      - uses: actions/checkout@main
-
-      - name: Setup Android NDK
-        uses: nttld/setup-ndk@v1
-        id: setup-ndk
-        with:
-          ndk-version: r21e
-
-      - name: Setup Java JDK
-        uses: actions/setup-java@v5
-        with:
-          java-version: 17
-          distribution: "zulu"
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v4
-
-      - uses: krdlab/setup-haxe@master
-        with:
-          haxe-version: 4.3.7
-
-      - name: Restore Previous Cache
-        id: cache-build-restore
-        uses: actions/cache/restore@main
-        with:
-          path: |
-            .haxelib/
-            export/debug/android/haxe/
-            export/debug/android/obj/
-          key: cache-android-debug
-
-      - name: Set Cache Status
-        id: cache-status
-        run: echo "CACHE_HIT=${{ steps.cache-build-restore.outputs.cache-hit }}" >> $GITHUB_ENV
-
-      - name: Installing Libraries
-        run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
-
-      - name: Setup hxcpp
-        if: env.CACHE_HIT != 'true'
-        run: haxelib git hxcpp https://github.com/MAJigsaw77/hxcpp.git patch-1 --quiet && haxelib run lime rebuild hxcpp -verbose
-
-      - name: Create Version Tag
-        run: echo "${{github.run_id}}" > VERSION
-
-      - name: Setup Lime
-        run: |
-          haxelib run lime setup -alias -y
-          haxelib run lime config ANDROID_SDK $ANDROID_HOME
-          haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_HOME
-          haxelib run lime config JAVA_HOME $JAVA_HOME
-          haxelib run lime config ANDROID_SETUP true
-        env:
-          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-
-      - name: Compile
-        run: |
-          haxelib run lime setup android
-          haxelib run lime build android -debug
-
-      - name: Clear Previous Cache
-        uses: actions/github-script@main
-        with:
-          script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-android-debug');
-
-      - name: Save Current Cache
-        id: cache-build-save
-        uses: actions/cache/save@main
-        with:
-          path: |
-            .haxelib/
-            export/debug/android/haxe/
-            export/debug/android/obj/
-          key: cache-android-debug
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@main
-        with:
-          name: androidBuild
-          path: export/debug/android/bin/app/build/outputs/apk/debug
+          name: ${{ matrix.artifact_name }}
+          path: ${{ matrix.artifact_path }}
           if-no-files-found: error

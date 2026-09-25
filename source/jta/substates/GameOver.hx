@@ -1,7 +1,5 @@
 package jta.substates;
 
-import jta.Global;
-import jta.input.Input;
 import jta.locale.Locale;
 import jta.states.MainMenu;
 import jta.states.level.Level;
@@ -23,7 +21,7 @@ class GameOver extends BaseSubState
 	{
 		cameras = [FlxG.cameras.list[1]];
 
-		FlxG.sound.play(Paths.sound('die'));
+		SoundController.play(Paths.sound('die'));
 
 		var title:FlxText = new FlxText(10, 10, FlxG.width, Locale.getMenu("$GAME_OVER"));
 		title.setFormat(Paths.font('main'), 40, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -59,10 +57,10 @@ class GameOver extends BaseSubState
 			switch (selectedIndex)
 			{
 				case 0:
-					FlxG.sound.play(Paths.sound('select'));
+					SoundController.play(Paths.sound('select'));
 					Level.resetLevel();
 				case 1:
-					FlxG.sound.play(Paths.sound('cancel'));
+					SoundController.play(Paths.sound('cancel'));
 					transitionState(new MainMenu());
 			}
 		}
@@ -75,9 +73,10 @@ class GameOver extends BaseSubState
 		super.update(elapsed);
 	}
 
+	@:noCompletion
 	private function changeSelection(num:Int):Void
 	{
-		FlxG.sound.play(Paths.sound('scroll'));
+		SoundController.play(Paths.sound('scroll'));
 		selectedIndex = FlxMath.wrap(selectedIndex + num, 0, selections.length - 1);
 	}
 }

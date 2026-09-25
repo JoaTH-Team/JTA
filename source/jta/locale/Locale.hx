@@ -1,7 +1,6 @@
 package jta.locale;
 
 import jta.Data;
-import jta.Paths;
 import jta.Assets;
 import firetongue.Replace;
 import firetongue.FireTongue;

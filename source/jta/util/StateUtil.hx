@@ -2,6 +2,9 @@ package jta.util;
 
 import flixel.FlxState;
 
+/**
+ * Utility class for retrieving the current state.
+ */
 class StateUtil
 {
 	public static function getCurrentState():String

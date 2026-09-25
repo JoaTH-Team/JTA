@@ -28,7 +28,7 @@ class LevelRegistry
 
 			for (levelClass in levelList)
 			{
-				final level:Level = ScriptedLevel.init(levelClass, 0);
+				final level:Level = ScriptedLevel.scriptInit(levelClass, 0);
 
 				if (level == null)
 					continue;
@@ -60,7 +60,7 @@ class LevelRegistry
 
 		if (levelClass != null)
 		{
-			final level:Level = ScriptedLevel.init(levelClass, levelNumber);
+			final level:Level = ScriptedLevel.scriptInit(levelClass, levelNumber);
 
 			if (level == null)
 			{

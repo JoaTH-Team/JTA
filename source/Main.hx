@@ -13,7 +13,6 @@ import hxwindowmode.WindowColorMode;
 import hxgamemode.GamemodeClient;
 #end
 import flixel.util.typeLimit.NextState;
-import openfl.system.System;
 import openfl.events.Event;
 
 /**
@@ -119,6 +118,10 @@ class Main extends openfl.display.Sprite
 	 */
 	public function new():Void
 	{
+		#if desktop
+		untyped __cpp__('', jta.api.ALSoftConfig);
+		#end
+
 		super();
 
 		if (stage != null)
@@ -167,7 +170,7 @@ class Main extends openfl.display.Sprite
 		FlxG.mouse.useSystemCursor = true;
 		#end
 
-		#if desktop
+		#if (desktop || web)
 		FlxG.mouse.visible = false;
 		#end
 

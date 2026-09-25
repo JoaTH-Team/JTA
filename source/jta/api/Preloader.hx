@@ -70,7 +70,7 @@ class Preloader extends FlxBasePreloader
 
 	override public function update(percent:Float):Void
 	{
-		var newSize = (_stage.stageWidth - 16) * percent;
+		var newSize:Float = (_stage.stageWidth - 16) * percent;
 		changeBarSize(FlxMath.lerp(loadBar.width, newSize, 0.7));
 
 		if (percent < 0.3)

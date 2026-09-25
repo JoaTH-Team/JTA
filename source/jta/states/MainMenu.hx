@@ -1,7 +1,5 @@
 package jta.states;
 
-import jta.Paths;
-import jta.input.Input;
 import jta.util.DateUtil;
 import jta.locale.Locale;
 import jta.states.BaseState;
@@ -20,11 +18,17 @@ class MainMenu extends BaseState
 
 	var player:FlxSprite;
 
-	var animTimer:Float = 0;
-	var animCooldown:Float = 3 + FlxG.random.float(0, 2);
-	var isAnimating:Bool = false;
+	@:noCompletion
+	private var animTimer:Float = 0;
 
-	var weather:Int = 0;
+	@:noCompletion
+	private var animCooldown:Float = 3 + FlxG.random.float(0, 2);
+
+	@:noCompletion
+	private var isAnimating:Bool = false;
+
+	@:noCompletion
+	private var weather:Int = 0;
 
 	public function new():Void
 	{
@@ -43,10 +47,8 @@ class MainMenu extends BaseState
 		jta.api.DiscordClient.changePresence('Main Menu', null);
 		#end
 
-		/*
 		if (!(FlxG.sound.music?.playing ?? false))
-			FlxG.sound.playMusic(Paths.music('Pumpin_Pixels'));
-		*/
+			SoundController.playMusic(Paths.music('Pumpin_Pixels'));
 
 		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menu/menu_bg'));
 		bg.screenCenter();
@@ -54,7 +56,7 @@ class MainMenu extends BaseState
 
 		if (weather != 3)
 		{
-			var particles:FlxEmitter = new FlxEmitter(0, 0);
+			final particles:FlxEmitter = new FlxEmitter(0, 0);
 			particles.loadParticles(Paths.image('menu/particles/' + (weather == 1 ? 'snow' : 'leaf')), 120);
 			particles.alpha.set(0.5, 0.5);
 			particles.scale.set(2, 2);
@@ -128,10 +130,10 @@ class MainMenu extends BaseState
 			switch (selectedIndex)
 			{
 				case 0:
-					FlxG.sound.play(Paths.sound('select'));
+					SoundController.play(Paths.sound('select'));
 					transitionState(new LevelSelect());
 				case 1:
-					FlxG.sound.play(Paths.sound('select'));
+					SoundController.play(Paths.sound('select'));
 					transitionState(new Settings());
 				case 2:
 					#if desktop
@@ -152,7 +154,7 @@ class MainMenu extends BaseState
 		{
 			if (FlxG.sound.music != null && FlxG.sound.music.playing)
 				FlxG.sound.music.stop();
-			
+
 			transitionState(new jta.video.VideoState('paint', () ->
 			{
 				transitionState(new jta.states.MainMenu());
@@ -186,7 +188,7 @@ class MainMenu extends BaseState
 	@:noCompletion
 	private function changeSelection(num:Int):Void
 	{
-		FlxG.sound.play(Paths.sound('scroll'));
+		SoundController.play(Paths.sound('scroll'));
 		selectedIndex = FlxMath.wrap(selectedIndex + num, 0, selections.length - 1);
 	}
 }

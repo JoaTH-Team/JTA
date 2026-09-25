@@ -1,5 +1,6 @@
 import jta.Paths;
 import jta.Global;
+import jta.audio.SoundController;
 import jta.objects.level.Object;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
@@ -24,12 +25,12 @@ class CoinObject extends Object
 		if (!objectInteractable)
 			return;
 		objectInteractable = false;
-		FlxG.sound.play(Paths.sound('coin'));
+		SoundController.play(Paths.sound('coin'));
 		Global.coins++;
 		Global.score += 200;
 		if (Global.coins > 99)
 		{
-			FlxG.sound.play(Paths.sound('life'));
+			SoundController.play(Paths.sound('life'));
 			Global.coins = 0;
 			Global.lives++;
 		}

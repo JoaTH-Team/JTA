@@ -3,15 +3,12 @@ package jta.modding;
 import polymod.Polymod;
 import polymod.format.ParseRules;
 import polymod.fs.ZipFileSystem;
-import flixel.util.FlxStringUtil;
+import polymod.util.VersionUtil;
 import jta.modding.events.FocusEvent;
 import jta.modding.events.StateSwitchEvent;
 import jta.modding.module.ModuleHandler;
-#if (windows && cpp)
-import jta.external.windows.WindowsAPI;
-#end
+import jta.modding.PolymodErrorHandler;
 import jta.util.macro.ClassMacro;
-import jta.util.WindowUtil;
 import jta.util.StateUtil;
 import jta.util.TimerUtil;
 import jta.locale.Locale;
@@ -57,7 +54,7 @@ class PolymodHandler
 	/**
 	 * The API version of the modding system.
 	 */
-	static final API_VERSION:String = '1.0.0';
+	static final API_VERSION:String = '0.1.0';
 
 	/**
 	 * Stores the metadata of currently loaded mods.
@@ -67,124 +64,65 @@ class PolymodHandler
 	/**
 	 * Loads all mods and initializes the Polymod system.
 	 */
-	public static function init():Void
+	public static function load():Void
 	{
 		Polymod.clearScripts();
+		Polymod.onError = PolymodErrorHandler.onPolymodError;
 
-		var focusGained:Dynamic = function() ModuleHandler.callEvent(module ->
+		FlxG.signals.focusGained.add(function()
 		{
-			module.onFocusGained(new FocusEvent(FocusEventType.GAINED));
-		});
-		var focusLost:Dynamic = function() ModuleHandler.callEvent(module ->
-		{
-			module.onFocusLost(new FocusEvent(FocusEventType.LOST));
-		});
-		var preStateSwitch:Dynamic = function() ModuleHandler.callEvent(module ->
-		{
-			module.onStateSwitchPre(new StateSwitchEvent(StateUtil.getCurrentState()));
-		});
-		var postStateSwitch:Dynamic = function() ModuleHandler.callEvent(module ->
-		{
-			module.onStateSwitchPost(new StateSwitchEvent(StateUtil.getCurrentState()));
+			ModuleHandler.callEvent(module -> module.onFocusGained(new FocusEvent(FocusEventType.GAINED)));
 		});
 
-		if (!FlxG.signals.focusGained.has(() -> focusGained))
-			FlxG.signals.focusGained.add(() -> focusGained);
-		if (!FlxG.signals.focusLost.has(() -> focusLost))
-			FlxG.signals.focusLost.add(() -> focusLost);
-		if (!FlxG.signals.preStateSwitch.has(() -> preStateSwitch))
-			FlxG.signals.preStateSwitch.add(() -> preStateSwitch);
-		if (!FlxG.signals.postStateSwitch.has(() -> postStateSwitch))
-			FlxG.signals.postStateSwitch.add(() -> postStateSwitch);
-
-		Polymod.addImportAlias('flixel.effects.particles.FlxEmitter', flixel.effects.particles.FlxEmitter);
-		Polymod.addImportAlias('flixel.group.FlxContainer', flixel.group.FlxContainer);
-		Polymod.addImportAlias('flixel.group.FlxGroup', flixel.group.FlxGroup);
-		Polymod.addImportAlias('flixel.group.FlxSpriteContainer', flixel.group.FlxSpriteContainer);
-		Polymod.addImportAlias('flixel.group.FlxSpriteGroup', flixel.group.FlxSpriteGroup);
-		Polymod.addImportAlias('flixel.math.FlxPoint', flixel.math.FlxPoint.FlxBasePoint);
-
-		#if cpp
-		Polymod.blacklistImport('cpp.Lib');
-		#end
-		Polymod.blacklistImport('haxe.Serializer');
-		Polymod.blacklistImport('haxe.Unserializer');
-		Polymod.blacklistImport('lime.system.CFFI');
-		Polymod.blacklistImport('lime.system.System');
-		Polymod.blacklistImport('lime.system.JNI');
-		Polymod.blacklistImport('lime.utils.Assets');
-		Polymod.blacklistImport('openfl.desktop.NativeProcess');
-		Polymod.blacklistImport('openfl.utils.Assets');
-		Polymod.blacklistImport('Sys');
-		Polymod.blacklistImport('Reflect');
-		Polymod.blacklistImport('Type');
-
-		for (cls in ClassMacro.listClassesInPackage('jta.util.macro'))
+		FlxG.signals.focusLost.add(function()
 		{
-			if (cls == null)
-				continue;
+			ModuleHandler.callEvent(module -> module.onFocusLost(new FocusEvent(FocusEventType.LOST)));
+		});
 
-			Polymod.blacklistImport(Type.getClassName(cls));
-		}
-
-		for (cls in ClassMacro.listClassesInPackage('extension.androidtools'))
+		FlxG.signals.preStateSwitch.add(function()
 		{
-			if (cls == null)
-				continue;
+			ModuleHandler.callEvent(module -> module.onStateSwitchPre(new StateSwitchEvent(StateUtil.getCurrentState())));
+		});
 
-			Polymod.blacklistImport(Type.getClassName(cls));
-		}
-
-		for (cls in ClassMacro.listClassesInPackage('hscript'))
+		FlxG.signals.postStateSwitch.add(function()
 		{
-			if (cls == null)
-				continue;
+			ModuleHandler.callEvent(module -> module.onStateSwitchPost(new StateSwitchEvent(StateUtil.getCurrentState())));
+		});
 
-			Polymod.blacklistImport(Type.getClassName(cls));
-		}
-
-		for (cls in ClassMacro.listClassesInPackage('polymod'))
-		{
-			if (cls == null)
-				continue;
-
-			Polymod.blacklistImport(Type.getClassName(cls));
-		}
-
-		#if sys
-		for (cls in ClassMacro.listClassesInPackage('sys'))
-		{
-			if (cls == null)
-				continue;
-
-			Polymod.blacklistImport(Type.getClassName(cls));
-		}
-		#end
+		buildImports();
 
 		#if sys
 		if (!FileSystem.exists(MOD_DIR))
 			FileSystem.createDirectory(MOD_DIR);
 		#end
 
+		final appVersion:Null<String> = Lib.application.meta?.get('version');
+		final versionRule:String = appVersion != null ? '${appVersion.split(".")[0]}.${appVersion.split(".")[1]}.*' : API_VERSION;
+
 		Locale.init(); // Initialize localization before Polymod
 		Polymod.init({
 			modRoot: MOD_DIR,
 			dirs: getMods(),
 			framework: OPENFL,
-			apiVersionRule: API_VERSION,
-			errorCallback: onError,
+			apiVersionRule: versionRule,
 			frameworkParams: {
 				coreAssetRedirect: CORE_DIR
 			},
 			parseRules: getParseRules(),
 			useScriptedClasses: true,
 			loadScriptsAsync: #if html5 true #else false #end,
-			ignoredFiles: Polymod.getDefaultIgnoreList(),
+			ignoredFiles: buildIgnoreList(),
 			extensionMap: ['frag' => TEXT, 'vert' => TEXT],
 			customFilesystem: buildFileSystem(),
 			firetongue: Locale.tongue
 		});
 
+		loadRegistries();
+	}
+
+	@:noCompletion
+	private static function loadRegistries():Void
+	{
 		final registriesStart:Float = TimerUtil.start();
 
 		jta.registries.dialogue.TyperRegistry.loadTypers();
@@ -212,7 +150,10 @@ class PolymodHandler
 
 		var daList:Array<String> = [];
 
-		for (i in Polymod.scan({modRoot: MOD_DIR, apiVersionRule: '*.*.*', errorCallback: onError}))
+		final appVersion:Null<String> = Lib.application.meta?.get('version');
+		final versionRule:String = appVersion != null ? '${appVersion.split(".")[0]}.${appVersion.split(".")[1]}.*' : API_VERSION;
+
+		for (i in Polymod.scan({modRoot: MOD_DIR, apiVersionRule: versionRule, errorCallback: PolymodErrorHandler.onPolymodError}))
 		{
 			if (i != null)
 			{
@@ -230,51 +171,124 @@ class PolymodHandler
 		return (trackedMods.length > 0) ? [for (i in trackedMods) i.id] : [];
 	}
 
+	@:noCompletion
+	private static inline function buildImports():Void
+	{
+		Polymod.addImportAlias('flixel.effects.particles.FlxEmitter', flixel.effects.particles.FlxEmitter);
+		Polymod.addImportAlias('flixel.group.FlxContainer', flixel.group.FlxContainer);
+		Polymod.addImportAlias('flixel.group.FlxGroup', flixel.group.FlxGroup);
+		Polymod.addImportAlias('flixel.group.FlxSpriteContainer', flixel.group.FlxSpriteContainer);
+		Polymod.addImportAlias('flixel.group.FlxSpriteGroup', flixel.group.FlxSpriteGroup);
+		Polymod.addImportAlias('flixel.math.FlxPoint', flixel.math.FlxPoint.FlxBasePoint);
+		Polymod.addImportAlias('lime.utils.Assets', jta.Assets);
+		Polymod.addImportAlias('openfl.utils.Assets', jta.Assets);
+		Polymod.addImportAlias('Reflect', jta.util.ReflectUtil);
+		Polymod.addImportAlias('Type', jta.util.ReflectUtil);
+
+		#if cpp
+		Polymod.blacklistImport('cpp.Lib');
+		#end
+		Polymod.blacklistImport('haxe.Http');
+		Polymod.blacklistImport('haxe.Serializer');
+		Polymod.blacklistImport('haxe.Unserializer');
+		Polymod.blacklistImport('lime.system.CFFI');
+		Polymod.blacklistImport('lime.system.System');
+		Polymod.blacklistImport('lime.system.JNI');
+		Polymod.blacklistImport('lime.utils.AssetLibrary');
+		Polymod.blacklistImport('lime.utils.Assets');
+		Polymod.blacklistImport('openfl.Lib');
+		Polymod.blacklistImport('openfl.desktop.NativeProcess');
+		Polymod.blacklistImport('openfl.utils.Assets');
+		Polymod.blacklistImport('Sys');
+
+		Polymod.blacklistStaticFields(flixel.util.FlxSave, ['resolveFlixelClasses']);
+		Polymod.blacklistStaticFields(flixel.FlxG, ['save']);
+
+		Polymod.blacklistStaticFields(haxe.Unserializer, ['run']);
+		Polymod.blacklistInstanceFields(haxe.Unserializer, ['unserialize']);
+
+		#if !html5
+		Polymod.blacklistInstanceFields(openfl.filesystem.FileStream, ['readObject']);
+		#end
+		Polymod.blacklistInstanceFields(openfl.net.Socket, ['readObject']);
+		Polymod.blacklistInstanceFields(openfl.utils.ByteArray.ByteArrayData, ['readObject']);
+
+		for (cls in ClassMacro.listClassesInPackage('jta.util.macro'))
+		{
+			if (cls == null)
+				continue;
+
+			Polymod.blacklistImport(Type.getClassName(cls));
+		}
+
+		for (cls in ClassMacro.listClassesInPackage('extension.androidtools'))
+		{
+			if (cls == null)
+				continue;
+
+			Polymod.blacklistImport(Type.getClassName(cls));
+		}
+
+		for (cls in ClassMacro.listClassesInPackage('polymod'))
+		{
+			if (cls == null)
+				continue;
+
+			Polymod.blacklistImport(Type.getClassName(cls));
+		}
+
+		for (cls in ClassMacro.listClassesInPackage('hscript'))
+		{
+			if (cls == null)
+				continue;
+
+			Polymod.blacklistImport(Type.getClassName(cls));
+		}
+
+		#if sys
+		for (cls in ClassMacro.listClassesInPackage('sys'))
+		{
+			if (cls == null)
+				continue;
+
+			Polymod.blacklistImport(Type.getClassName(cls));
+		}
+		#end
+
+		Polymod.blacklistInstanceFields(polymod.hscript._internal.PolymodScriptClass.PolymodScriptClass, ['_interp']);
+	}
+
+	@:noCompletion
 	private static inline function buildFileSystem():ZipFileSystem
 	{
 		return new ZipFileSystem({modRoot: MOD_DIR, autoScan: true});
 	}
 
-	public static function getParseRules():ParseRules
+	@:noCompletion
+	private static function buildIgnoreList():Array<String>
+	{
+		var result:Array<String> = Polymod.getDefaultIgnoreList();
+
+		result.push('.vscode');
+		result.push('.idea');
+		result.push('.git');
+		result.push('.gitignore');
+		result.push('.gitattributes');
+		result.push('README.md');
+
+		return result;
+	}
+
+	@:noCompletion
+	private static function getParseRules():ParseRules
 	{
 		final output:ParseRules = ParseRules.getDefault();
 		output.addType('txt', TextFileFormat.LINES);
+		output.addType('json', TextFileFormat.JSON);
+		output.addType('hscript', TextFileFormat.PLAINTEXT);
+		output.addType('hxs', TextFileFormat.PLAINTEXT);
 		output.addType('hxc', TextFileFormat.PLAINTEXT);
+		output.addType('hx', TextFileFormat.PLAINTEXT);
 		return output;
-	}
-
-	public static function forceReloadAssets():Void
-	{
-		Polymod.clearScripts();
-		trackedMods = [];
-		init();
-		Polymod.registerAllScriptClasses();
-	}
-
-	static function onError(error:PolymodError):Void
-	{
-		var code:String = FlxStringUtil.toTitleCase(Std.string(error.code).split('_').join(' '));
-
-		switch (error.severity)
-		{
-			case NOTICE:
-				FlxG.log.notice('($code) ${error.message}');
-			case WARNING:
-				FlxG.log.warn('($code) ${error.message}');
-
-				#if (windows && debug && cpp)
-				WindowsAPI.showWarning(code, error.message);
-				#elseif debug
-				WindowUtil.showAlert(code, error.message);
-				#end
-			case ERROR:
-				FlxG.log.error('($code) ${error.message}');
-
-				#if (windows && cpp)
-				WindowsAPI.showError(code, error.message);
-				#else
-				WindowUtil.showAlert(code, error.message);
-				#end
-		}
 	}
 }

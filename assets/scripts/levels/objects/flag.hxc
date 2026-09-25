@@ -1,9 +1,12 @@
 import jta.Paths;
 import jta.Global;
+import jta.audio.SoundController;
 import jta.objects.level.Object;
 import jta.substates.LevelComplete;
 import jta.states.LevelSelect;
+import jta.states.DemoEnd;
 import jta.video.VideoState;
+import flixel.util.FlxTimer;
 import flixel.FlxG;
 
 class FlagObject extends Object
@@ -25,27 +28,43 @@ class FlagObject extends Object
 
 	public override function overlap():Void
 	{
+		if (FlxG.sound.music != null)
+			FlxG.sound.music.stop();
+		SoundController.play(Paths.sound('win'));
 		Global.score += 1000;
 		Global.save();
-		FlxG.state.persistentUpdate = false;
-		FlxG.state.openSubState(new LevelComplete(function():Void 
+
+		objectInteractable = false;
+
+		var player = FlxG.state.player;
+		if (player != null)
 		{
-			if (FlxG.state.baseLevel)
+			player.characterControllable = false;
+			player.animation.play('dance');
+			player.velocity.x = 0;
+		}
+
+		new FlxTimer().start(3, function(tmr:FlxTimer):Void
+		{
+			FlxG.state.persistentUpdate = false;
+			FlxG.state.openSubState(new LevelComplete(function():Void 
 			{
-				Global.flags[FlxG.state.levelNumber - 1] = 1;
-				Global.save();
-			}
-			if (FlxG.state.levelNumber == 3)
-			{
-				FlxG.switchState(new VideoState('endCutscenes/world1', true, function():Void
+				if (FlxG.state.baseLevel)
 				{
-					FlxG.switchState(new DemoEnd(false));
-				}));
-			}
-			else
-			{
+					Global.flags[FlxG.state.levelNumber - 1] = 1;
+					Global.save();
+					if (FlxG.state.levelNumber == 3)
+					{
+						FlxG.switchState(new VideoState('endCutscenes/world1', true, function():Void
+						{
+							FlxG.switchState(new DemoEnd('default', true));
+						}));
+						return;
+					}
+				}
+				
 				FlxG.switchState(new LevelSelect());
-			}
-		}));
+			}));
+		});
 	}
 }

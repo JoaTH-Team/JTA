@@ -1,7 +1,5 @@
 package jta.states.config;
 
-import jta.Data;
-import jta.input.Input;
 import jta.locale.Locale;
 import jta.states.MainMenu;
 import jta.states.BaseState;
@@ -20,8 +18,11 @@ class Settings extends BaseState
 
 	var selectionGroup:FlxTypedGroup<FlxText>;
 
-	var holdTimer:FlxTimer;
-	var holdDirection:Int = 0;
+	@:noCompletion
+	private var holdTimer:FlxTimer;
+
+	@:noCompletion
+	private var holdDirection:Int = 0;
 
 	public function new():Void
 	{
@@ -34,6 +35,16 @@ class Settings extends BaseState
 			Data.settings.volume = value;
 			FlxG.sound.volume = Data.settings.volume / 100;
 		};
+		options.push(option);
+
+		var option:Option = new Option(Locale.getSettings("$MUSIC_VOL"), OptionType.Integer(0, 100, 1), Data.settings.musicVolume);
+		option.showPercentage = true;
+		option.onChange = (value:Dynamic) -> Data.settings.musicVolume = value;
+		options.push(option);
+
+		var option:Option = new Option(Locale.getSettings("$SFX_VOL"), OptionType.Integer(0, 100, 1), Data.settings.sfxVolume);
+		option.showPercentage = true;
+		option.onChange = (value:Dynamic) -> Data.settings.sfxVolume = value;
 		options.push(option);
 
 		var option:Option = new Option(Locale.getSettings("$FPS_DISP"), OptionType.Toggle, Data.settings.fpsCounter);
@@ -78,14 +89,14 @@ class Settings extends BaseState
 
 		var option:Option = new Option(Locale.getSettings("$CTRLS"), OptionType.Function, function():Void
 		{
-			Data.saveSettings();
+			Data.save();
 			openSubState(new Controls.DeviceSelect());
 		});
 		options.push(option);
 
 		var option:Option = new Option(Locale.getMenu("$EXIT"), OptionType.Function, function():Void
 		{
-			Data.saveSettings();
+			Data.save();
 			transitionState(new MainMenu());
 		});
 		options.push(option);
@@ -141,15 +152,15 @@ class Settings extends BaseState
 
 		if (Input.justPressed('confirm'))
 		{
-			FlxG.sound.play(Paths.sound('select'));
-			var option:Option = options[selectedIndex];
+			SoundController.play(Paths.sound('select'));
+			final option:Option = options[selectedIndex];
 			if (option != null)
 				option.execute();
 		}
 		else if (Input.justPressed('cancel'))
 		{
-			Data.saveSettings();
-			FlxG.sound.play(Paths.sound('cancel'));
+			Data.save();
+			SoundController.play(Paths.sound('cancel'));
 			transitionState(new MainMenu());
 		}
 
@@ -161,12 +172,14 @@ class Settings extends BaseState
 		super.update(elapsed);
 	}
 
+	@:noCompletion
 	private function changeSelection(num:Int):Void
 	{
-		FlxG.sound.play(Paths.sound('scroll'));
+		SoundController.play(Paths.sound('scroll'));
 		selectedIndex = FlxMath.wrap(selectedIndex + num, 0, options.length - 1);
 	}
 
+	@:noCompletion
 	private function changeValue(direction:Int = 0):Void
 	{
 		var option:Option = options[selectedIndex];
@@ -183,9 +196,10 @@ class Settings extends BaseState
 		}
 	}
 
+	@:noCompletion
 	private function startHold(direction:Int = 0):Void
 	{
-		FlxG.sound.play(Paths.sound('scroll'));
+		SoundController.play(Paths.sound('scroll'));
 
 		holdDirection = direction;
 

@@ -28,7 +28,7 @@ class ModuleRegistry
 
 			for (moduleID in moduleList)
 			{
-				final module:Module = ScriptedModule.init(moduleID, 'unknown');
+				final module:Module = ScriptedModule.scriptInit(moduleID, 'unknown');
 
 				if (module == null)
 					continue;

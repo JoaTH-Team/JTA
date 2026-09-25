@@ -3,7 +3,6 @@ package jta.api;
 #if hxdiscord_rpc
 import hxdiscord_rpc.Discord;
 import hxdiscord_rpc.Types;
-import sys.thread.Thread;
 import haxe.EntryPoint;
 
 /**
@@ -40,6 +39,12 @@ class DiscordClient
 	}
 
 	/**
+	 * Whether the thread is running or not.
+	 */
+	@:noCompletion
+	private static var deamonThreadRunning:Bool = false;
+
+	/**
 	 * Initializes Discord Rich Presence.
 	 */
 	public static function load():Void
@@ -52,6 +57,25 @@ class DiscordClient
 		handlers.disconnected = cpp.Function.fromStaticFunction(onDisconnected);
 		handlers.errored = cpp.Function.fromStaticFunction(onError);
 		Discord.Initialize(clientID, cpp.RawPointer.addressOf(handlers), false, null);
+
+		if (!deamonThreadRunning)
+		{
+			deamonThreadRunning = true;
+
+			EntryPoint.addThread(function():Void
+			{
+				while (deamonThreadRunning)
+				{
+					#if DISCORD_DISABLE_IO_THREAD
+					Discord.UpdateConnection();
+					#end
+
+					Discord.RunCallbacks();
+
+					Sys.sleep(2);
+				}
+			});
+		}
 
 		if (Lib.application != null && !Lib.application.onExit.has(shutdown))
 			Lib.application.onExit.add(shutdown);
@@ -106,8 +130,9 @@ class DiscordClient
 	{
 		if (!initialized)
 			return;
-		initialized = false;
+		deamonThreadRunning = false;
 		Discord.Shutdown();
+		initialized = false;
 	}
 
 	@:noCompletion

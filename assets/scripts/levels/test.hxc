@@ -20,7 +20,7 @@ class TestLevel extends Level
 
 		FlxG.camera.zoom = 2.95;
 
-		loadMapBackground('test', 'test');
+		loadMapBackground('worldtest/test', 'test');
 		loadMap('worldtest/test', 'test');
 		loadObjects('worldtest/test');
 

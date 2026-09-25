@@ -29,10 +29,6 @@
             "type": "haxelib"
         },
         {
-            "name": "actuate",
-            "type": "haxelib"
-        },
-        {
             "name": "extension-webm",
             "type": "git",
             "ref": "master",
@@ -41,8 +37,8 @@
         {
             "name": "polymod",
             "type": "git",
-            "ref": "scripting-updates",
-            "url": "https://github.com/JoaTH-Team/polymod"
+            "ref": "acfdc2e26722f20339a2bc0cc8cd7dd5fe0c6b5e",
+            "url": "https://github.com/FunkinCrew/polymod"
         },
         {
             "name": "thx.core",

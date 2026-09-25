@@ -21,21 +21,34 @@ class Global
 	public static var lives:Int = 3;
 	public static var flags:Array<Int> = [for (i in 0...25) 0]; // 25 flags with the value 0
 
+	@:noCompletion
+	private static var _save:FlxSave;
+
+	@:noCompletion
+	private static function getSave():FlxSave
+	{
+		if (_save == null)
+		{
+			_save = new FlxSave();
+			_save.bind('file', Lib.application.meta.get('file'));
+		}
+
+		return _save;
+	}
+
 	public static function save():Void
 	{
-		var save:FlxSave = new FlxSave();
-		save.bind('file', Lib.application.meta.get('file'));
+		var save:FlxSave = getSave();
 		save.data.coins = coins;
 		save.data.score = score;
 		save.data.lives = lives;
 		save.data.flags = flags;
-		save.close();
+		save.flush();
 	}
 
 	public static function load():Void
 	{
-		var save:FlxSave = new FlxSave();
-		save.bind('file', Lib.application.meta.get('file'));
+		var save:FlxSave = getSave();
 		if (!save.isEmpty())
 		{
 			if (save.data.coins != null)
@@ -50,6 +63,5 @@ class Global
 			if (save.data.flags != null)
 				flags = save.data.flags;
 		}
-		save.destroy();
 	}
 }

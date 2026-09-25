@@ -1,9 +1,10 @@
 import flixel.FlxG;
 import jta.input.Input;
+import jta.audio.SoundController;
 import jta.objects.level.Player;
 import jta.Paths;
 
-class MainPlayer extends Player
+class MainPlayerPlayer extends Player
 {
 	var jumping:Bool = false;
 	var jumpTimer:Float = 0;
@@ -18,6 +19,7 @@ class MainPlayer extends Player
 		animation.add('walk', [1, 0, 2, 0], 12);
 		animation.add('jump', [3], 1);
 		animation.add('dead', [4], 1);
+		animation.add('dance', [5, 6, 7, 6], 12);
 
 		animation.play('idle');
 
@@ -34,7 +36,7 @@ class MainPlayer extends Player
 
 			if (jumpTimer >= 0 && Input.pressed('jump') && velocity.y == 0 && !isTouching(0x0100)) // can't access to UP field
 			{
-				FlxG.sound.play(Paths.sound('jump'));
+				SoundController.play(Paths.sound('jump'));
 				jumpTimer += elapsed;
 				jumping = true;
 				if (jumpTimer > 0 && jumpTimer < 0.25)

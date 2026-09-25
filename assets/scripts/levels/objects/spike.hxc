@@ -1,5 +1,6 @@
 import jta.Paths;
 import jta.Global;
+import jta.audio.SoundController;
 import jta.objects.level.Object;
 import jta.states.level.Level;
 import flixel.util.FlxTimer;
@@ -26,7 +27,7 @@ class SpikeObject extends Object
 		{
 			if (FlxG.sound.music != null)
 				FlxG.sound.music.stop();
-			FlxG.sound.play(Paths.sound('die'));
+			SoundController.play(Paths.sound('die'));
 			Global.lives--;
 			Global.save();
 			player.characterControllable = false;

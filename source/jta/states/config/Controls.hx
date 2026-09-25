@@ -1,8 +1,5 @@
 package jta.states.config;
 
-import jta.Data;
-import jta.Paths;
-import jta.input.Input;
 import jta.locale.Locale;
 import jta.states.BaseState;
 import jta.states.config.Settings;
@@ -69,22 +66,22 @@ class DeviceSelect extends BaseSubState
 			switch (selectedIndex)
 			{
 				case 0:
-					FlxG.sound.play(Paths.sound('select'));
+					SoundController.play(Paths.sound('select'));
 					transitionState(new Controls(false));
 				case 1:
-					var gamepad = FlxG.gamepads.lastActive;
+					var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 					if (gamepad != null)
 						transitionState(new Controls(true));
 					else
-						FlxG.sound.play(Paths.sound('cancel'));
+						SoundController.play(Paths.sound('cancel'));
 				case 2:
-					FlxG.sound.play(Paths.sound('select'));
+					SoundController.play(Paths.sound('select'));
 					close();
 			}
 		}
 		else if (Input.justPressed('cancel'))
 		{
-			FlxG.sound.play(Paths.sound('cancel'));
+			SoundController.play(Paths.sound('cancel'));
 			close();
 		}
 
@@ -96,9 +93,10 @@ class DeviceSelect extends BaseSubState
 		super.update(elapsed);
 	}
 
+	@:noCompletion
 	private function changeSelection(num:Int):Void
 	{
-		FlxG.sound.play(Paths.sound('scroll'));
+		SoundController.play(Paths.sound('scroll'));
 		selectedIndex = FlxMath.wrap(selectedIndex + num, 0, selections.length - 1);
 	}
 }
@@ -144,7 +142,7 @@ class Controls extends BaseState
 			selectionGroup.add(selection);
 		}
 
-		tempBG = new FlxSprite().makeGraphic(900, FlxG.height, FlxColor.BLACK);
+		tempBG = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		tempBG.alpha = 0.5;
 		tempBG.visible = false;
 		add(tempBG);
@@ -179,7 +177,7 @@ class Controls extends BaseState
 			}
 			else if (Input.justPressed('cancel'))
 			{
-				FlxG.sound.play(Paths.sound('cancel'));
+				SoundController.play(Paths.sound('cancel'));
 				transitionState(new Settings());
 			}
 		}
@@ -187,7 +185,7 @@ class Controls extends BaseState
 		{
 			if (Input.justPressed('any'))
 			{
-				FlxG.sound.play(Paths.sound('select'));
+				SoundController.play(Paths.sound('select'));
 				if (isGamepad)
 				{
 					var pad:FlxGamepad = FlxG.gamepads.lastActive;
@@ -197,7 +195,7 @@ class Controls extends BaseState
 				}
 				else
 					Data.settings.keyboardBinds[selectedIndex] = FlxG.keys.getIsDown()[0].ID.toString();
-				Data.saveSettings();
+				Data.save();
 				Input.refreshControls();
 				isChangingBind = false;
 				tempBG.visible = false;
@@ -214,9 +212,10 @@ class Controls extends BaseState
 		super.update(elapsed);
 	}
 
+	@:noCompletion
 	private function changeSelection(num:Int):Void
 	{
-		FlxG.sound.play(Paths.sound('scroll'));
+		SoundController.play(Paths.sound('scroll'));
 		selectedIndex = FlxMath.wrap(selectedIndex + num, 0, controls.length - 1);
 	}
 
@@ -232,7 +231,7 @@ class Controls extends BaseState
 	{
 		for (i in 0...controls.length)
 		{
-			var label = getBindLabel(controls[i], i);
+			var label:String = getBindLabel(controls[i], i);
 			var text:FlxText = cast selectionGroup.members[i];
 			text.text = label;
 		}
