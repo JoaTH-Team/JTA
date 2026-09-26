@@ -77,7 +77,6 @@ jobs:
         uses: actions/cache/restore@main
         with:
           path: |
-            .haxelib/
             export/debug/${{ matrix.target }}/haxe/
             export/debug/${{ matrix.target }}/obj/
           key: cache-${{ matrix.target }}-debug
@@ -152,7 +151,6 @@ jobs:
         uses: actions/cache/save@main
         with:
           path: |
-            .haxelib/
             export/debug/${{ matrix.target }}/haxe/
             export/debug/${{ matrix.target }}/obj/
           key: cache-${{ matrix.target }}-debug
