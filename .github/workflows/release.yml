@@ -1,0 +1,167 @@
+name: Release Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    permissions: write-all
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: windows
+            title: Windows
+            runs-on: windows-latest
+            artifact_path: export/release/windows/bin
+            artifact_name: windowsBuild
+
+          - target: macos
+            title: macOS
+            runs-on: macos-14
+            artifact_path: export/release/macos/bin
+            artifact_name: macOSBuild
+
+          - target: linux
+            title: Linux
+            runs-on: ubuntu-latest
+            artifact_path: export/release/linux/bin
+            artifact_name: linuxBuild
+          
+          - target: html5
+            title: HTML5
+            runs-on: ubuntu-latest
+            artifact_path: export/release/html5/bin
+            artifact_name: html5Build
+
+          - target: android
+            title: Android
+            runs-on: ubuntu-latest
+            artifact_path: export/release/android/bin/app/build/outputs/apk/debug
+            artifact_name: androidBuild
+
+    name: build${{ matrix.title }}
+    runs-on: ${{ matrix.runs-on }}
+
+    steps:
+      - uses: actions/checkout@main
+
+      - name: Setup Android NDK
+        if: matrix.target == 'android'
+        uses: nttld/setup-ndk@v1
+        id: setup-ndk
+        with:
+          ndk-version: r21e
+
+      - name: Setup Java JDK
+        if: matrix.target == 'android'
+        uses: actions/setup-java@v5
+        with:
+          java-version: 17
+          distribution: "zulu"
+
+      - name: Setup Android SDK
+        if: matrix.target == 'android'
+        uses: android-actions/setup-android@v4
+
+      - uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: 4.3.7
+
+      - name: Restore Previous Cache
+        id: cache-build-restore
+        uses: actions/cache/restore@main
+        with:
+          path: |
+            export/release/${{ matrix.target }}/haxe/
+            export/release/${{ matrix.target }}/obj/
+          key: cache-${{ matrix.target }}-release
+
+      - name: Set Cache Status | In Windows
+        id: cache-status-windows
+        if: matrix.target == 'windows'
+        run: echo CACHE_HIT=${{ steps.cache-build-restore.outputs.cache-hit }} | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+        shell: powershell
+
+      - name: Set Cache Status | In Unix
+        id: cache-status-unix
+        if: matrix.target != 'windows'
+        run: echo "CACHE_HIT=${{ steps.cache-build-restore.outputs.cache-hit }}" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        if: matrix.target == 'linux'
+        run: sudo apt-get update && sudo apt-get install -y gcc-multilib g++-multilib
+
+      - name: Installing Libraries
+        run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
+
+      - name: Setup hxcpp | In Windows
+        if: env.CACHE_HIT != 'true' && matrix.target == 'windows'
+        run: haxelib git hxcpp https://github.com/Joalor64/hxcpp.git --quiet && haxelib run lime rebuild hxcpp -verbose
+        shell: cmd
+
+      - name: Setup hxcpp | In Unix
+        if: env.CACHE_HIT != 'true' && matrix.target != 'windows'
+        run: haxelib git hxcpp https://github.com/Joalor64/hxcpp.git --quiet && haxelib run lime rebuild hxcpp -verbose
+
+      - name: Rebuild extension-webm
+        if: matrix.target != 'android'
+        run: haxelib run lime rebuild extension-webm ${{ matrix.target }}
+
+      - name: Fix extension-webm naming for ARM64
+        if: matrix.target == 'macos'
+        run: |
+          mkdir -p .haxelib/extension-webm/git/ndll/MacArm64
+          if [ -f ".haxelib/extension-webm/git/ndll/MacArm64/extension-webm-64.ndll" ]; then
+            cp .haxelib/extension-webm/git/ndll/MacArm64/extension-webm-64.ndll .haxelib/extension-webm/git/ndll/MacArm64/extension-webm.ndll
+          elif [ -f ".haxelib/extension-webm/git/ndll/Mac64/extension-webm.ndll" ]; then
+            cp .haxelib/extension-webm/git/ndll/Mac64/extension-webm.ndll .haxelib/extension-webm/git/ndll/MacArm64/extension-webm.ndll
+          fi
+
+      - name: Create Version Tag
+        run: echo "${{ github.run_id }}" > VERSION
+
+      - name: Setup Lime (Android)
+        if: matrix.target == 'android'
+        run: |
+          haxelib run lime setup -alias -y
+          haxelib run lime config ANDROID_SDK $ANDROID_HOME
+          haxelib run lime config ANDROID_NDK_ROOT $ANDROID_NDK_HOME
+          haxelib run lime config JAVA_HOME $JAVA_HOME
+          haxelib run lime config ANDROID_SETUP true
+        env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
+      - name: Compile
+        run: |
+          ${{ matrix.target == 'android' && 'haxelib run lime setup android' || '' }}
+          haxelib run lime build ${{ matrix.target }}
+
+      - name: Clear Previous Cache
+        uses: actions/github-script@main
+        with:
+          script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-${{ matrix.target }}-release');
+
+      - name: Save Current Cache
+        id: cache-build-save
+        uses: actions/cache/save@main
+        with:
+          path: |
+            export/release/${{ matrix.target }}/haxe/
+            export/release/${{ matrix.target }}/obj/
+          key: cache-${{ matrix.target }}-release
+
+      - name: Tar files (macOS)
+        if: matrix.target == 'macos'
+        run: tar -zcvf build.tar.gz export/release/macos/bin
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: ${{ matrix.artifact_path }}
+          if-no-files-found: error
