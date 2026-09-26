@@ -39,12 +39,12 @@
 }
 
 .dark-theme a {
-  color: #0087ff;
+  color: #15dfba;
 }
 
 .dark-theme a:hover,
 .dark-theme a:focus {
-  color: #00b7ff;
+  color: #41ffd4;
 }
 
 .dark-theme input,
@@ -92,7 +92,7 @@
 .dark-theme .nav-list>.active>a.treeLink,
 .dark-theme .nav-list>.active>a.treeLink:hover,
 .dark-theme .nav-list>.active>a.treeLink:focus {
-  background: #269;
+  background: #10b395;
 }
 
 .dark-theme .btn {
@@ -281,7 +281,7 @@
 /* Types without links */
 
 .dark-theme code .type {
-  color: #29e;
+  color: #15dfba;
 }
 
 
@@ -293,7 +293,7 @@
 }
 
 .dark-theme code a {
-  color: #29e
+  color: #15dfba
 }
 
 .dark-theme pre .type {
