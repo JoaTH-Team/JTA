@@ -11,6 +11,7 @@ jobs:
   build:
     permissions: write-all
     strategy:
+      fail-fast: false
       matrix:
         include:
           - target: windows
