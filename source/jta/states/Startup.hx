@@ -102,6 +102,7 @@ class Startup extends BaseState
 	{
 		if (blipSnd != null)
 		{
+			blipSnd.volume = 0.8;
 			blipSnd.play();
 			blipSnd.pitch = FlxG.random.float(0.8, 1.2);
 		}
