@@ -31,6 +31,12 @@ jobs:
             runs-on: ubuntu-latest
             artifact_path: export/debug/linux/bin
             artifact_name: linuxBuild
+          
+          - target: html5
+            title: HTML5
+            runs-on: ubuntu-latest
+            artifact_path: export/debug/html5/bin
+            artifact_name: html5Build
 
           - target: android
             title: Android
