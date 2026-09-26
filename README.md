@@ -23,7 +23,7 @@
 </p>
 
 > [!NOTE]
-> This game is very early in development, so not everything will be final!
+> This game is very early in development, so not everything will be final! <br>
 > Check the [To-Do List](./TODO.md) to see what's planned.
 
 ---
