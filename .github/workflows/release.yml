@@ -100,12 +100,12 @@ jobs:
         run: haxe --interp -cp ./actions/libs-installer -D analyzer-optimize -main Main
 
       - name: Setup hxcpp | In Windows
-        if: env.CACHE_HIT != 'true' && matrix.target == 'windows'
+        if: matrix.target == 'windows'
         run: haxelib git hxcpp https://github.com/Joalor64/hxcpp.git --quiet && haxelib run lime rebuild hxcpp -verbose
         shell: cmd
 
       - name: Setup hxcpp | In Unix
-        if: env.CACHE_HIT != 'true' && matrix.target != 'windows'
+        if: matrix.target != 'windows'
         run: haxelib git hxcpp https://github.com/Joalor64/hxcpp.git --quiet && haxelib run lime rebuild hxcpp -verbose
 
       - name: Rebuild extension-webm
