@@ -23,7 +23,7 @@ class CrashPlugin extends FlxBasic
 
 		if (FlxG.keys.pressed.CONTROL && FlxG.keys.pressed.SHIFT && FlxG.keys.justPressed.C)
 		{
-			throw "CrashPlugin: Forced crash for testing purposes.";
+			throw 'CrashPlugin: Forced crash for testing purposes.';
 		}
 	}
 

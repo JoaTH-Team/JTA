@@ -14,9 +14,9 @@ final class DesktopEnviromentUtl
 	/**
 	 * Possible variables, depending on the desktop enviroment their name will be in one of these variables...
 	 *
-	 * but in most cases is located in the "XDG_CURRENT_DESKTOP" variable.
+	 * but in most cases it's located in the "XDG_CURRENT_DESKTOP" variable.
 	 */
-	private static final variables:Array<String> = ["XDG_CURRENT_DESKTOP", "DESKTOP_SESSION", "XDG_SESSION_DESKTOP"];
+	private static final variables:Array<String> = ['XDG_CURRENT_DESKTOP', 'DESKTOP_SESSION', 'XDG_SESSION_DESKTOP'];
 
 	/**
 	 * @return The current desktop enviroment.
@@ -26,11 +26,11 @@ final class DesktopEnviromentUtl
 		for (variable in variables)
 		{
 			final value:String = Sys.getEnv(variable).trim();
-			if (value != null && value != "")
+			if (value != null && value != '')
 				return value.toLowerCase();
 		}
 
-		return "unknown";
+		return 'unknown';
 	}
 }
 #end

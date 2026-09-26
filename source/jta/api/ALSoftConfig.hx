@@ -15,14 +15,14 @@ import haxe.io.Path;
 
 		var configPath:String = Path.directory(Path.withoutExtension(origin));
 		#if windows
-		configPath += "/alsoft.ini";
+		configPath += '/alsoft.ini';
 		#elseif mac
-		configPath = Path.directory(configPath) + "/Resources/alsoft.conf";
+		configPath = Path.directory(configPath) + '/Resources/alsoft.conf';
 		#else
-		configPath += "/alsoft.conf";
+		configPath += '/alsoft.conf';
 		#end
 
-		Sys.putEnv("ALSOFT_CONF", configPath);
+		Sys.putEnv('ALSOFT_CONF', configPath);
 	}
 	#end
 }

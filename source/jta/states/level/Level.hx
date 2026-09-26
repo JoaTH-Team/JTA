@@ -345,11 +345,11 @@ class Level extends BaseState
 		if (Std.isOfType(FlxG.state, Level))
 		{
 			var level:Level = cast(FlxG.state, Level);
-			var registryClass:Class<Dynamic> = Type.resolveClass("jta.registries.LevelRegistry");
+			var registryClass:Class<Dynamic> = Type.resolveClass('jta.registries.LevelRegistry');
 
 			if (registryClass != null)
 			{
-				var fetchMethod:Dynamic = Reflect.field(registryClass, "fetchLevel");
+				var fetchMethod:Dynamic = Reflect.field(registryClass, 'fetchLevel');
 
 				if (Reflect.isFunction(fetchMethod))
 				{

@@ -46,7 +46,7 @@ class LevelSelect extends BaseState
 			for (i in 0...coreLevels.length)
 			{
 				var trimmed:String = coreLevels[i].trim();
-				if (trimmed != "")
+				if (trimmed != '')
 					initLevels.push(trimmed);
 			}
 		}
@@ -61,7 +61,7 @@ class LevelSelect extends BaseState
 				for (i in 0...modLevels.length)
 				{
 					var trimmed:String = modLevels[i].trim();
-					if (trimmed != "")
+					if (trimmed != '')
 						initLevels.push(trimmed);
 				}
 			}

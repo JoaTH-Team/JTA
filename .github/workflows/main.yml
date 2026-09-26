@@ -103,6 +103,7 @@ jobs:
         run: haxelib git hxcpp https://github.com/MAJigsaw77/hxcpp.git patch-1 --quiet && haxelib run lime rebuild hxcpp -verbose
 
       - name: Rebuild extension-webm
+        if: matrix.target != 'android'
         run: haxelib run lime rebuild extension-webm ${{ matrix.target }}
 
       - name: Fix extension-webm naming for ARM64

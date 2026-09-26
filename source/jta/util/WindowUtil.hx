@@ -14,7 +14,7 @@ import jta.util.linux.DesktopEnviromentUtl;
 class WindowUtil
 {
 	#if linux
-	public static var address:String = "";
+	public static var address:String = '';
 	#end
 
 	/**
@@ -31,7 +31,7 @@ class WindowUtil
 				Lib.application.window.setIcon(icon.image);
 		}
 
-		if (DesktopEnviromentUtl.getDesktopEnviroment() == "hyprland")
+		if (DesktopEnviromentUtl.getDesktopEnviroment() == 'hyprland')
 		{
 			setWindowAddress();
 			toggleFloatingMode();
@@ -62,7 +62,7 @@ class WindowUtil
 	{
 		try
 		{
-			final proccess:Process = new Process("hyprctl", ["activewindow", "-j"]);
+			final proccess:Process = new Process('hyprctl', ['activewindow', '-j']);
 			final output:String = proccess.stdout.readAll().toString();
 			final json = Json.parse(output);
 			proccess.close();
@@ -70,7 +70,7 @@ class WindowUtil
 		}
 		catch (e:Dynamic)
 		{
-			address = "";
+			address = '';
 		}
 	}
 
