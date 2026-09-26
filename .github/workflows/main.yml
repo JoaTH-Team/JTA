@@ -95,12 +95,12 @@ jobs:
 
       - name: Setup hxcpp | In Windows
         if: env.CACHE_HIT != 'true' && matrix.target == 'windows'
-        run: haxelib git hxcpp https://github.com/MAJigsaw77/hxcpp.git patch-1 --quiet && haxelib run lime rebuild hxcpp -verbose
+        run: haxelib git hxcpp https://github.com/Joalor64/hxcpp.git --quiet && haxelib run lime rebuild hxcpp -verbose
         shell: cmd
 
       - name: Setup hxcpp | In Unix
         if: env.CACHE_HIT != 'true' && matrix.target != 'windows'
-        run: haxelib git hxcpp https://github.com/MAJigsaw77/hxcpp.git patch-1 --quiet && haxelib run lime rebuild hxcpp -verbose
+        run: haxelib git hxcpp https://github.com/Joalor64/hxcpp.git --quiet && haxelib run lime rebuild hxcpp -verbose
 
       - name: Rebuild extension-webm
         if: matrix.target != 'android'
