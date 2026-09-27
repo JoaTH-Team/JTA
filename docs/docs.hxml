@@ -36,16 +36,15 @@
 --remap flash:openfl
 --macro flixel.system.macros.FlxDefines.run()
 
+--define doc-gen
+--define message.reporting=pretty
+
 --macro include('jta')
---macro include('flixel', true, ['flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.addons.tile.FlxRayCastTilemap', 'flixel.system.macros.*'])
 --macro nullSafety('jta.registries')
 --macro nullSafety('jta.util')
 --macro keep('Main')
 
 --no-output
-
---define doc-gen
---define message.reporting=pretty
 
 -xml docs/doc.xml
 --cpp docs-bin/
