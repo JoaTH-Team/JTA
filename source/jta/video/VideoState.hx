@@ -6,8 +6,15 @@ import jta.video.GlobalVideo;
 import flixel.sound.FlxSound;
 import openfl.display.Sprite;
 import openfl.display.Graphics;
+#if mobile
+import jta.mobile.MobileInput;
+import flixel.input.FlxInput.FlxInputState;
+#end
 #if android
 import extension.videoview.VideoView;
+#end
+#if ios
+import iosvideo.IOSVideo;
 #end
 
 /**
@@ -65,6 +72,9 @@ class VideoState extends BaseState
 		#if android
 		VideoView.playVideo(Paths.video(source));
 		VideoView.onCompletion = () -> end();
+		#elseif ios
+		IOSVideo.play(Paths.video(source));
+		IOSVideo.onComplete = () -> end();
 		#else
 		if (GlobalVideo.isWebm)
 			vidSound = FlxG.sound.play(Paths.videoSound(source), 1, false, null, true);
@@ -96,8 +106,9 @@ class VideoState extends BaseState
 		gfx.beginFill(0xFFFFFF);
 		gfx.drawCircle(0, 0, 20);
 		gfx.endFill();
-		skipSprite.x = FlxG.width - 80;
-		skipSprite.y = FlxG.height - 72;
+		skipSprite.scaleX = skipSprite.scaleY = FlxG.game.scaleX;
+		skipSprite.x = FlxG.game.x + (FlxG.width - 80) * FlxG.game.scaleX;
+		skipSprite.y = FlxG.game.y + (FlxG.height - 72) * FlxG.game.scaleY;
 		if (canSkip)
 			FlxG.stage.addChild(skipSprite);
 
@@ -144,7 +155,7 @@ class VideoState extends BaseState
 
 		if (canSkip)
 		{
-			if (Input.pressed('confirm'))
+			if (Input.pressed('confirm') #if mobile || MobileInput.checkAnyTouch(PRESSED) #end)
 			{
 				holdTimer = Math.max(0, Math.min(timeToSkip, holdTimer + elapsed));
 			}

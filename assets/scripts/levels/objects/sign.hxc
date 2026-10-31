@@ -1,5 +1,7 @@
 import jta.Paths;
 import jta.objects.level.Object;
+import flixel.util.FlxTimer;
+import flixel.FlxG;
 
 class SignObject extends Object
 {
@@ -8,6 +10,7 @@ class SignObject extends Object
 		super('sign');
 
 		objectInteractable = true;
+		objectHasInteraction = true;
 
 		loadGraphic(Paths.image('objects/' + objectID), true, 16, 16);
 
@@ -29,5 +32,22 @@ class SignObject extends Object
 	public override function overlap():Void
 	{
 		animation.play('highlight');
+	}
+
+	public override function interact():Void
+	{
+		var dialogue:String = getParam(0);
+		if (dialogue == null)
+			return;
+
+		objectInteractable = false;
+
+		FlxG.state.playDialogue(dialogue, function():Void
+		{
+			new FlxTimer().start(0.5, function(tmr:FlxTimer):Void
+			{
+				objectInteractable = true;
+			});
+		});
 	}
 }

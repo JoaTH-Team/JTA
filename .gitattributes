@@ -2,6 +2,4 @@
 * text=auto
 
 # Associate script files with Haxe syntax highlighting
-*.hxs linguist-language=Haxe
 *.hxc linguist-language=Haxe
-*.hscript linguist-language=Haxe

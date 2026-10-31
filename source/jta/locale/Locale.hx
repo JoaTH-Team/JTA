@@ -32,6 +32,11 @@ class Locale
 	public static var locale:String = 'en-US';
 
 	/**
+	 * The language used when a translated file doesn't exist.
+	 */
+	public static final DEFAULT_LOCALE:String = 'en-US';
+
+	/**
 	 * Initializes the localization system.
 	 */
 	public static function init():Void
@@ -193,13 +198,15 @@ class Locale
 
 	/**
 	 * Gets a localized file path.
-	 * @param path The path to the file.
+	 * @param path The path to the file, falling back to the default language (`en-US`) if there's no translation.
 	 * @return The localized file path.
 	 */
 	public static function getFile(path:String):String
 	{
 		if (Assets.exists('assets/locales/$locale/$path'))
 			return 'assets/locales/$locale/$path';
+		if (locale != DEFAULT_LOCALE && Assets.exists('assets/locales/$DEFAULT_LOCALE/$path'))
+			return 'assets/locales/$DEFAULT_LOCALE/$path';
 		return null;
 	}
 }

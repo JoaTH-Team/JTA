@@ -4,46 +4,78 @@
     <file id="menu" value="menu.csv" />
     <file id="playState" value="playState.csv" />
     <file id="settings" value="settings.csv" />
+    <file id="levels" value="levels.csv" />
 
     <file id="fonts" value="fonts.xml" />
 
+    <locale id="de-DE" sort="0">
+        <contributors value="Joalor64" />
+        <ui language="Sprache" region="Region" accept="OK" />
+        <label id="de-DE" language="Deutsch" region="Deutschland" />
+        <label id="en-US" language="Englisch" region="Vereinigte Staaten" />
+        <label id="es-ES" language="Spanisch" region="Spanien" />
+        <label id="fr-FR" language="Französisch" region="Frankreich" />
+        <label id="it-IT" language="Italienisch" region="Italien" />
+        <label id="pt-BR" language="Portugiesisch" region="Brasilien" />
+    </locale>
+
     <!-- English (United States) -->
-    <locale id="en-US" is_default="true" sort="0">
+    <locale id="en-US" is_default="true" sort="1">
         <contributors value="Joalor64" />
         <ui language="Language" region="Region" accept="Okay" />
+        <label id="de-DE" language="German" region="Germany" />
         <label id="en-US" language="English" region="United States" />
         <label id="es-ES" language="Spanish" region="Spain" />
         <label id="fr-FR" language="French" region="France" />
+        <label id="it-IT" language="Italian" region="Italy" />
         <label id="pt-BR" language="Portuguese" region="Brazil" />
     </locale>
 
     <!-- Spanish (Spain) -->
-    <locale id="es-ES" sort="1">
+    <locale id="es-ES" sort="2">
         <contributors value="Joalor64, Infinite Kemonoyagi" />
-        <ui language="Idioma" region="Región" accept="Okay" />
+        <ui language="Idioma" region="Región" accept="OK" />
+        <label id="de-DE" language="Alemán" region="Alemania" />
         <label id="en-US" language="Inglés" region="Estados Unidos" />
         <label id="es-ES" language="Español" region="España" />
         <label id="fr-FR" language="Francés" region="Francia" />
+        <label id="it-IT" language="Italiano" region="Italia" />
         <label id="pt-BR" language="Portugués" region="Brasil" />
     </locale>
 
     <!-- French (France) -->
-    <locale id="fr-FR" sort="2">
+    <locale id="fr-FR" sort="3">
         <contributors value="Joalor64" />
         <ui language="Langue" region="Région" accept="OK" />
-        <label id="en-US" language="Inglés" region="Estados Unidos" />
-        <label id="es-ES" language="Español" region="España" />
+        <label id="de-DE" language="Allemand" region="Allemagne" />
+        <label id="en-US" language="Anglais" region="États-Unis" />
+        <label id="es-ES" language="Espagnol" region="Espagne" />
         <label id="fr-FR" language="Français" region="France" />
+        <label id="it-IT" language="Italien" region="Italie" />
         <label id="pt-BR" language="Portugais" region="Brésil" />
     </locale>
 
-    <!-- Portuguese (Brazil) -->
-    <locale id="pt-BR" sort="3">
+    <!-- Italian (Italy) -->
+    <locale id="it-IT" sort="4">
         <contributors value="Joalor64" />
-        <ui language="Langue" region="Région" accept="OK" />
-        <label id="en-US" language="Inglés" region="Estados Unidos" />
-        <label id="es-ES" language="Español" region="España" />
-        <label id="fr-FR" language="Français" region="France" />
+        <ui language="Lingua" region="Regione" accept="OK" />
+        <label id="de-DE" language="Tedesco" region="Germania" />
+        <label id="en-US" language="Inglese" region="Stati Uniti" />
+        <label id="es-ES" language="Spagnolo" region="Spagna" />
+        <label id="fr-FR" language="Francese" region="Francia" />
+        <label id="it-IT" language="Italiano" region="Italia" />
+        <label id="pt-BR" language="Portoghese" region="Brasile" />
+    </locale>
+
+    <!-- Portuguese (Brazil) -->
+    <locale id="pt-BR" sort="5">
+        <contributors value="Joalor64" />
+        <ui language="Idioma" region="Região" accept="OK" />
+        <label id="de-DE" language="Alemão" region="Alemanha" />
+        <label id="en-US" language="Inglês" region="Estados Unidos" />
+        <label id="es-ES" language="Espanhol" region="Espanha" />
+        <label id="fr-FR" language="Francês" region="França" />
+        <label id="it-IT" language="Italiano" region="Italia" />
         <label id="pt-BR" language="Português" region="Brasil" />
     </locale>
 </data>

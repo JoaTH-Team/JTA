@@ -1,0 +1,9 @@
+import jta.states.level.Level;
+
+class PrismusLevel extends Level
+{
+	public function new():Void
+	{
+		super('world2/lev1');
+	}
+}

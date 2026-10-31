@@ -22,6 +22,15 @@ enum DialogueBoxPosition
 class DialogueBox extends FlxSpriteGroup
 {
 	/**
+	 * The top edge of the visible box, in screen coordinates.
+	 */
+	public var boxTop(get, never):Float;
+
+	@:noCompletion
+	inline function get_boxTop():Float
+		return box != null ? box.y : y;
+
+	/**
 	 * The width of the dialogue box.
 	 */
 	@:noCompletion
@@ -85,20 +94,25 @@ class DialogueBox extends FlxSpriteGroup
 		}
 		writer.onPortraitChange.add(function(id:String):Void
 		{
-			if (id == null || id.length <= 0)
-				writer.setPosition(box.x, box.y);
-			else if (portrait == null || portrait.portraitID != id)
+			if (portrait != null && portrait.portraitID != id)
 			{
-				if (portrait != null)
-					remove(portrait);
-
-				portrait = PortraitRegistry.fetchPortrait(id);
-				portrait.setPosition(box.x, box.y);
-				portrait.scrollFactor.set();
-				insert(members.indexOf(box) + 1, portrait);
-
-				writer.setPosition(box.x + 104, box.y);
+				remove(portrait);
+				portrait = null;
 			}
+
+			if (portrait == null && id != null && id.length > 0)
+			{
+				portrait = PortraitRegistry.fetchPortrait(id);
+
+				if (portrait != null)
+				{
+					portrait.setPosition(box.x, box.y);
+					portrait.scrollFactor.set();
+					insert(members.indexOf(box) + 1, portrait);
+				}
+			}
+
+			writer.setPosition(portrait != null ? box.x + 104 : box.x, box.y);
 		});
 		writer.onFaceChange.add(function(expression:String):Void
 		{

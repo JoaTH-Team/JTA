@@ -10,23 +10,19 @@
 -L hxdiscord_rpc
 -L hxWindowColorMode
 -L sl-windows-api
--L hxcpp-debug-server
 -L jsonpath
 -L jsonpatch
 -L thx.core
 -L thx.semver
 -L extension-androidtools
 -L extension-videoview
+-L ios-videoplay
 
 -D windows
 
 -cp source
 
---define hscript
 --define hscriptPos
---define polymod
---define hxdiscord_rpc
---define REDIRECT_ASSETS_FOLDER
 --define NO_REDIRECT_ASSETS_FOLDER
 --define FLX_NO_HEALTH
 --define FLX_NO_DEBUG
@@ -39,6 +35,7 @@
 --define doc-gen
 --define message.reporting=pretty
 
+--macro addMetadata('@:build(jta.util.macro.FlxMacro.buildFlxBasic())', 'flixel.FlxBasic')
 --macro include('jta')
 --macro nullSafety('jta.registries')
 --macro nullSafety('jta.util')

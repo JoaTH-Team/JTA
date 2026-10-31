@@ -4,16 +4,14 @@ import jta.locale.Locale;
 import jta.states.BaseState;
 import jta.states.config.Settings;
 import jta.substates.BaseSubState;
+import jta.objects.MenuList;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.input.gamepad.FlxGamepadInputID;
 
 class DeviceSelect extends BaseSubState
 {
-	var selections:Array<String> = ["$KEYBOARD", "$GAMEPAD", "$BACK"];
-	var selectedIndex:Int = 0;
-
-	var selectionGroup:FlxTypedGroup<FlxText>;
+	var menu:MenuList;
 
 	var ignoreInputTimer:Float = 0;
 
@@ -30,20 +28,29 @@ class DeviceSelect extends BaseSubState
 		jta.api.DiscordClient.changePresence('Configuring Controls', null);
 		#end
 
-		var title:FlxText = new FlxText(10, 10, FlxG.width, Locale.getSettings("$DEVICE"));
-		title.setFormat(Paths.font('main'), 40, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		var title:FlxText = TextUtil.make(10, 10, FlxG.width, Locale.getSettings("$DEVICE"), 40);
 		add(title);
 
-		selectionGroup = new FlxTypedGroup<FlxText>();
-		add(selectionGroup);
-
-		for (i in 0...selections.length)
+		menu = new MenuList(30, 100);
+		menu.addOption(Locale.getSettings("$KEYBOARD"), function():Void
 		{
-			var selection:FlxText = new FlxText(10, 100 + i * 42, FlxG.width, (i != 2) ? Locale.getSettings(selections[i]) : Locale.getMenu(selections[i]));
-			selection.setFormat(Paths.font('main'), 36, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			selection.ID = i;
-			selectionGroup.add(selection);
-		}
+			menu.enabled = false;
+			transitionState(new Controls(false));
+		});
+		menu.addOption(Locale.getSettings("$GAMEPAD"), function():Void
+		{
+			if (FlxG.gamepads.lastActive != null)
+			{
+				SoundController.play(Paths.sound('select'));
+				menu.enabled = false;
+				transitionState(new Controls(true));
+			}
+			else
+				SoundController.play(Paths.sound('cancel'));
+		}, null);
+		menu.addOption(Locale.getMenu("$BACK"), close);
+		menu.enabled = false;
+		add(menu);
 
 		super.create();
 	}
@@ -53,59 +60,26 @@ class DeviceSelect extends BaseSubState
 		if (ignoreInputTimer > 0)
 		{
 			ignoreInputTimer -= elapsed;
+			if (ignoreInputTimer <= 0)
+				menu.enabled = true;
+
+			super.update(elapsed);
 			return;
 		}
 
-		if (Input.justPressed('up'))
-			changeSelection(-1);
-		else if (Input.justPressed('down'))
-			changeSelection(1);
-
-		if (Input.justPressed('confirm'))
-		{
-			switch (selectedIndex)
-			{
-				case 0:
-					SoundController.play(Paths.sound('select'));
-					transitionState(new Controls(false));
-				case 1:
-					var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-					if (gamepad != null)
-						transitionState(new Controls(true));
-					else
-						SoundController.play(Paths.sound('cancel'));
-				case 2:
-					SoundController.play(Paths.sound('select'));
-					close();
-			}
-		}
-		else if (Input.justPressed('cancel'))
+		if (menu.enabled && Input.justPressed('cancel'))
 		{
 			SoundController.play(Paths.sound('cancel'));
 			close();
 		}
 
-		selectionGroup.forEach(function(text:FlxText):Void
-		{
-			text.color = (text.ID == selectedIndex) ? FlxColor.YELLOW : FlxColor.WHITE;
-		});
-
 		super.update(elapsed);
-	}
-
-	@:noCompletion
-	private function changeSelection(num:Int):Void
-	{
-		SoundController.play(Paths.sound('scroll'));
-		selectedIndex = FlxMath.wrap(selectedIndex + num, 0, selections.length - 1);
 	}
 }
 
 class Controls extends BaseState
 {
-	var controls:Array<String> = ['left', 'down', 'up', 'right', 'jump', 'run', 'confirm', 'cancel'];
-	var selectionGroup:FlxTypedGroup<FlxText>;
-	var selectedIndex:Int = 0;
+	var menu:MenuList;
 
 	var isGamepad:Bool = false;
 	var isChangingBind:Bool = false;
@@ -127,28 +101,20 @@ class Controls extends BaseState
 		add(bg);
 
 		var titleText = isGamepad ? Locale.getSettings("$GPBINDS") : Locale.getSettings("$KBBINDS");
-		var title:FlxText = new FlxText(10, 10, FlxG.width, titleText);
-		title.setFormat(Paths.font('main'), 40, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		var title:FlxText = TextUtil.make(10, 10, FlxG.width, titleText, 40);
 		add(title);
 
-		selectionGroup = new FlxTypedGroup<FlxText>();
-		add(selectionGroup);
-
-		for (i in 0...controls.length)
-		{
-			var selection:FlxText = new FlxText(10, 100 + i * 42, FlxG.width, getBindLabel(controls[i], i));
-			selection.setFormat(Paths.font('main'), 36, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			selection.ID = i;
-			selectionGroup.add(selection);
-		}
+		menu = new MenuList(30, 90, 50);
+		for (i in 0...Input.ACTIONS.length)
+			menu.addOption(getBindLabel(i), startChangingBind, null);
+		add(menu);
 
 		tempBG = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		tempBG.alpha = 0.5;
 		tempBG.visible = false;
 		add(tempBG);
 
-		anyKeyTxt = new FlxText(0, 0, FlxG.width, '', 32);
-		anyKeyTxt.setFormat(Paths.font('main'), 36, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		anyKeyTxt = TextUtil.make(0, 0, FlxG.width, '', 36, CENTER);
 		anyKeyTxt.screenCenter();
 		anyKeyTxt.visible = false;
 		add(anyKeyTxt);
@@ -156,71 +122,80 @@ class Controls extends BaseState
 		super.create();
 	}
 
+	function startChangingBind():Void
+	{
+		isChangingBind = true;
+		menu.enabled = false;
+
+		anyKeyTxt.text = Locale.getSettings("$PRESS_ANY") + ' ' + (isGamepad ? Locale.getSettings("$BTN") : Locale.getSettings("$KEY"));
+		anyKeyTxt.visible = true;
+		tempBG.visible = true;
+
+		menu.setLabel(menu.selectedIndex, '${Input.ACTIONS[menu.selectedIndex].toUpperCase()}: ...');
+	}
+
 	override public function update(elapsed:Float):Void
 	{
 		if (!isChangingBind)
 		{
-			if (Input.justPressed('up'))
-				changeSelection(-1);
-			else if (Input.justPressed('down'))
-				changeSelection(1);
-
-			if (Input.justPressed('confirm'))
-			{
-				isChangingBind = true;
-				anyKeyTxt.text = Locale.getSettings("$PRESS_ANY") + ' ' + (isGamepad ? Locale.getSettings("$BTN") : Locale.getSettings("$KEY"));
-				anyKeyTxt.visible = true;
-				tempBG.visible = true;
-
-				var selectedText:FlxText = cast selectionGroup.members[selectedIndex];
-				selectedText.text = '${controls[selectedIndex].toUpperCase()}: ...';
-			}
-			else if (Input.justPressed('cancel'))
+			if (Input.justPressed('cancel'))
 			{
 				SoundController.play(Paths.sound('cancel'));
+				menu.enabled = false;
 				transitionState(new Settings());
+			}
+
+			super.update(elapsed);
+			return;
+		}
+
+		final index:Int = menu.selectedIndex;
+		var changed:Bool = false;
+
+		if (isGamepad)
+		{
+			final pad:Null<FlxGamepad> = FlxG.gamepads.lastActive;
+			if (pad != null)
+			{
+				final btn:FlxGamepadInputID = pad.firstJustPressedID();
+				if (btn != FlxGamepadInputID.NONE)
+				{
+					Data.settings.gamepadBinds[index] = btn;
+					changed = true;
+				}
 			}
 		}
 		else
 		{
-			if (Input.justPressed('any'))
+			final key:FlxKey = FlxG.keys.firstJustPressed();
+			if (key != FlxKey.NONE)
 			{
-				SoundController.play(Paths.sound('select'));
-				if (isGamepad)
-				{
-					var pad:FlxGamepad = FlxG.gamepads.lastActive;
-					var btn:FlxGamepadInputID = pad.firstJustPressedID();
-					if (pad != null && btn.toString() != FlxGamepadInputID.NONE)
-						Data.settings.gamepadBinds[selectedIndex] = btn;
-				}
-				else
-					Data.settings.keyboardBinds[selectedIndex] = FlxG.keys.getIsDown()[0].ID.toString();
-				Data.save();
-				Input.refreshControls();
-				isChangingBind = false;
-				tempBG.visible = false;
-				anyKeyTxt.visible = false;
-				refreshBinds();
+				Data.settings.keyboardBinds[index] = key;
+				changed = true;
 			}
 		}
 
-		selectionGroup.forEach(function(text:FlxText):Void
+		if (changed)
 		{
-			text.color = (text.ID == selectedIndex) ? FlxColor.YELLOW : FlxColor.WHITE;
-		});
+			SoundController.play(Paths.sound('select'));
+			Data.save();
+			Input.refreshControls();
+
+			isChangingBind = false;
+			tempBG.visible = false;
+			anyKeyTxt.visible = false;
+			refreshBinds();
+
+			new FlxTimer().start(0.01, (_) -> menu.enabled = true);
+		}
 
 		super.update(elapsed);
 	}
 
-	@:noCompletion
-	private function changeSelection(num:Int):Void
+	function getBindLabel(index:Int):String
 	{
-		SoundController.play(Paths.sound('scroll'));
-		selectedIndex = FlxMath.wrap(selectedIndex + num, 0, controls.length - 1);
-	}
+		final tag:String = Input.ACTIONS[index];
 
-	function getBindLabel(tag:String, index:Int):String
-	{
 		if (isGamepad)
 			return '${tag.toUpperCase()}: ${FlxGamepadInputID.toStringMap.get(Data.settings.gamepadBinds[index])}';
 		else
@@ -229,11 +204,7 @@ class Controls extends BaseState
 
 	function refreshBinds():Void
 	{
-		for (i in 0...controls.length)
-		{
-			var label:String = getBindLabel(controls[i], i);
-			var text:FlxText = cast selectionGroup.members[i];
-			text.text = label;
-		}
+		for (i in 0...Input.ACTIONS.length)
+			menu.setLabel(i, getBindLabel(i));
 	}
 }

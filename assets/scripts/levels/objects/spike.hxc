@@ -1,9 +1,5 @@
 import jta.Paths;
-import jta.Global;
-import jta.audio.SoundController;
 import jta.objects.level.Object;
-import jta.states.level.Level;
-import flixel.util.FlxTimer;
 import flixel.FlxG;
 
 class SpikeObject extends Object
@@ -22,24 +18,6 @@ class SpikeObject extends Object
 
 	public override function overlap():Void
 	{
-		var player = FlxG.state.player;
-		if (player != null)
-		{
-			if (FlxG.sound.music != null)
-				FlxG.sound.music.stop();
-			SoundController.play(Paths.sound('die'));
-			Global.lives--;
-			Global.save();
-			player.characterControllable = false;
-			player.animation.play('dead');
-			player.velocity.x = 0;
-			if (Global.lives > 0)
-			{
-				new FlxTimer().start(3, function(tmr:FlxTimer):Void
-				{
-					Level.resetLevel();
-				});
-			}
-		}
+		FlxG.state.killPlayer();
 	}
 }

@@ -85,6 +85,10 @@
             "type": "haxelib"
         },
         {
+            "name": "ios-videoplay",
+            "type": "haxelib"
+        },
+        {
             "name": "sl-windows-api",
             "type": "haxelib"
         }

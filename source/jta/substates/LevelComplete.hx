@@ -1,18 +1,19 @@
 package jta.substates;
 
 import jta.locale.Locale;
-import jta.states.MainMenu;
+import jta.objects.MenuList;
+import jta.states.WorldMap;
 import jta.states.LevelSelect;
 import jta.substates.BaseSubState;
+import jta.mobile.MobileInput;
 
 class LevelComplete extends BaseSubState
 {
 	var onContinue:Void->Void;
 
-	var selections:Array<String> = ["$CONTINUE", "$RETURN"];
-	var selectedIndex:Int = 0;
+	var menu:MenuList;
 
-	var selectionGroup:FlxTypedGroup<FlxText>;
+	private var mobileControls:Null<MobileInput>;
 
 	public function new(?onContinue:Void->Void):Void
 	{
@@ -25,61 +26,33 @@ class LevelComplete extends BaseSubState
 	{
 		cameras = [FlxG.cameras.list[1]];
 
-		var title:FlxText = new FlxText(10, 10, FlxG.width, Locale.getMenu("$LEVEL_COMPLETE"));
-		title.setFormat(Paths.font('main'), 40, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		var title:FlxText = TextUtil.make(10, 10, FlxG.width, Locale.getMenu("$LEVEL_COMPLETE"), 40);
 		title.scrollFactor.set();
 		add(title);
 
-		selectionGroup = new FlxTypedGroup<FlxText>();
-		add(selectionGroup);
-
-		for (i in 0...selections.length)
+		menu = new MenuList(30, 100);
+		menu.addOption(Locale.getMenu("$CONTINUE"), function():Void
 		{
-			var selection:FlxText = new FlxText(10, 100 + i * 42, FlxG.width, Locale.getMenu(selections[i]));
-			selection.setFormat(Paths.font('main'), 36, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			selection.scrollFactor.set();
-			selection.ID = i;
-			selectionGroup.add(selection);
-		}
+			menu.enabled = false;
+
+			if (onContinue != null)
+				onContinue();
+			else
+				transitionState(new LevelSelect());
+		});
+		menu.addOption(Locale.getMenu("$RETURN"), function():Void
+		{
+			menu.enabled = false;
+			transitionState(new WorldMap());
+		}, 'cancel');
+		add(menu);
+
+		#if mobile
+		mobileControls = new MobileInput();
+		mobileControls.setupMenuVertical(false);
+		add(mobileControls);
+		#end
 
 		super.create();
-	}
-
-	override public function update(elapsed:Float):Void
-	{
-		if (Input.justPressed('up'))
-			changeSelection(-1);
-		else if (Input.justPressed('down'))
-			changeSelection(1);
-
-		if (Input.justPressed('confirm'))
-		{
-			switch (selectedIndex)
-			{
-				case 0:
-					SoundController.play(Paths.sound('select'));
-					if (onContinue != null)
-						onContinue();
-					else
-						transitionState(new LevelSelect());
-				case 1:
-					SoundController.play(Paths.sound('cancel'));
-					transitionState(new MainMenu());
-			}
-		}
-
-		selectionGroup.forEach(function(text:FlxText):Void
-		{
-			text.color = (text.ID == selectedIndex) ? FlxColor.YELLOW : FlxColor.WHITE;
-		});
-
-		super.update(elapsed);
-	}
-
-	@:noCompletion
-	private function changeSelection(num:Int):Void
-	{
-		SoundController.play(Paths.sound('scroll'));
-		selectedIndex = FlxMath.wrap(selectedIndex + num, 0, selections.length - 1);
 	}
 }

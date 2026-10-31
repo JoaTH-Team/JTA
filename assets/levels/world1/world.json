@@ -1,0 +1,8 @@
+{
+    "name": "$WORLD_1",
+    "order": 1,
+    "mapPosition": {
+        "x": 60,
+        "y": 120
+    }
+}

@@ -4,6 +4,9 @@ import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.input.FlxInput.FlxInputState;
+#if mobile
+import jta.mobile.MobileInput;
+#end
 
 /**
  * A structure for input bindings, which includes both a keyboard key and a gamepad button.
@@ -22,28 +25,24 @@ typedef Bind =
 }
 
 /**
- * Class for handling inputs for keyboard and gamepad.
+ * Class for handling inputs for keyboard, gamepad and (on mobile) the on-screen touch buttons.
  * @author Joalor64
  */
 @:nullSafety
 class Input
 {
+	/**
+	 * The actions, in the same order as `Data.settings.keyboardBinds` and `gamepadBinds`.
+	 */
+	public static final ACTIONS:Array<String> = ['left', 'down', 'up', 'right', 'jump', 'run', 'confirm', 'cancel'];
+
 	static public var kBinds:Array<FlxKey> = Data.settings.keyboardBinds;
 	static public var gBinds:Array<FlxGamepadInputID> = Data.settings.gamepadBinds;
 
 	/**
 	 * A map of input bindings.
 	 */
-	public static var binds:Map<String, Bind> = [
-		'left' => {key: kBinds[0], gamepad: gBinds[0]},
-		'down' => {key: kBinds[1], gamepad: gBinds[1]},
-		'up' => {key: kBinds[2], gamepad: gBinds[2]},
-		'right' => {key: kBinds[3], gamepad: gBinds[3]},
-		'jump' => {key: kBinds[4], gamepad: gBinds[4]},
-		'run' => {key: kBinds[5], gamepad: gBinds[5]},
-		'confirm' => {key: kBinds[6], gamepad: gBinds[6]},
-		'cancel' => {key: kBinds[7], gamepad: gBinds[7]}
-	];
+	public static var binds:Map<String, Bind> = buildBinds();
 
 	/**
 	 * Refreshes the input controls based on the current settings.
@@ -52,18 +51,20 @@ class Input
 	{
 		kBinds = Data.settings.keyboardBinds;
 		gBinds = Data.settings.gamepadBinds;
+		binds = buildBinds();
+	}
 
-		binds.clear();
-		binds = [
-			'left' => {key: kBinds[0], gamepad: gBinds[0]},
-			'down' => {key: kBinds[1], gamepad: gBinds[1]},
-			'up' => {key: kBinds[2], gamepad: gBinds[2]},
-			'right' => {key: kBinds[3], gamepad: gBinds[3]},
-			'jump' => {key: kBinds[4], gamepad: gBinds[4]},
-			'run' => {key: kBinds[5], gamepad: gBinds[5]},
-			'confirm' => {key: kBinds[6], gamepad: gBinds[6]},
-			'cancel' => {key: kBinds[7], gamepad: gBinds[7]}
-		];
+	/**
+	 * Builds the action -> key/button map from `kBinds` and `gBinds`.
+	 */
+	static function buildBinds():Map<String, Bind>
+	{
+		final map:Map<String, Bind> = [];
+
+		for (i in 0...ACTIONS.length)
+			map.set(ACTIONS[i], {key: kBinds[i], gamepad: gBinds[i]});
+
+		return map;
 	}
 
 	/**
@@ -116,17 +117,25 @@ class Input
 
 	/**
 	 * Checks if the input associated with the given tag is in the specified state.
+	 *
+	 * The tag can be an action (`'jump'`), a key or gamepad button name (`'F5'`, `'A'`), or `'any'`.
+	 * On mobile, the on-screen buttons for that action count too.
 	 * @param tag The action name to check.
 	 * @param state The state to check.
 	 * @return `true` if the key or gamepad button is in the specified state, `false` otherwise.
 	 */
 	public static function checkInput(tag:String, state:FlxInputState):Bool
 	{
-		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
+		#if android
+		if (checkAndroidBack(tag, state))
+			return true;
+		#end
+
+		final gamepad:Null<FlxGamepad> = FlxG.gamepads.lastActive;
 
 		if (binds.exists(tag))
 		{
-			var bind:Null<Bind> = binds.get(tag);
+			final bind:Null<Bind> = binds.get(tag);
 			if (bind == null)
 				return false;
 
@@ -143,17 +152,22 @@ class Input
 		else
 		{
 			#if FLX_KEYBOARD
-			var kbInput:Null<FlxKey> = FlxKey.fromString(tag);
+			final kbInput:Null<FlxKey> = FlxKey.fromString(tag);
 			if (kbInput != null && kbInput != FlxKey.NONE && FlxG.keys.checkStatus(kbInput, state))
 				return true;
 			#end
 
 			#if FLX_GAMEPAD
-			var gpInput:Null<FlxGamepadInputID> = FlxGamepadInputID.fromString(tag);
+			final gpInput:Null<FlxGamepadInputID> = FlxGamepadInputID.fromString(tag);
 			if (gamepad != null && gpInput != null && gpInput != FlxGamepadInputID.NONE && gamepad.checkStatus(gpInput, state))
 				return true;
 			#end
 		}
+
+		#if mobile
+		if (checkTouch(tag, state))
+			return true;
+		#end
 
 		return false;
 	}
@@ -166,45 +180,45 @@ class Input
 	 */
 	public static function checkAnyInputs(tags:Array<String>, state:FlxInputState):Bool
 	{
-		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-
 		if (tags == null || tags.length <= 0)
 			return false;
 
+		#if android
 		for (tag in tags)
 		{
-			if (binds.exists(tag))
-			{
-				var bind:Null<Bind> = binds.get(tag);
-				if (bind == null)
-					return false;
-
-				#if FLX_KEYBOARD
-				if (FlxG.keys.checkStatus(bind.key, state))
-					return true;
-				#end
-
-				#if FLX_GAMEPAD
-				if (gamepad != null && gamepad.checkStatus(bind.gamepad, state))
-					return true;
-				#end
-			}
-			else
-			{
-				#if FLX_KEYBOARD
-				var kbInput:Null<FlxKey> = FlxKey.fromString(tag);
-				if (kbInput != null && kbInput != FlxKey.NONE && FlxG.keys.checkStatus(kbInput, state))
-					return true;
-				#end
-
-				#if FLX_GAMEPAD
-				var gpInput:Null<FlxGamepadInputID> = FlxGamepadInputID.fromString(tag);
-				if (gamepad != null && gpInput != null && gpInput != FlxGamepadInputID.NONE && gamepad.checkStatus(gpInput, state))
-					return true;
-				#end
-			}
+			if (checkAndroidBack(tag, state))
+				return true;
 		}
+		#end
+
+		for (tag in tags)
+			if (checkInput(tag, state))
+				return true;
 
 		return false;
 	}
+
+	#if mobile
+	/**
+	 * Checks the on-screen touch buttons. `'any'` matches any button.
+	 */
+	static function checkTouch(tag:String, state:FlxInputState):Bool
+	{
+		if (tag.toLowerCase() == 'any')
+			return MobileInput.checkAnyInput(state);
+
+		return MobileInput.checkInput(tag, state);
+	}
+	#end
+
+	#if android
+	/**
+	 * The Android system back button acts as `cancel`
+	 * Main.hx stops it from closing the app via `FlxG.android.preventDefaultKeys`.
+	 */
+	static function checkAndroidBack(tag:String, state:FlxInputState):Bool
+	{
+		return tag == 'cancel' && FlxG.android != null && FlxG.android.checkStatus(BACK, state);
+	}
+	#end
 }

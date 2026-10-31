@@ -1,0 +1,13 @@
+{
+    "name": "$LEVEL_W1_2",
+    "order": 2,
+    "cover": "world1",
+    "music": "Is_Grass_Green",
+    "tileset": "w1",
+    "tileSize": 16,
+    "bgColor": "#00B5E2",
+    "zoom": 2.95,
+    "cameraFollow": true,
+    "player": "mainplayer",
+    "spawn": { "x": 16, "y": 145 }
+}

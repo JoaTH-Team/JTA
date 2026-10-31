@@ -6,6 +6,9 @@ import jta.states.BaseState;
 import jta.states.config.Option;
 import jta.states.config.Controls;
 import jta.util.FilterUtil;
+#if mobile
+import jta.mobile.MobileInput;
+#end
 
 /**
  * Settings menu to configure game options.
@@ -87,12 +90,14 @@ class Settings extends BaseState
 		};
 		options.push(option);
 
+		#if !mobile
 		var option:Option = new Option(Locale.getSettings("$CTRLS"), OptionType.Function, function():Void
 		{
 			Data.save();
 			openSubState(new Controls.DeviceSelect());
 		});
 		options.push(option);
+		#end
 
 		var option:Option = new Option(Locale.getMenu("$EXIT"), OptionType.Function, function():Void
 		{
@@ -112,8 +117,7 @@ class Settings extends BaseState
 		bg.screenCenter();
 		add(bg);
 
-		var title:FlxText = new FlxText(10, 10, FlxG.width, Locale.getSettings("$SETTINGS"));
-		title.setFormat(Paths.font('main'), 40, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		var title:FlxText = TextUtil.make(10, 10, FlxG.width, Locale.getSettings("$SETTINGS"), 40);
 		add(title);
 
 		selectionGroup = new FlxTypedGroup<FlxText>();
@@ -121,13 +125,18 @@ class Settings extends BaseState
 
 		for (i in 0...options.length)
 		{
-			var selection:FlxText = new FlxText(10, 70 + i * 42, FlxG.width, options[i].toString());
-			selection.setFormat(Paths.font('main'), 36, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+			var selection:FlxText = TextUtil.make(10, 70 + i * 42, FlxG.width, options[i].toString(), 36);
 			selection.ID = i;
 			selectionGroup.add(selection);
 		}
 
 		holdTimer = new FlxTimer();
+
+		#if mobile
+		var mobileControls:MobileInput = new MobileInput();
+		mobileControls.setupMenuFull();
+		add(mobileControls);
+		#end
 
 		super.create();
 	}

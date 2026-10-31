@@ -23,6 +23,11 @@ class FramerateUtil
 		if (refreshRate < 60)
 			refreshRate = 60;
 
+		#if mobile
+		if (refreshRate > Main.GAME_FRAMERATE)
+			refreshRate = Main.GAME_FRAMERATE;
+		#end
+
 		if (FlxG.stage.frameRate != refreshRate)
 			FlxG.stage.frameRate = refreshRate;
 	}

@@ -1,0 +1,9 @@
+{
+    "name": "$WORLD_6",
+    "order": 6,
+    "mapPosition": {
+        "x": 660,
+        "y": 80
+    },
+    "hidden": true
+}

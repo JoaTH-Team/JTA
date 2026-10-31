@@ -25,7 +25,7 @@ class Startup extends BaseState
 		FlxG.autoPause = FlxG.fixedTimestep = false;
 
 		Data.load();
-		Global.load();
+		Global.migrateLegacySave();
 		Input.refreshControls();
 		PolymodHandler.load();
 

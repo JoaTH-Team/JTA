@@ -3,18 +3,23 @@ package jta.states;
 import jta.util.DateUtil;
 import jta.locale.Locale;
 import jta.states.BaseState;
-import jta.states.LevelSelect;
+import jta.states.SaveSelect;
 import jta.states.config.Settings;
+import jta.mobile.MobileInput;
+import jta.objects.MenuList;
 import flixel.effects.particles.FlxEmitter;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 
 class MainMenu extends BaseState
 {
-	var selections:Array<String> = ["$START", "$SETTINGS"];
-	var selectedIndex:Int = 0;
+	var menu:MenuList;
 
-	var selectionGroup:FlxTypedGroup<FlxText>;
+	static final MENU_X:Float = 70;
+
+	static final MENU_Y:Float = 364;
+	static final MENU_SPACING:Float = 56;
+	static final SELECTED_SLIDE:Float = 16;
 
 	var player:FlxSprite;
 
@@ -35,14 +40,13 @@ class MainMenu extends BaseState
 		super();
 
 		weather = DateUtil.getWeather();
-
-		#if desktop
-		selections.push("$EXIT");
-		#end
 	}
 
 	override public function create():Void
 	{
+		jta.states.level.WorldRun.stop();
+		jta.states.level.Level.clearCheckpoint();
+
 		#if hxdiscord_rpc
 		jta.api.DiscordClient.changePresence('Main Menu', null);
 		#end
@@ -80,75 +84,78 @@ class MainMenu extends BaseState
 			});
 		}
 
-		var logo:FlxSprite = new FlxSprite(0, FlxG.height * 0.2).loadGraphic(Paths.image('menu/mainmenu/logo'));
-		logo.scale.set(4.5, 4.5);
+		var logo:FlxSprite = new FlxSprite(#if !mobile 50 #else 0 #end, 25).loadGraphic(Paths.image('menu/mainmenu/logo'));
+		logo.scale.set(4, 4);
+		#if mobile
 		logo.screenCenter(X);
+		#end
+		logo.updateHitbox();
 		add(logo);
 
-		FlxTween.tween(logo, {y: logo.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
+		FlxTween.tween(logo, {y: logo.y + 10}, 1.2, {ease: FlxEase.sineInOut, type: PINGPONG});
 
-		player = new FlxSprite(0, FlxG.height + 175).loadGraphic(Paths.image('menu/mainmenu/playerTitle'), true, 15, 38);
+		player = new FlxSprite().loadGraphic(Paths.image('menu/mainmenu/playerTitle'), true, 15, 38);
 		player.animation.add('idle', [0], 1);
 		player.animation.add('blink', [1], 1);
 		player.animation.add('left', [2], 1);
 		player.animation.add('right', [3], 1);
-		player.scale.set(11.5, 11.5);
-		player.screenCenter(X);
+		player.scale.set(11, 11);
+		player.updateHitbox();
+		player.x = FlxG.width * 0.78 - player.width / 2;
+		player.y = FlxG.height + 20;
 		add(player);
 
-		selectionGroup = new FlxTypedGroup<FlxText>();
-		add(selectionGroup);
+		FlxTween.tween(player, {y: FlxG.height - player.height + 40}, 1, {ease: FlxEase.quadOut});
 
-		for (i in 0...selections.length)
-		{
-			var selection:FlxText = new FlxText(10, (FlxG.height * 0.6) + (i * 42), FlxG.width, Locale.getMenu(selections[i]));
-			selection.setFormat(Paths.font('main'), 36, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			selection.ID = i;
-			selectionGroup.add(selection);
-		}
+		menu = new MenuList(MENU_X, MENU_Y, MENU_SPACING, 36, true, SELECTED_SLIDE);
+		menu.minBarWidth = 330;
+		#if mobile
+		menu.centered = true;
+		#end
+		menu.addOption(Locale.getMenu("$START"), () -> leave(new SaveSelect()));
+		menu.addOption(Locale.getMenu("$SETTINGS"), () -> leave(new Settings()));
+		#if sys
+		menu.addOption(Locale.getMenu("$MODS"), () -> leave(new ModMenu()));
+		#end
+		menu.addOption(Locale.getMenu("$CREDITS"), () -> leave(new Credits()));
+		#if desktop
+		menu.addOption(Locale.getMenu("$EXIT"), () -> Sys.exit(0), null);
+		#end
+		add(menu);
 
-		FlxTween.tween(player, {y: FlxG.height * 0.8}, 1, {ease: FlxEase.quadOut});
-
-		var versionTxt:FlxText = new FlxText(0, FlxG.height - 48, 250, 'v${Lib.application.meta.get('version')}', 24);
-		versionTxt.text += #if (debug && !web) ' (${jta.util.macro.git.GitMacro.getCommitId()})' #else ' (DEMO)' #end;
-		versionTxt.setFormat(Paths.font('main'), 36, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		versionTxt.x = FlxG.width - versionTxt.width - 10;
-		add(versionTxt);
+		#if mobile
+		var mobileControls:MobileInput = new MobileInput();
+		mobileControls.setupMenuVertical(false);
+		add(mobileControls);
+		#end
 
 		super.create();
+
+		initVersionText();
+	}
+
+	function initVersionText():Void
+	{
+		if (leftWatermarkText == null)
+			return;
+
+		leftWatermarkText.size = 24;
+		leftWatermarkText.setPosition(14, FlxG.height - 40);
+		leftWatermarkText.text = 'v${Lib.application.meta.get('version')}';
+		leftWatermarkText.text += #if (debug && !web) ' (${jta.util.macro.git.GitUtil.getCommitHash()})' #else ' (DEMO)' #end;
+	}
+
+	/**
+	 * Goes to another menu (and stops the list from taking more input during the transition).
+	 */
+	function leave(state:flixel.util.typeLimit.NextState):Void
+	{
+		menu.enabled = false;
+		transitionState(state);
 	}
 
 	override public function update(elapsed:Float):Void
 	{
-		if (Input.justPressed('up'))
-			changeSelection(-1);
-		else if (Input.justPressed('down'))
-			changeSelection(1);
-
-		if (Input.justPressed('confirm'))
-		{
-			switch (selectedIndex)
-			{
-				case 0:
-					SoundController.play(Paths.sound('select'));
-					transitionState(new LevelSelect());
-				case 1:
-					SoundController.play(Paths.sound('select'));
-					transitionState(new Settings());
-				case 2:
-					#if desktop
-					Sys.exit(0);
-					#elseif web
-					lime.utils.Log.error('What?! This shouldn\'t be possible!');
-					#end
-			}
-		}
-
-		selectionGroup.forEach(function(text:FlxText):Void
-		{
-			text.color = (text.ID == selectedIndex) ? FlxColor.YELLOW : FlxColor.WHITE;
-		});
-
 		#if (debug && !mobile)
 		if (Input.justPressed('v'))
 		{
@@ -185,10 +192,4 @@ class MainMenu extends BaseState
 		}
 	}
 
-	@:noCompletion
-	private function changeSelection(num:Int):Void
-	{
-		SoundController.play(Paths.sound('scroll'));
-		selectedIndex = FlxMath.wrap(selectedIndex + num, 0, selections.length - 1);
-	}
 }

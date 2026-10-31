@@ -44,6 +44,12 @@ jobs:
             artifact_path: export/debug/android/bin/app/build/outputs/apk/debug
             artifact_name: androidBuild
 
+          - target: ios
+            title: iOS
+            runs-on: macos-15
+            artifact_path: export/debug/ios/build/Debug-iphoneos/*.ipa
+            artifact_name: iOSBuild
+
     name: build${{ matrix.title }}
     runs-on: ${{ matrix.runs-on }}
 
@@ -139,7 +145,7 @@ jobs:
       - name: Compile
         run: |
           ${{ matrix.target == 'android' && 'haxelib run lime setup android' || '' }}
-          haxelib run lime build ${{ matrix.target }} -debug
+          haxelib run lime build ${{ matrix.target }} -debug ${{ matrix.target == 'ios' && '-nosign' || '' }}
 
       - name: Clear Previous Cache
         uses: actions/github-script@main
@@ -158,6 +164,15 @@ jobs:
       - name: Tar files (macOS)
         if: matrix.target == 'macos'
         run: tar -zcvf build.tar.gz export/debug/macos/bin
+
+      - name: Create IPA Package (iOS)
+        if: matrix.target == 'ios'
+        run: |
+          cd export/debug/ios/build/Debug-iphoneos
+          mkdir -p Payload
+          cp -r *.app Payload/
+          zip -r Build-iOS-Unsigned.ipa Payload
+          rm -rf Payload
 
       - name: Upload Artifact
         uses: actions/upload-artifact@main

@@ -1,0 +1,30 @@
+import jta.states.level.Level;
+import jta.shaders.RuntimeShader;
+import flixel.FlxG;
+
+class BearableHeatLevel extends Level
+{
+	var shader:RuntimeShader;
+
+	public function new():Void
+	{
+		super('world3/lev1');
+	}
+
+	public override function create():Void
+	{
+		super.create();
+
+		shader = new RuntimeShader('heatwave');
+
+		FlxG.camera.filters = [shader.toFilter()];
+	}
+
+	public override function update(elapsed:Float):Void
+	{
+		super.update(elapsed);
+
+		if (shader != null)
+			shader.update(elapsed);
+	}
+}

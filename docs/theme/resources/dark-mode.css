@@ -105,17 +105,6 @@
   box-shadow: none;
 }
 
-.dark-theme .btn {
-  color: #d5d5d5;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
-  background-color: #313131;
-  background-image: linear-gradient(to bottom, #313131, #282828);
-  border: 1px solid #424141;
-  border-bottom-color: rgb(66, 65, 65);
-  border-bottom-color: #393939;
-  box-shadow: none;
-}
-
 .dark-theme .btn:focus,
 .dark-theme .btn:hover {
   color: #fff;
@@ -182,10 +171,6 @@
 
 .dark-theme .section-availability {
   color: #69b;
-}
-
-.dark-theme .alert {
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
 }
 
 .dark-theme .alert {

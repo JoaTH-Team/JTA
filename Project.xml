@@ -34,11 +34,11 @@
 	<!-- [ Path Settings ] -->
 
 	<set name="BUILD_DIR" value="export/debug" if="debug" />
-	<set name="BUILD_DIR" value="export/release" unless="debug" />
+	<set name="BUILD_DIR" value="export/tracy" if="FEATURE_DEBUG_TRACY" />
+	<set name="BUILD_DIR" value="export/release" unless="debug || FEATURE_DEBUG_TRACY" />
 
 	<source path="source" />
 
-	<assets path="assets/data" />
 	<assets path="assets/fonts" />
 	<assets path="assets/images" />
 	<assets path="assets/levels" />
@@ -50,19 +50,24 @@
 	<assets path="assets/music" exclude="*.mp3" unless="web" />
 	<assets path="assets/sounds" exclude="*.ogg" if="web" />
 	<assets path="assets/sounds" exclude="*.mp3" unless="web" />
-	<assets path="assets/videos" exclude="*.ogg|*.mp4" if="web" />
-	<assets path="assets/videos" exclude="*.mp3|*.mp4" unless="web" />
+	<assets path="assets/videos" include="*.webm|*.mp3" if="web" />
+	<assets path="assets/videos" include="*.webm|*.ogg" if="desktop" />
+	<assets path="assets/videos" include="*.mp4|*.ogg" if="mobile" />
 
-	<assets path="mobile" rename="assets/images/mobile" if="mobile" />
+	<assets path="mobile" rename="assets/images" if="mobile" />
 
-	<assets path="gamemode.ini" if="linux" />
+	<assets path="include/gamemode.ini" rename="gamemode.ini" if="linux" unless="debug" />
 
 	<section if="desktop">
-		<assets path="alsoft.txt" rename="alsoft.ini" type="text" if="windows" />
-		<assets path="alsoft.txt" rename="alsoft.conf" type="text" unless="windows" />
+		<assets path="include/alsoft.txt" rename="alsoft.ini" type="text" if="windows" />
+		<assets path="include/alsoft.txt" rename="alsoft.conf" type="text" unless="windows" />
 	</section>
 
 	<define name="NO_REDIRECT_ASSETS_FOLDER" />
+
+	<!-- [ Template Overrides ] -->
+
+	<template path="templates" if="ios" />
 
 	<!-- [ Libraries ] -->
 
@@ -74,7 +79,7 @@
 	<haxelib name="hscript" />
 	<haxelib name="polymod" />
 	<haxelib name="firetongue" />
-	<haxelib name="hxgamemode" if="linux" />
+	<haxelib name="hxgamemode" if="linux" unless="debug" />
 	<section if="desktop">
 		<haxelib name="hxdiscord_rpc" />
 		<haxelib name="hxcpp-debug-server" if="debug" />
@@ -87,6 +92,8 @@
 		<haxelib name="extension-androidtools" />
 		<haxelib name="extension-videoview" />
 	</section>
+
+	<haxelib name="ios-videoplay" if="ios" />
 
 	<!-- [ Haxe Defines ] -->
 
@@ -129,19 +136,33 @@
 
 	<haxedef name="openfl_enable_handle_error" if="${openfl &ge; 9.4.0}" />
 
+	<section if="FEATURE_DEBUG_TRACY">
+		<haxedef name="HXCPP_TELEMETRY" />
+		<haxedef name="HXCPP_TRACY" />
+		<haxedef name="HXCPP_TRACY_MEMORY" />
+		<haxedef name="HXCPP_TRACY_ON_DEMAND" />
+		<haxedef name="absolute-paths" />
+	</section>
+
 	<!-- [ Undefinitions ] -->
 
 	<undefine name="openfl-disable-handle-error" if="debug" unless="${openfl &ge; 9.4.0}" />
 
-	<!-- [ Haxe Flags ] -->
+	<!-- [ Macros ] -->
 
 	<haxeflag name="-dce" value="no" />
+
+	<haxeflag name="--macro"
+		value="addMetadata('@:build(jta.util.macro.FlxMacro.buildFlxBasic())', 'flixel.FlxBasic')" />
 
 	<haxeflag name="--macro" value="include('jta')" />
 	<haxeflag name="--macro"
 		value="include('flixel', true, ['flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.addons.tile.FlxRayCastTilemap', 'flixel.system.macros.*'])" />
 	<haxeflag name="--macro" value="nullSafety('jta.registries')" />
 	<haxeflag name="--macro" value="nullSafety('jta.util')" />
+
+	<haxeflag name="--macro"
+		value="addGlobalMetadata('thx.Nil', '@:build(jta.util.macro.ObjCNameFix.build())')" if="ios" />
 
 	<!-- [ Icons ] -->
 

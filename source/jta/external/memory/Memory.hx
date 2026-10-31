@@ -8,7 +8,7 @@ import cpp.SizeT;
  * for the program.
  * @author Leather128 (Haxe) - David Robert Nadeau (Original C Header)
  */
-@:buildXml('<include name="../../../../source/jta/external/memory/build.xml" />')
+@:build(jta.util.macro.BuildXmlMacro.includeLocal('build.xml'))
 @:include("memory.hpp")
 extern class Memory
 {

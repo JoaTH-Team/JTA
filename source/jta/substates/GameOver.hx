@@ -1,16 +1,17 @@
 package jta.substates;
 
 import jta.locale.Locale;
-import jta.states.MainMenu;
+import jta.objects.MenuList;
+import jta.states.WorldMap;
 import jta.states.level.Level;
 import jta.substates.BaseSubState;
+import jta.mobile.MobileInput;
 
 class GameOver extends BaseSubState
 {
-	var selections:Array<String> = ["$RESTART", "$RETURN"];
-	var selectedIndex:Int = 0;
+	var menu:MenuList;
 
-	var selectionGroup:FlxTypedGroup<FlxText>;
+	private var mobileControls:Null<MobileInput>;
 
 	public function new():Void
 	{
@@ -23,60 +24,35 @@ class GameOver extends BaseSubState
 
 		SoundController.play(Paths.sound('die'));
 
-		var title:FlxText = new FlxText(10, 10, FlxG.width, Locale.getMenu("$GAME_OVER"));
-		title.setFormat(Paths.font('main'), 40, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		var title:FlxText = TextUtil.make(10, 10, FlxG.width, Locale.getMenu("$GAME_OVER"), 40);
 		title.scrollFactor.set();
 		add(title);
 
-		selectionGroup = new FlxTypedGroup<FlxText>();
-		add(selectionGroup);
-
-		for (i in 0...selections.length)
+		menu = new MenuList(30, 100);
+		menu.addOption(Locale.getMenu("$RESTART"), function():Void
 		{
-			var selection:FlxText = new FlxText(10, 100 + i * 42, FlxG.width, Locale.getMenu(selections[i]));
-			selection.setFormat(Paths.font('main'), 36, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			selection.scrollFactor.set();
-			selection.ID = i;
-			selectionGroup.add(selection);
-		}
+			refillLives();
+			Level.restartFromStart();
+		});
+		menu.addOption(Locale.getMenu("$RETURN"), function():Void
+		{
+			refillLives();
+			transitionState(new WorldMap());
+		}, 'cancel');
+		add(menu);
+
+		#if mobile
+		mobileControls = new MobileInput();
+		mobileControls.setupMenuVertical(false);
+		add(mobileControls);
+		#end
 
 		super.create();
 	}
 
-	override public function update(elapsed:Float):Void
+	function refillLives():Void
 	{
-		if (Input.justPressed('up'))
-			changeSelection(-1);
-		else if (Input.justPressed('down'))
-			changeSelection(1);
-
-		if (Input.justPressed('confirm'))
-		{
-			Global.lives = 3;
-			Global.save();
-			switch (selectedIndex)
-			{
-				case 0:
-					SoundController.play(Paths.sound('select'));
-					Level.resetLevel();
-				case 1:
-					SoundController.play(Paths.sound('cancel'));
-					transitionState(new MainMenu());
-			}
-		}
-
-		selectionGroup.forEach(function(text:FlxText):Void
-		{
-			text.color = (text.ID == selectedIndex) ? FlxColor.YELLOW : FlxColor.WHITE;
-		});
-
-		super.update(elapsed);
-	}
-
-	@:noCompletion
-	private function changeSelection(num:Int):Void
-	{
-		SoundController.play(Paths.sound('scroll'));
-		selectedIndex = FlxMath.wrap(selectedIndex + num, 0, selections.length - 1);
+		Global.lives = Global.DEFAULT_LIVES;
+		Global.save();
 	}
 }

@@ -1,0 +1,9 @@
+import jta.states.level.Level;
+
+class GemCityLevel extends Level
+{
+	public function new():Void
+	{
+		super('world4/lev1');
+	}
+}

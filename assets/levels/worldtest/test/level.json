@@ -1,0 +1,12 @@
+{
+    "name": "Test",
+    "hidden": true,
+    "tileset": "test",
+    "tileSize": 16,
+    "bgColor": "#FFFFFF",
+    "zoom": 2.95,
+    "cameraFollow": true,
+    "player": "mainplayer",
+    "spawn": { "x": 16, "y": 200 },
+    "backgroundScroll": { "x": 1, "y": 1 }
+}

@@ -5,6 +5,7 @@ import jta.debug.FPS;
 import jta.video.GlobalVideo;
 import jta.video.VideoHandler;
 import jta.video.WebmHandler;
+import jta.util.WindowUtil;
 #if windows
 import winapi.WindowsAPI;
 import hxwindowmode.WindowColorMode;
@@ -90,7 +91,7 @@ class Main extends openfl.display.Sprite
 	public static function main():Void
 	{
 		#if android
-		Sys.setCwd(haxe.io.Path.addTrailingSlash(extension.androidtools.os.Build.VERSION.SDK_INT > 30 ? extension.androidtools.content.Context.getObbDir() : extension.androidtools.content.Context.getExternalFilesDir()));
+		Sys.setCwd(haxe.io.Path.addTrailingSlash(getAndroidStorageDir()));
 		#elseif ios
 		Sys.setCwd(haxe.io.Path.addTrailingSlash(openfl.filesystem.File.documentsDirectory.nativePath));
 		#end
@@ -99,12 +100,17 @@ class Main extends openfl.display.Sprite
 		jta.util.logging.ErrorHandler.initUncaughtErrorHandler();
 		#end
 
-		jta.util.WindowUtil.init();
+		WindowUtil.init();
+
+		#if FEATURE_DEBUG_TRACY
+		WindowUtil.initTracy();
+		#end
 
 		#if windows
+		WindowsAPI.setWindowRound(WindowRound.DWMWCP_ROUND);
 		WindowColorMode.setDarkMode();
-		WindowColorMode.redrawWindowHeader();
-
+		if (WindowColorMode.isWindows10)
+			WindowColorMode.redrawWindowHeader();
 		WindowsAPI.centerWindow();
 		#end
 
@@ -113,6 +119,49 @@ class Main extends openfl.display.Sprite
 		Lib.current.stage.scaleMode = openfl.display.StageScaleMode.NO_SCALE;
 		Lib.current.addChild(new Main());
 	}
+
+	#if android
+	/**
+	 * The folder used for `mods/` and `logs/` on Android.
+	 * Falls back to the old location if it can't be created or written to.
+	 */
+	@:nullSafety(Off)
+	private static function getAndroidStorageDir():String
+	{
+		var packageName:String = null;
+		try
+		{
+			packageName = lime.app.Application.current.meta.get('packageName');
+		}
+		catch (e:Dynamic) {}
+
+		if (packageName == null || packageName.length == 0)
+			packageName = 'com.joalor64.jta';
+
+		try
+		{
+			final mediaDir:String = haxe.io.Path.join([
+				extension.androidtools.os.Environment.getExternalStorageDirectory(),
+				'Android',
+				'media',
+				packageName
+			]);
+
+			if (!sys.FileSystem.exists(mediaDir))
+				sys.FileSystem.createDirectory(mediaDir);
+
+			final testFile:String = haxe.io.Path.join([mediaDir, '.write_test']);
+			sys.io.File.saveContent(testFile, '');
+			sys.FileSystem.deleteFile(testFile);
+
+			return mediaDir;
+		}
+		catch (e:Dynamic) {}
+
+		return
+			extension.androidtools.os.Build.VERSION.SDK_INT > 30 ? extension.androidtools.content.Context.getObbDir() : extension.androidtools.content.Context.getExternalFilesDir();
+	}
+	#end
 
 	/**
 	 * Initializes the game and sets up the application.

@@ -54,6 +54,20 @@ class WindowUtil
 		#end
 	}
 
+	#if FEATURE_DEBUG_TRACY
+	/**
+	 * Initialize Tracy.
+	 * NOTE: Call this from the main thread ONLY!
+	 */
+	public static function initTracy():Void
+	{
+		Lib.current.stage.addEventListener(openfl.events.Event.EXIT_FRAME, (_) -> cpp.vm.tracy.TracyProfiler.frameMark());
+
+		cpp.vm.tracy.TracyProfiler.setThreadName('main');
+		trace('Journey Through Aubekhia: Tracy profiling enabled (waiting for profiler).');
+	}
+	#end
+
 	#if linux
 	/**
 	 * This is exclusive for Hyprland users.

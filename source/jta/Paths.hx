@@ -82,6 +82,24 @@ class Paths
 		return 'assets/$key.csv';
 
 	/**
+	 * Gets a file in a level's folder.
+	 * @param levelId The level ID (e.g. `world1/lev1`).
+	 * @param file The file name (e.g. `map.csv`).
+	 * @return The path to the file.
+	 */
+	inline static public function level(levelId:String, file:String):String
+		return 'assets/levels/$levelId/$file';
+
+	/**
+	 * Gets a dialogue file in the current language, falling back to the default language.
+	 * @param levelId The level ID (e.g. `world1/lev1`).
+	 * @param name The dialogue file name, without `.json`.
+	 * @return The path to the dialogue file, or null if it doesn't exist in either language.
+	 */
+	static public function dialogue(levelId:String, name:String):Null<String>
+		return jta.locale.Locale.getFile('dialogue/$levelId/$name.json');
+
+	/**
 	 * Gets a sound effect as a `Sound` object.
 	 * @param key The key for the sound file.
 	 * @param cache Whether or not to cache the sound.
@@ -115,6 +133,15 @@ class Paths
 	 */
 	inline static public function image(key:String):String
 		return 'assets/images/$key.png';
+
+	/**
+	 * Gets a shader file.
+	 * @param key The shader's name in `assets/shaders/`, without the extension.
+	 * @param ext `frag` for fragment shaders, `vert` for vertex shaders.
+	 * @return The path to the shader file.
+	 */
+	inline static public function shader(key:String, ?ext:String = 'frag'):String
+		return 'assets/shaders/$key.$ext';
 
 	/**
 	 * Gets a video file.

@@ -43,7 +43,8 @@ class PortraitRegistry
 	}
 
 	/**
-	 * Fetches a scripted dialogue portrait by its ID.
+	 * Fetches a dialogue portrait by its ID.
+	 * Uses the portrait's script if it has one, otherwise a plain `Portrait` built from its images.
 	 * @param portraitID The ID of the portrait.
 	 * @return The portrait or null if not found.
 	 */
@@ -51,7 +52,10 @@ class PortraitRegistry
 	{
 		if (!portraitScriptedClasses.exists(portraitID))
 		{
-			FlxG.log.error('Unable to load "${portraitID}", not found in cache');
+			if (Portrait.hasImages(portraitID))
+				return new Portrait(portraitID);
+
+			FlxG.log.error('Unable to load portrait "${portraitID}": no script and no images/portraits/${portraitID}/default.png');
 
 			return null;
 		}

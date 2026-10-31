@@ -5,9 +5,9 @@
 * [ ] Secret Final Level
 
 ## Demo 2
-* [ ] Interactive World Selection
-* [ ] Remake Main Menu
-* [ ] Credits Menu
+* [X] Interactive World Selection
+* [X] Remake Main Menu
+* [X] Credits Menu
 * [ ] Minigames/Challenges
 * [ ] World 2
     * [ ] Music
@@ -30,10 +30,15 @@
     * [ ] Level 2
     * [ ] Level 3
         * [ ] End Cutscene
-* [ ] Android Support
-* [ ] Save Files
-* [ ] Mod Menu
-* [ ] Timed Level Support
+* [X] Android Support
+    * [X] Video Playback
+    * [X] Controls
+* [X] Save Files
+* [X] Mod Menu
+* [X] Timed Level Support
+* [X] Additional Languages
+    * [X] German (Germany)
+    * [X] Italian (Italy)
 
 ## Demo 1
 * [X] WebM Playback

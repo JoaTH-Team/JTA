@@ -1,0 +1,17 @@
+
+import flixel.FlxG;
+import jta.states.DemoEnd;
+import jta.states.level.Level;
+
+class CrystalBayLevel extends Level
+{
+	public function new():Void
+	{
+		super('world4/lev3');
+	}
+
+	public override function afterFinish():Void
+	{
+		FlxG.switchState(new DemoEnd('default', true));
+	}
+}

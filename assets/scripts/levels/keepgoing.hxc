@@ -1,35 +1,9 @@
-import flixel.FlxG;
-import flixel.FlxSprite;
-import jta.audio.SoundController;
 import jta.states.level.Level;
-import jta.Global;
-import jta.Paths;
 
 class KeepGoingLevel extends Level
 {
 	public function new():Void
 	{
-		super(2);
-		levelName = 'Keep Going!';
-	}
-
-	public override function create():Void
-	{
-		camFollowControllable = true;
-
-		SoundController.playMusic(Paths.music('Is_Grass_Green'));
-
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, 0xFF00B5E2);
-		bg.scrollFactor.set();
-		add(bg);
-
-		FlxG.camera.zoom = 2.95;
-
-		loadMap('world1/lev2', 'w1_tiles');
-		loadObjects('world1/lev2');
-
-		loadPlayer('mainplayer', 16, 145);
-
-		super.create();
+		super('world1/lev2');
 	}
 }

@@ -1,0 +1,42 @@
+import jta.Paths;
+import jta.audio.SoundController;
+import jta.objects.level.Object;
+import flixel.FlxG;
+
+class CheckpointObject extends Object
+{
+	public function new():Void
+	{
+		super('checkpoint');
+
+		objectInteractable = true;
+
+		loadGraphic(Paths.image('objects/' + objectID), true, 16, 16);
+		animation.add('idle', [0], 1);
+		animation.add('reached', [1], 1);
+		animation.play('idle');
+
+		immovable = true;
+		solid = false;
+	}
+
+	public override function onPlaced():Void
+	{
+		if (FlxG.state.isCheckpoint(x, y + height))
+			markReached();
+	}
+
+	public override function overlap():Void
+	{
+		markReached();
+
+		FlxG.state.setCheckpoint(x, y + height);
+		SoundController.play(Paths.sound('select'));
+	}
+
+	function markReached():Void
+	{
+		objectInteractable = false;
+		animation.play('reached');
+	}
+}

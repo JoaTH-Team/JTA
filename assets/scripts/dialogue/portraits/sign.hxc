@@ -1,18 +1,9 @@
 import jta.objects.dialogue.portraits.Portrait;
-import jta.Paths;
 
 class SignPortrait extends Portrait
 {
 	public function new():Void
 	{
 		super('sign');
-
-		loadGraphic(Paths.image('portraits/face_sign'));
-		scale.set(2, 2);
-		updateHitbox();
-
-		offset.set(-45, -45);
-
-		active = false;
 	}
 }

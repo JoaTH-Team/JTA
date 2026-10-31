@@ -62,32 +62,31 @@ class PolymodHandler
 	public static var trackedMods:Array<ModMetadata> = [];
 
 	/**
+	 * Name of the optional Sparrow atlas next to a mod's icon, for animated icons.
+	 */
+	public static final ICON_XML_FILE:String = '_polymod_icon.xml';
+
+	/**
+	 * Whether the module signal handlers were added already (so reloading doesn't add them twice).
+	 */
+	static var signalsAdded:Bool = false;
+
+	/**
 	 * Loads all mods and initializes the Polymod system.
+	 * Safe to call again to reload mods (e.g. after changing them in the mod menu).
 	 */
 	public static function load():Void
 	{
 		Polymod.clearScripts();
 		Polymod.onError = PolymodErrorHandler.onPolymodError;
 
-		FlxG.signals.focusGained.add(function()
+		if (!signalsAdded)
 		{
-			ModuleHandler.callEvent(module -> module.onFocusGained(new FocusEvent(FocusEventType.GAINED)));
-		});
-
-		FlxG.signals.focusLost.add(function()
-		{
-			ModuleHandler.callEvent(module -> module.onFocusLost(new FocusEvent(FocusEventType.LOST)));
-		});
-
-		FlxG.signals.preStateSwitch.add(function()
-		{
-			ModuleHandler.callEvent(module -> module.onStateSwitchPre(new StateSwitchEvent(StateUtil.getCurrentState())));
-		});
-
-		FlxG.signals.postStateSwitch.add(function()
-		{
-			ModuleHandler.callEvent(module -> module.onStateSwitchPost(new StateSwitchEvent(StateUtil.getCurrentState())));
-		});
+			signalsAdded = true;
+			addSignals();
+		}
+		else
+			Polymod.clearCache();
 
 		buildImports();
 
@@ -121,6 +120,30 @@ class PolymodHandler
 	}
 
 	@:noCompletion
+	private static function addSignals():Void
+	{
+		FlxG.signals.focusGained.add(function()
+		{
+			ModuleHandler.callEvent(module -> module.onFocusGained(new FocusEvent(FocusEventType.GAINED)));
+		});
+
+		FlxG.signals.focusLost.add(function()
+		{
+			ModuleHandler.callEvent(module -> module.onFocusLost(new FocusEvent(FocusEventType.LOST)));
+		});
+
+		FlxG.signals.preStateSwitch.add(function()
+		{
+			ModuleHandler.callEvent(module -> module.onStateSwitchPre(new StateSwitchEvent(StateUtil.getCurrentState())));
+		});
+
+		FlxG.signals.postStateSwitch.add(function()
+		{
+			ModuleHandler.callEvent(module -> module.onStateSwitchPost(new StateSwitchEvent(StateUtil.getCurrentState())));
+		});
+	}
+
+	@:noCompletion
 	private static function loadRegistries():Void
 	{
 		final registriesStart:Float = TimerUtil.start();
@@ -138,6 +161,10 @@ class PolymodHandler
 		FlxG.log.notice('Registries loading took: ${TimerUtil.seconds(registriesStart)}');
 	}
 
+	/**
+	 * Scans for mods (filling `trackedMods`, sorted by the saved load order)
+	 * and returns the IDs of the enabled ones, in load order.
+	 */
 	public static function getMods():Array<String>
 	{
 		trackedMods = [];
@@ -148,7 +175,11 @@ class PolymodHandler
 			FlxG.save.flush();
 		}
 
-		var daList:Array<String> = [];
+		if (FlxG.save.data.modOrder == null)
+		{
+			FlxG.save.data.modOrder = [];
+			FlxG.save.flush();
+		}
 
 		final appVersion:Null<String> = Lib.application.meta?.get('version');
 		final versionRule:String = appVersion != null ? '${appVersion.split(".")[0]}.${appVersion.split(".")[1]}.*' : API_VERSION;
@@ -156,14 +187,87 @@ class PolymodHandler
 		for (i in Polymod.scan({modRoot: MOD_DIR, apiVersionRule: versionRule, errorCallback: PolymodErrorHandler.onPolymodError}))
 		{
 			if (i != null)
-			{
 				trackedMods.push(i);
-				if (!FlxG.save.data.disabledMods.contains(i.id))
-					daList.push(i.id);
-			}
 		}
 
-		return daList != null && daList.length > 0 ? daList : [];
+		final order:Array<String> = FlxG.save.data.modOrder;
+		final scanOrder:Array<String> = [for (m in trackedMods) m.id];
+
+		trackedMods.sort(function(a:ModMetadata, b:ModMetadata):Int
+		{
+			final ia:Int = order.indexOf(a.id);
+			final ib:Int = order.indexOf(b.id);
+			final ka:Int = (ia >= 0) ? ia : order.length + scanOrder.indexOf(a.id);
+			final kb:Int = (ib >= 0) ? ib : order.length + scanOrder.indexOf(b.id);
+			return ka - kb;
+		});
+
+		return [for (m in trackedMods) if (isModEnabled(m.id)) m.id];
+	}
+
+	/**
+	 * Whether a mod is enabled (mods are enabled unless turned off in the mod menu).
+	 * @param id The mod ID.
+	 */
+	public static function isModEnabled(id:String):Bool
+	{
+		final disabled:Null<Array<String>> = FlxG.save.data.disabledMods;
+		return disabled == null || !disabled.contains(id);
+	}
+
+	/**
+	 * Saves which mods are enabled and the load order. Call `load()` afterwards to apply it.
+	 * @param orderedIds Every mod ID, in load order (first loads first).
+	 * @param disabledIds The IDs of the disabled mods.
+	 */
+	public static function saveModSettings(orderedIds:Array<String>, disabledIds:Array<String>):Void
+	{
+		FlxG.save.data.modOrder = orderedIds.copy();
+		FlxG.save.data.disabledMods = disabledIds.copy();
+		FlxG.save.flush();
+	}
+
+	/**
+	 * Reads a text file from a mod's folder (or zip), e.g. its animated icon's XML.
+	 * @param mod The mod.
+	 * @param file The file's path inside the mod.
+	 * @return The file's contents, or null if it doesn't exist.
+	 */
+	public static function readModText(mod:ModMetadata, file:String):Null<String>
+	{
+		#if sys
+		final modPath:Null<String> = mod.modPath;
+		if (modPath == null)
+			return null;
+
+		final path:String = haxe.io.Path.join([modPath, file]);
+
+		try
+		{
+			final fs = Polymod.getFileSystem();
+			if (fs != null && fs.exists(path))
+				return fs.getFileContent(path);
+
+			if (FileSystem.exists(path))
+				return sys.io.File.getContent(path);
+		}
+		catch (e:Dynamic)
+			trace('Couldn\'t read "$path": $e');
+		#end
+
+		return null;
+	}
+
+	/**
+	 * The full path of the mods folder.
+	 */
+	public static function getModsFolder():String
+	{
+		#if sys
+		return FileSystem.absolutePath(MOD_DIR);
+		#else
+		return MOD_DIR;
+		#end
 	}
 
 	public static function getModIDs():Array<String>
@@ -275,6 +379,7 @@ class PolymodHandler
 		result.push('.gitignore');
 		result.push('.gitattributes');
 		result.push('README.md');
+		result.push(ICON_XML_FILE);
 
 		return result;
 	}

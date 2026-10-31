@@ -1,21 +1,20 @@
 package jta.states;
 
 import jta.Assets;
-import jta.states.MainMenu;
+import jta.states.WorldMap;
+import jta.states.level.WorldRun;
 import jta.states.BaseState;
 import jta.registries.LevelRegistry;
-import jta.modding.PolymodHandler;
-
-typedef LevelData =
-{
-	name:String,
-	id:String,
-	?cover:String
-}
+import jta.states.level.LevelData;
 
 class LevelSelect extends BaseState
 {
-	var levelList:Array<LevelData> = [];
+	/**
+	 * The world whose levels are shown, or null to show every level.
+	 */
+	var worldId:Null<String> = null;
+
+	var levelList:Array<String> = [];
 	var selectedIndex:Int = 0;
 
 	var coverGroup:FlxTypedGroup<FlxSprite>;
@@ -23,6 +22,16 @@ class LevelSelect extends BaseState
 
 	var arrowL:FlxSprite;
 	var arrowR:FlxSprite;
+
+	/**
+	 * @param worldId The world whose levels to show (e.g. `world1`). Leave it out to show every level.
+	 */
+	public function new(?worldId:String):Void
+	{
+		super();
+
+		this.worldId = worldId;
+	}
 
 	override public function create():Void
 	{
@@ -37,51 +46,19 @@ class LevelSelect extends BaseState
 		bg.screenCenter();
 		add(bg);
 
-		var initLevels:Array<String> = [];
-		var corePath:String = 'assets/levels/levelList.txt';
-		if (Assets.exists(corePath))
+		WorldRun.stop();
+		jta.states.level.Level.clearCheckpoint();
+		jta.objects.HUD.resetLifeTracking();
+
+		levelList = (worldId != null) ? LevelRegistry.listLevelsInWorld(worldId) : LevelRegistry.listLevels();
+
+		if (worldId != null)
 		{
-			var coreContent:String = Assets.getText(corePath);
-			var coreLevels:Array<String> = coreContent.trim().split('\n');
-			for (i in 0...coreLevels.length)
-			{
-				var trimmed:String = coreLevels[i].trim();
-				if (trimmed != '')
-					initLevels.push(trimmed);
-			}
+			var worldText:FlxText = TextUtil.make(0, 14, FlxG.width, LevelRegistry.getWorldName(worldId), 30, CENTER, FlxColor.YELLOW);
+			add(worldText);
 		}
 
-		for (modId in PolymodHandler.getModIDs())
-		{
-			var modPath:String = 'mods/$modId/levels/levelList.txt';
-			if (Assets.exists(modPath))
-			{
-				var modContent:String = Assets.getText(modPath);
-				var modLevels = modContent.trim().split('\n');
-				for (i in 0...modLevels.length)
-				{
-					var trimmed:String = modLevels[i].trim();
-					if (trimmed != '')
-						initLevels.push(trimmed);
-				}
-			}
-		}
-
-		for (i in 0...initLevels.length)
-		{
-			var data:Array<String> = initLevels[i].split('|');
-			if (data.length >= 2)
-			{
-				levelList.push({
-					name: data[0],
-					id: data[1],
-					cover: (data.length > 2) ? data[2] : null
-				});
-			}
-		}
-
-		titleText = new FlxText(0, 60, FlxG.width, '');
-		titleText.setFormat(Paths.font('main'), 40, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		titleText = TextUtil.make(0, 60, FlxG.width, '', 40, CENTER);
 		titleText.screenCenter(X);
 		add(titleText);
 
@@ -127,11 +104,10 @@ class LevelSelect extends BaseState
 			if (idx < 0 || idx >= levelList.length)
 				continue;
 
-			var level:LevelData = levelList[idx];
+			var data:Null<LevelData> = LevelRegistry.getLevelData(levelList[idx]);
 			var sprite:FlxSprite = new FlxSprite();
 
-			var str:String = level.cover != null ? level.cover : level.name;
-			var imagePath:String = 'menu/level/${str.toLowerCase().replace(' ', '_')}';
+			var imagePath:String = 'menu/level/${data?.cover ?? 'placeholder'}';
 			if (Assets.exists(Paths.image(imagePath)))
 				sprite.loadGraphic(Paths.image(imagePath));
 			else
@@ -164,6 +140,16 @@ class LevelSelect extends BaseState
 			}
 
 			coverGroup.add(sprite);
+
+			if (Global.isLevelCompleted(levelList[idx]))
+			{
+				var check:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menu/level/check'));
+				check.scale.set(i == 0 ? 3 : 2, i == 0 ? 3 : 2);
+				check.updateHitbox();
+				check.x = sprite.x + sprite.width - check.width * 0.6;
+				check.y = sprite.y - check.height * 0.4;
+				coverGroup.add(check);
+			}
 		}
 
 		if (centerCover != null)
@@ -172,7 +158,7 @@ class LevelSelect extends BaseState
 			arrowR.x = centerCover.x + centerCover.width + 20;
 		}
 
-		titleText.text = levelList[selectedIndex].name;
+		titleText.text = LevelRegistry.getLevelName(levelList[selectedIndex]);
 	}
 
 	override public function update(elapsed:Float):Void
@@ -186,6 +172,18 @@ class LevelSelect extends BaseState
 			arrowR.animation.play('pressed');
 		else
 			arrowR.animation.play('idle');
+
+		if (levelList.length == 0)
+		{
+			if (Input.justPressed('cancel'))
+			{
+				SoundController.play(Paths.sound('ui/cancel'));
+				transitionState(new WorldMap());
+			}
+
+			super.update(elapsed);
+			return;
+		}
 
 		if (Input.justPressed('left'))
 		{
@@ -202,15 +200,19 @@ class LevelSelect extends BaseState
 
 		if (Input.justPressed('confirm'))
 		{
-			if (FlxG.sound.music != null && FlxG.sound.music.playing)
-				FlxG.sound.music.stop();
-			SoundController.play(Paths.sound('select'));
-			transitionState(LevelRegistry.fetchLevel(Std.parseInt(levelList[selectedIndex].id)));
+			final level = LevelRegistry.fetchLevel(levelList[selectedIndex]);
+			if (level != null)
+			{
+				if (FlxG.sound.music != null && FlxG.sound.music.playing)
+					FlxG.sound.music.stop();
+				SoundController.play(Paths.sound('select'));
+				transitionState(level);
+			}
 		}
 		else if (Input.justPressed('cancel'))
 		{
 			SoundController.play(Paths.sound('cancel'));
-			transitionState(new MainMenu());
+			transitionState(new WorldMap());
 		}
 
 		super.update(elapsed);

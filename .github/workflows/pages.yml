@@ -10,8 +10,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
   group: "pages"
@@ -19,51 +17,29 @@ concurrency:
 
 jobs:
   build:
-    concurrency: ci-${{ github.ref }}
-
     runs-on: ubuntu-latest
-    
+
     steps:
-      - uses: actions/checkout@main
-      
-      - uses: krdlab/setup-haxe@master
+      - uses: actions/checkout@v4
+
+      - uses: krdlab/setup-haxe@v1
         with:
           haxe-version: 4.3.7
 
       - name: Install Haxe Libraries
         run: |
           haxelib setup ~/haxelib
-          haxelib install hxcpp > /dev/null
-          haxelib install lime
-          haxelib install openfl
-          haxelib install flixel
-          haxelib install flixel-addons
-          haxelib git extension-webm https://github.com/KadeDev/extension-webm
-          haxelib install hscript
-          haxelib git polymod https://github.com/FunkinCrew/polymod acfdc2e26722f20339a2bc0cc8cd7dd5fe0c6b5e
-          haxelib git thx.core https://github.com/fponticelli/thx.core.git
-          haxelib install thx.semver
-          haxelib git jsonpath https://github.com/EliteMasterEric/jsonpath.git
-          haxelib install jsonpatch
-          haxelib install firetongue
-          haxelib install hxgamemode
-          haxelib install hxdiscord_rpc
-          haxelib install hxWindowColorMode
-          haxelib install sl-windows-api
-          haxelib install hxcpp-debug-server
-          haxelib install extension-androidtools
-          haxelib install extension-videoview
+          haxe -cp ./actions/libs-installer -D analyzer-optimize -main Main --interp
           haxelib install dox
-          haxelib install format
           haxelib list
-          mkdir pages
-      
+
       - name: Create Documentation Site
         run: |
-            chmod +x docs/docs.sh
-            docs/docs.sh
-      
-      - name: github-actions deploy
+          chmod +x docs/docs.sh
+          docs/docs.sh
+
+      - name: Deploy
+        if: github.event_name != 'pull_request'
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: pages
