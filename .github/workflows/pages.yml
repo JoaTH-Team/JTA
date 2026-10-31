@@ -30,6 +30,7 @@ jobs:
         run: |
           haxelib setup ~/haxelib
           haxe -cp ./actions/libs-installer -D analyzer-optimize -main Main --interp
+          haxelib git hxcpp https://github.com/Joalor64/hxcpp.git --quiet
           haxelib install dox
           haxelib list
 
