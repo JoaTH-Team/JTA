@@ -8,13 +8,14 @@ jobs:
         uses: actions/checkout@main
 
       - name: Setup Haxe
-        uses: krdlab/setup-haxe@master
+        uses: krdlab/setup-haxe@v2
         with:
           haxe-version: latest
 
       - name: Install OxiPNG & OptiVorbis
         run: |
           cargo install oxipng
+          # the OptiVorbis command-line tool isn't on crates.io, only on GitHub
           cargo install --git https://github.com/OptiVorbis/OptiVorbis optivorbis_cli
 
       - name: Optimizer

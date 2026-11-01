@@ -76,7 +76,7 @@ jobs:
         if: matrix.target == 'android'
         uses: android-actions/setup-android@v4
 
-      - uses: krdlab/setup-haxe@v1
+      - uses: krdlab/setup-haxe@v2
         with:
           haxe-version: 4.3.7
 
@@ -85,6 +85,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: |
+            .haxelib/
             export/debug/${{ matrix.target }}/haxe/
             export/debug/${{ matrix.target }}/obj/
           key: cache-${{ matrix.target }}-debug
@@ -159,6 +160,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: |
+            .haxelib/
             export/debug/${{ matrix.target }}/haxe/
             export/debug/${{ matrix.target }}/obj/
           key: cache-${{ matrix.target }}-debug
