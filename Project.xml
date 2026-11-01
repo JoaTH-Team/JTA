@@ -4,7 +4,7 @@
 	<!-- [ Application Settings ] -->
 
 	<app title="Journey Through Aubekhia" packageName="com.joalor64.jta" package="com.joalor64.jta"
-		file="JTA" main="Main" version="0.1.0" company="Joalor64" />
+		file="JTA" main="Main" version="0.2.0a" company="Joalor64" />
 
 	<app preloader="jta.api.Preloader" if="web" />
 

@@ -150,6 +150,15 @@
   color: #CCC !important;
 }
 
+.dark-theme .copyright a {
+  color: #15dfba !important;
+}
+
+.dark-theme .copyright a:hover,
+.dark-theme .copyright a:focus {
+  color: #41ffd4 !important;
+}
+
 .dark-theme .table th,
 .dark-theme .table td {
   border-bottom: 1px solid #222;
