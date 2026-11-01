@@ -83,7 +83,6 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: |
-            .haxelib/
             export/release/${{ matrix.target }}/haxe/
             export/release/${{ matrix.target }}/obj/
           key: cache-${{ matrix.target }}-release
@@ -158,7 +157,6 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: |
-            .haxelib/
             export/release/${{ matrix.target }}/haxe/
             export/release/${{ matrix.target }}/obj/
           key: cache-${{ matrix.target }}-release
