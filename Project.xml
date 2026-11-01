@@ -155,6 +155,7 @@
 	<haxeflag name="--macro"
 		value="addMetadata('@:build(jta.util.macro.FlxMacro.buildFlxBasic())', 'flixel.FlxBasic')" />
 
+	<haxeflag name="--macro" value="include('jta.objects')" />
 	<haxeflag name="--macro" value="include('jta')" />
 	<haxeflag name="--macro"
 		value="include('flixel', true, ['flixel.addons.editors.spine.*', 'flixel.addons.nape.*', 'flixel.addons.tile.FlxRayCastTilemap', 'flixel.system.macros.*'])" />

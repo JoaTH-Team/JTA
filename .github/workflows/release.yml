@@ -2,14 +2,14 @@ name: Release Build
 
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    tags: ["v*"]
   workflow_dispatch:
 
 jobs:
   build:
-    permissions: write-all
+    permissions:
+      contents: read
+      actions: write
     strategy:
       fail-fast: false
       matrix:
@@ -23,13 +23,13 @@ jobs:
           - target: macos
             title: macOS
             runs-on: macos-14
-            artifact_path: export/release/macos/bin
+            artifact_path: build.tar.gz
             artifact_name: macOSBuild
 
           - target: linux
             title: Linux
             runs-on: ubuntu-latest
-            artifact_path: export/release/linux/bin
+            artifact_path: build.tar.gz
             artifact_name: linuxBuild
           
           - target: html5
@@ -41,7 +41,7 @@ jobs:
           - target: android
             title: Android
             runs-on: ubuntu-latest
-            artifact_path: export/release/android/bin/app/build/outputs/apk/debug
+            artifact_path: export/release/android/bin/app/build/outputs/apk/release
             artifact_name: androidBuild
 
           - target: ios
@@ -54,7 +54,7 @@ jobs:
     runs-on: ${{ matrix.runs-on }}
 
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v4
 
       - name: Setup Android NDK
         if: matrix.target == 'android'
@@ -74,13 +74,13 @@ jobs:
         if: matrix.target == 'android'
         uses: android-actions/setup-android@v4
 
-      - uses: krdlab/setup-haxe@master
+      - uses: krdlab/setup-haxe@v1
         with:
           haxe-version: 4.3.7
 
       - name: Restore Previous Cache
         id: cache-build-restore
-        uses: actions/cache/restore@main
+        uses: actions/cache/restore@v4
         with:
           path: |
             export/release/${{ matrix.target }}/haxe/
@@ -115,7 +115,7 @@ jobs:
         run: haxelib git hxcpp https://github.com/Joalor64/hxcpp.git --quiet && haxelib run lime rebuild hxcpp -verbose
 
       - name: Rebuild extension-webm
-        if: matrix.target != 'android'
+        if: matrix.target == 'windows' || matrix.target == 'macos' || matrix.target == 'linux'
         run: haxelib run lime rebuild extension-webm ${{ matrix.target }}
 
       - name: Fix extension-webm naming for ARM64
@@ -148,22 +148,22 @@ jobs:
           haxelib run lime build ${{ matrix.target }} ${{ matrix.target == 'ios' && '-nosign' || '' }}
 
       - name: Clear Previous Cache
-        uses: actions/github-script@main
+        uses: actions/github-script@v7
         with:
           script: await require('./actions/cache/clear-cache.js')({github, context}, 'cache-${{ matrix.target }}-release');
 
       - name: Save Current Cache
         id: cache-build-save
-        uses: actions/cache/save@main
+        uses: actions/cache/save@v4
         with:
           path: |
             export/release/${{ matrix.target }}/haxe/
             export/release/${{ matrix.target }}/obj/
           key: cache-${{ matrix.target }}-release
 
-      - name: Tar files (macOS)
-        if: matrix.target == 'macos'
-        run: tar -zcvf build.tar.gz export/release/macos/bin
+      - name: Tar files (macOS/Linux)
+        if: matrix.target == 'macos' || matrix.target == 'linux'
+        run: tar -zcvf build.tar.gz -C export/release/${{ matrix.target }} bin
 
       - name: Create IPA Package (iOS)
         if: matrix.target == 'ios'
@@ -175,7 +175,7 @@ jobs:
           rm -rf Payload
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@main
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact_name }}
           path: ${{ matrix.artifact_path }}

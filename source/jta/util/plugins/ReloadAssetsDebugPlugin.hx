@@ -36,14 +36,19 @@ class ReloadAssetsDebugPlugin extends FlxBasic
 
 			if (FlxG.state is ScriptedBaseState)
 			{
-				var scriptedState:ScriptedBaseState = cast(FlxG.state, ScriptedBaseState);
-				ScriptedBaseState.scriptInit(scriptedState.id);
+				@:privateAccess {
+					final scriptedState:ScriptedBaseState = cast(FlxG.state, ScriptedBaseState);
+					final className:String = scriptedState._asc.fullyQualifiedName;
+					final stateId:String = scriptedState.id;
+					FlxG.switchState(() -> ScriptedBaseState.scriptInit(className, stateId));
+				}
 			}
 			else if (FlxG.state is ScriptedFlxState)
 			{
 				@:privateAccess {
-					var scriptedState:ScriptedFlxState = cast(FlxG.state, ScriptedFlxState);
-					ScriptedFlxState.scriptInit(scriptedState._asc.fullyQualifiedName);
+					final scriptedState:ScriptedFlxState = cast(FlxG.state, ScriptedFlxState);
+					final className:String = scriptedState._asc.fullyQualifiedName;
+					FlxG.switchState(() -> ScriptedFlxState.scriptInit(className));
 				}
 			}
 			else if (Std.isOfType(FlxG.state, Level))

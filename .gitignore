@@ -7,6 +7,10 @@ vscode-project.hxml
 .history
 .ionide
 
+# API Docs
+docs/doc.xml
+pages/
+
 ### Misc
 *.DS_Store
 desktop.ini

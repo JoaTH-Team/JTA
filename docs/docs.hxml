@@ -34,8 +34,10 @@
 
 --define doc-gen
 --define message.reporting=pretty
+--define no-deprecation-warnings
 
 --macro addMetadata('@:build(jta.util.macro.FlxMacro.buildFlxBasic())', 'flixel.FlxBasic')
+--macro include('jta.objects')
 --macro include('jta')
 --macro nullSafety('jta.registries')
 --macro nullSafety('jta.util')

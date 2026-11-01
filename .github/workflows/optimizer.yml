@@ -13,7 +13,9 @@ jobs:
           haxe-version: latest
 
       - name: Install OxiPNG & OptiVorbis
-        run: cargo install oxipng
+        run: |
+          cargo install oxipng
+          cargo install --git https://github.com/OptiVorbis/OptiVorbis optivorbis_cli
 
       - name: Optimizer
         run: |

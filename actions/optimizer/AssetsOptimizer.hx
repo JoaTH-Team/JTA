@@ -36,7 +36,14 @@ class AssetsOptimizer
 				switch (Path.extension(path))
 				{
 					case 'ogg':
-						runCommand(['optivorbis', path, '-']);
+						final temp:String = path + '.tmp';
+						if (runCommand(['optivorbis', path, temp]) == 0 && FileSystem.exists(temp))
+						{
+							FileSystem.deleteFile(path);
+							FileSystem.rename(temp, path);
+						}
+						else if (FileSystem.exists(temp))
+							FileSystem.deleteFile(temp);
 					case 'png':
 						runCommand([
 							'oxipng',
@@ -56,7 +63,7 @@ class AssetsOptimizer
 	 * Executes a system command with the provided arguments.
 	 * @param args The command and its arguments to be executed.
 	 */
-	public static function runCommand(args:Array<String>):Void
+	public static function runCommand(args:Array<String>):Int
 	{
 		final command:String = args.join(' ');
 
@@ -70,7 +77,7 @@ class AssetsOptimizer
 					Sys.println(AnsiColors.yellow(command));
 		}
 
-		Sys.command(args.shift(), args);
+		return Sys.command(args.shift(), args);
 	}
 }
 
