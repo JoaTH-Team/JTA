@@ -279,6 +279,8 @@ class Level extends BaseState
 
 		updateTimer(elapsed);
 
+		final dialogueWasOpen:Bool = dialogueBox.alive;
+
 		if (Global.lives <= 0 && !dying)
 		{
 			persistentUpdate = false;
@@ -297,7 +299,7 @@ class Level extends BaseState
 					map.objectOverlapsTiles(player, null, null, false);
 			}
 
-			if (camFollowControllable && player.y >= 0 && player.y <= FlxG.height)
+			if (camFollowControllable && FlxG.camera.target != player && player.y >= 0 && player.y <= FlxG.height)
 				FlxG.camera.follow(player, LOCKON, 0.5);
 
 			if (player.x < 0)
@@ -316,7 +318,7 @@ class Level extends BaseState
 						if (obj.objectHasInteraction)
 							canInteract = true;
 
-						if (Input.pressed('confirm'))
+						if (Input.justPressed('confirm') && !dialogueWasOpen)
 							obj.interact();
 						else
 							obj.overlap();

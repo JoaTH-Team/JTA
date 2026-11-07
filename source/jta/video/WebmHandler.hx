@@ -131,7 +131,6 @@ class WebmHandler
 
 	public function onEnd():Void
 	{
-		trace('IT ENDED!');
 		ended = true;
 	}
 

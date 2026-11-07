@@ -14,8 +14,17 @@
 
 	<!-- [ Window Settings ] -->
 
+	<set name="GAME_WIDTH" value="1024" />
+	<set name="GAME_HEIGHT" value="768" />
+	<set name="GAME_FPS" value="60" />
+
+	<haxedef name="GAME_WIDTH" value="${GAME_WIDTH}" />
+	<haxedef name="GAME_HEIGHT" value="${GAME_HEIGHT}" />
+	<haxedef name="GAME_FPS" value="${GAME_FPS}" />
+
 	<!-- All targets -->
-	<window width="1024" height="768" fps="60" background="#000000" hardware="true" vsync="false" />
+	<window width="${GAME_WIDTH}" height="${GAME_HEIGHT}" fps="${GAME_FPS}" background="#000000"
+		hardware="true" vsync="false" />
 
 	<!-- HTML5 -->
 	<window if="html5" resizable="true" />
@@ -54,7 +63,8 @@
 	<assets path="assets/videos" include="*.webm|*.ogg" if="desktop" />
 	<assets path="assets/videos" include="*.mp4|*.ogg" if="mobile" />
 
-	<assets path="mobile" rename="assets/images" if="mobile" />
+	<assets path="include/mobile" rename="assets/images" if="mobile" />
+	<assets path="include/preloader" rename="assets" if="web" />
 
 	<assets path="include/gamemode.ini" rename="gamemode.ini" if="linux" unless="debug" />
 
@@ -62,8 +72,6 @@
 		<assets path="include/alsoft.txt" rename="alsoft.ini" type="text" if="windows" />
 		<assets path="include/alsoft.txt" rename="alsoft.conf" type="text" unless="windows" />
 	</section>
-
-	<define name="NO_REDIRECT_ASSETS_FOLDER" />
 
 	<!-- [ Template Overrides ] -->
 
@@ -107,13 +115,9 @@
 	<haxedef name="FLX_NO_SOUND_TRAY" />
 	<haxedef name="FLX_NO_HEALTH" />
 
-	<section if="debug" unless="NO_REDIRECT_ASSETS_FOLDER || html5">
-		<haxedef name="REDIRECT_ASSETS_FOLDER" />
-	</section>
-
-	<section if="cpp" unless="html5">
+	<section if="cpp">
 		<haxedef name="HXCPP_CHECK_POINTER" />
-		<haxedef name="HXCPP_GC_CHECK_POINTER" />
+		<haxedef name="HXCPP_GC_CHECK_POINTER" if="debug" />
 		<haxedef name="HXCPP_STACK_LINE" />
 		<haxedef name="HXCPP_STACK_TRACE" />
 		<haxedef name="HXCPP_CATCH_SEGV" />

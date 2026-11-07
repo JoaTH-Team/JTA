@@ -39,8 +39,22 @@ class Data
 	public static function load():Void
 	{
 		for (key in Reflect.fields(settings))
-			if (Reflect.field(FlxG.save.data, key) != null)
-				Reflect.setField(settings, key, Reflect.field(FlxG.save.data, key));
+		{
+			final saved:Dynamic = Reflect.field(FlxG.save.data, key);
+			if (saved == null)
+				continue;
+
+			final current:Dynamic = Reflect.field(settings, key);
+
+			if (current is Array && saved is Array)
+			{
+				final defaults:Array<Dynamic> = cast current;
+				final savedList:Array<Dynamic> = cast saved;
+				Reflect.setField(settings, key, [for (i in 0...defaults.length) i < savedList.length ? savedList[i] : defaults[i]]);
+			}
+			else
+				Reflect.setField(settings, key, saved);
+		}
 
 		if (Main.fps != null)
 			Main.fps.visible = settings.fpsCounter;

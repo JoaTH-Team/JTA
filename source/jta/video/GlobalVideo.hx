@@ -3,7 +3,12 @@ package jta.video;
 import jta.video.WebmHandler;
 import jta.video.VideoHandler;
 import jta.video.GameDimensions;
+import openfl.display.DisplayObject;
 
+/**
+ * Holds the desktop (WebM) or web (HTML) video player, which is shared by every `VideoState`.
+ * Mobile uses the system's video player instead (see `VideoState`).
+ */
 class GlobalVideo
 {
 	private static var video:VideoHandler;
@@ -13,6 +18,48 @@ class GlobalVideo
 
 	public static var daAlpha1:Float = 0.2;
 	public static var daAlpha2:Float = 1;
+
+	/**
+	 * Creates the video player if it hasn't been yet. Called by `VideoState` before playing a video,
+	 * so the game doesn't need to load a placeholder video on startup.
+	 * @param path The first video to play (the WebM player needs a file to start with).
+	 */
+	public static function init(path:String):Void
+	{
+		#if web
+		if (video != null)
+			return;
+
+		final handler:VideoHandler = new VideoHandler();
+		handler.init1();
+		handler.video.name = 'HTML VIDEO';
+		addToStage(handler.video);
+		handler.init2();
+		setVid(handler);
+		#elseif desktop
+		if (webm != null)
+			return;
+
+		final handler:WebmHandler = new WebmHandler();
+		handler.source(path);
+		handler.makePlayer();
+		handler.webm.name = 'WEBM VIDEO';
+		addToStage(handler.webm);
+		setWebm(handler);
+		#end
+	}
+
+	/**
+	 * Adds the player right above the game (and under the FPS counter).
+	 */
+	static function addToStage(object:DisplayObject):Void
+	{
+		final parent = FlxG.game.parent;
+		if (parent != null)
+			parent.addChildAt(object, parent.getChildIndex(FlxG.game) + 1);
+		else
+			Lib.current.addChild(object);
+	}
 
 	public static function setVid(vid:VideoHandler):Void
 	{

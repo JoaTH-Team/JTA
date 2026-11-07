@@ -3,6 +3,7 @@
 * [ ] iOS Support
 * [ ] Worlds 5-8
 * [ ] Secret Final Level
+* [ ] In-Game Cutscenes
 
 ## Demo 2
 * [X] Interactive World Selection

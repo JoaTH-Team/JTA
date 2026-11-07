@@ -6,6 +6,7 @@ import jta.states.BaseState;
 import jta.states.config.Option;
 import jta.states.config.Controls;
 import jta.util.FilterUtil;
+import jta.objects.MenuList;
 #if mobile
 import jta.mobile.MobileInput;
 #end
@@ -17,9 +18,8 @@ import jta.mobile.MobileInput;
 class Settings extends BaseState
 {
 	var options:Array<Option> = [];
-	var selectedIndex:Int = 0;
 
-	var selectionGroup:FlxTypedGroup<FlxText>;
+	var menu:MenuList;
 
 	@:noCompletion
 	private var holdTimer:FlxTimer;
@@ -120,15 +120,10 @@ class Settings extends BaseState
 		var title:FlxText = TextUtil.make(10, 10, FlxG.width, Locale.getSettings("$SETTINGS"), 40);
 		add(title);
 
-		selectionGroup = new FlxTypedGroup<FlxText>();
-		add(selectionGroup);
-
+		menu = new MenuList(30, 70, 42, 36);
 		for (i in 0...options.length)
-		{
-			var selection:FlxText = TextUtil.make(10, 70 + i * 42, FlxG.width, options[i].toString(), 36);
-			selection.ID = i;
-			selectionGroup.add(selection);
-		}
+			menu.addOption(options[i].toString(), () -> confirmOption(i));
+		add(menu);
 
 		holdTimer = new FlxTimer();
 
@@ -143,11 +138,6 @@ class Settings extends BaseState
 
 	override public function update(elapsed:Float):Void
 	{
-		if (Input.justPressed('up'))
-			changeSelection(-1);
-		else if (Input.justPressed('down'))
-			changeSelection(1);
-
 		if (Input.justPressed('right'))
 			startHold(1);
 		else if (Input.justPressed('left'))
@@ -159,81 +149,71 @@ class Settings extends BaseState
 				holdTimer.cancel();
 		}
 
-		if (Input.justPressed('confirm'))
-		{
-			SoundController.play(Paths.sound('select'));
-			final option:Option = options[selectedIndex];
-			if (option != null)
-				option.execute();
-		}
-		else if (Input.justPressed('cancel'))
+		if (Input.justPressed('cancel'))
 		{
 			Data.save();
 			SoundController.play(Paths.sound('cancel'));
 			transitionState(new MainMenu());
 		}
 
-		selectionGroup.forEach(function(text:FlxText):Void
-		{
-			text.color = (text.ID == selectedIndex) ? FlxColor.YELLOW : FlxColor.WHITE;
-		});
-
 		super.update(elapsed);
 	}
 
 	@:noCompletion
-	private function changeSelection(num:Int):Void
+	private function confirmOption(index:Int):Void
 	{
-		SoundController.play(Paths.sound('scroll'));
-		selectedIndex = FlxMath.wrap(selectedIndex + num, 0, options.length - 1);
+		final option:Null<Option> = options[index];
+		if (option == null)
+			return;
+
+		if (option.type == OptionType.Toggle)
+		{
+			option.changeValue(1);
+			menu.setLabel(index, option.toString());
+		}
+		else
+			option.execute();
 	}
 
 	@:noCompletion
 	private function changeValue(direction:Int = 0):Void
 	{
-		var option:Option = options[selectedIndex];
+		var option:Option = options[menu.selectedIndex];
 
 		if (option != null)
 		{
 			option.changeValue(direction);
-
-			selectionGroup.forEach(function(txt:FlxText):Void
-			{
-				if (txt.ID == selectedIndex)
-					txt.text = option.toString();
-			});
+			menu.setLabel(menu.selectedIndex, option.toString());
 		}
 	}
 
 	@:noCompletion
 	private function startHold(direction:Int = 0):Void
 	{
+		var option:Option = options[menu.selectedIndex];
+
+		if (option == null || option.type == OptionType.Function)
+			return;
+
 		SoundController.play(Paths.sound('scroll'));
 
 		holdDirection = direction;
+		changeValue(holdDirection);
 
-		var option:Option = options[selectedIndex];
-
-		if (option != null)
+		switch (option.type)
 		{
-			if (option.type != OptionType.Function)
-				changeValue(holdDirection);
-
-			switch (option.type)
-			{
-				case OptionType.Integer(_, _, _) | OptionType.Decimal(_, _, _):
-					if (!holdTimer.active)
+			case OptionType.Integer(_, _, _) | OptionType.Decimal(_, _, _):
+				if (!holdTimer.active)
+				{
+					holdTimer.start(0.5, function(timer:FlxTimer):Void
 					{
-						holdTimer.start(0.5, function(timer:FlxTimer):Void
+						timer.start(0.05, function(timer:FlxTimer):Void
 						{
-							timer.start(0.05, function(timer:FlxTimer):Void
-							{
-								changeValue(holdDirection);
-							}, 0);
-						});
-					}
-				default:
-			}
+							changeValue(holdDirection);
+						}, 0);
+					});
+				}
+			default:
 		}
 	}
 }

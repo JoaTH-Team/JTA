@@ -64,47 +64,31 @@ class Locale
 	 */
 	static function onFinish():Void
 	{
-		var text:String = '';
-		var contextArray:Array<String> = ['data', 'menu', 'playState', 'settings'];
 		if (tongue.missingFiles != null)
 		{
-			for (context in contextArray)
-			{
-				var str:String = tongue.get("$MISSING_FILES", context);
-				str = Replace.flags(str, ['<X>'], [Std.string(tongue.missingFiles.length)]);
-				text += '$str\n';
-				for (file in tongue.missingFiles)
-					text += '     $file\n';
+			var text:String = Replace.flags(tongue.get("$MISSING_FILES", 'data'), ['<X>'], [Std.string(tongue.missingFiles.length)]) + '\n';
+			for (file in tongue.missingFiles)
+				text += '     $file\n';
 
-				trace(text);
-			}
+			trace(text);
 		}
 
 		if (tongue.missingFlags != null)
 		{
 			var missingFlags = tongue.missingFlags;
 
-			for (context in contextArray)
+			var count:Int = 0;
+			var flagText:String = '';
+
+			for (key in missingFlags.keys())
 			{
-				var miss_str:String = tongue.get("$MISSING_FLAGS", context);
-
-				var count:Int = 0;
-				var flag_str:String = '';
-
-				for (key in missingFlags.keys())
-				{
-					var list:Array<String> = missingFlags.get(key);
-					count += list.length;
-					for (flag in list)
-						flag_str += '    Context($key): $flag\n';
-				}
-
-				miss_str = Replace.flags(miss_str, ['<X>'], [Std.string(count)]);
-				text += '$miss_str\n';
-				text += '$flag_str\n';
+				var list:Array<String> = missingFlags.get(key);
+				count += list.length;
+				for (flag in list)
+					flagText += '    Context($key): $flag\n';
 			}
 
-			trace(text);
+			trace(Replace.flags(tongue.get("$MISSING_FLAGS", 'data'), ['<X>'], [Std.string(count)]) + '\n' + flagText);
 		}
 
 		if (tongue.missingFlags == null && tongue.missingFiles == null)

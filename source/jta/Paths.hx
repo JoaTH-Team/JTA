@@ -121,10 +121,10 @@ class Paths
 	 * Gets a font file.
 	 * @param key The key for the font file.
 	 * @param cache Whether or not to cache the font.
-	 * @return The font name.
+	 * @return The font name, or null if the font is missing (text then uses Flixel's default font).
 	 */
 	inline static public function font(key:String, ?cache:Bool = true):Null<String>
-		return Assets.getFont(findAsset('assets/fonts/$key', ['ttf', 'otf']), cache).fontName;
+		return Assets.getFont(findAsset('assets/fonts/$key', ['ttf', 'otf']), cache)?.fontName;
 
 	/**
 	 * Gets an image file.

@@ -62,10 +62,7 @@ class VideoHandler
 		trace('Error loading video');
 	}
 
-	public function netConnection_onNetStatus(event:NetStatusEvent):Void
-	{
-		trace(event.info.code);
-	}
+	public function netConnection_onNetStatus(event:NetStatusEvent):Void {}
 
 	public function play():Void
 	{
@@ -81,7 +78,6 @@ class VideoHandler
 		netStream.play(vidPath);
 		ignoreShit = false;
 		#end
-		trace(vidPath);
 	}
 
 	public function stop():Void

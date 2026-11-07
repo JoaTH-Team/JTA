@@ -43,6 +43,11 @@ class VideoState extends BaseState
 	 */
 	public var onComplete:Void->Void;
 
+	/**
+	 * Whether `end` was already called (a video can be skipped and finish on the same frame).
+	 */
+	var finished:Bool = false;
+
 	var holdTimer:Float = 0;
 	var timeToSkip:Float = 1;
 	var skipSprite:Sprite;
@@ -76,17 +81,20 @@ class VideoState extends BaseState
 		IOSVideo.play(Paths.video(source));
 		IOSVideo.onComplete = () -> end();
 		#else
-		if (GlobalVideo.isWebm)
-			vidSound = FlxG.sound.play(Paths.videoSound(source), 1, false, null, true);
+		GlobalVideo.init(Paths.video(source));
 
 		var ourVideo:Dynamic = GlobalVideo.get();
-		ourVideo.source(Paths.video(source));
 
 		if (ourVideo == null)
 		{
 			end();
 			return;
 		}
+
+		if (GlobalVideo.isWebm)
+			vidSound = FlxG.sound.play(Paths.videoSound(source), 1, false, null, true);
+
+		ourVideo.source(Paths.video(source));
 
 		ourVideo.clearPause();
 
@@ -117,7 +125,10 @@ class VideoState extends BaseState
 
 	override public function update(elapsed:Float):Void
 	{
-		#if !android
+		if (finished)
+			return;
+
+		#if !mobile
 		var ourVideo:Dynamic = GlobalVideo.get();
 
 		if (ourVideo == null)
@@ -178,7 +189,11 @@ class VideoState extends BaseState
 
 	public function end():Void
 	{
-		#if !android
+		if (finished)
+			return;
+		finished = true;
+
+		#if !mobile
 		var ourVideo:Dynamic = GlobalVideo.get();
 		if (ourVideo != null)
 		{

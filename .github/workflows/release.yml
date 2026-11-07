@@ -22,7 +22,7 @@ jobs:
 
           - target: macos
             title: macOS
-            runs-on: macos-14
+            runs-on: macos-15
             artifact_path: build.tar.gz
             artifact_name: macOSBuild
 

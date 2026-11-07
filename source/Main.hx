@@ -2,9 +2,6 @@ package;
 
 import jta.Game;
 import jta.debug.FPS;
-import jta.video.GlobalVideo;
-import jta.video.VideoHandler;
-import jta.video.WebmHandler;
 import jta.util.WindowUtil;
 #if windows
 import winapi.WindowsAPI;
@@ -14,7 +11,6 @@ import hxwindowmode.WindowColorMode;
 import hxgamemode.GamemodeClient;
 #end
 import flixel.util.typeLimit.NextState;
-import openfl.system.System;
 import openfl.events.Event;
 
 /**
@@ -24,22 +20,22 @@ import openfl.events.Event;
 class Main extends openfl.display.Sprite
 {
 	/**
-	 * The width of the game window in pixels.
+	 * The width of the game in pixels (set in `Project.xml`).
 	 */
 	@:noCompletion
-	private static final GAME_WIDTH:Int = 1024;
+	private static final GAME_WIDTH:Int = Std.parseInt(haxe.macro.Compiler.getDefine('GAME_WIDTH')) ?? 1024;
 
 	/**
-	 * The height of the game window in pixels.
+	 * The height of the game in pixels (set in `Project.xml`).
 	 */
 	@:noCompletion
-	private static final GAME_HEIGHT:Int = 768;
+	private static final GAME_HEIGHT:Int = Std.parseInt(haxe.macro.Compiler.getDefine('GAME_HEIGHT')) ?? 768;
 
 	/**
-	 * The frame rate of the game, in frames per second (FPS).
+	 * The frame rate of the game, in frames per second (set in `Project.xml`).
 	 */
 	@:noCompletion
-	private static final GAME_FRAMERATE:Int = 60;
+	private static final GAME_FRAMERATE:Int = Std.parseInt(haxe.macro.Compiler.getDefine('GAME_FPS')) ?? 60;
 
 	/**
 	 * The initial state of the game.
@@ -76,12 +72,9 @@ class Main extends openfl.display.Sprite
 
 		#if hxgamemode
 		if (GamemodeClient.request_start() != 0)
-		{
-			Sys.println('Failed to request gamemode start: ${GamemodeClient.error_string()}...');
-			System.exit(1);
-		}
+			Sys.println('Couldn\'t start gamemode (${GamemodeClient.error_string()}), continuing without it');
 		else
-			Sys.println('Succesfully requested gamemode to start...');
+			Sys.println('Successfully requested gamemode to start');
 		#end
 	}
 
@@ -133,7 +126,8 @@ class Main extends openfl.display.Sprite
 		{
 			packageName = lime.app.Application.current.meta.get('packageName');
 		}
-		catch (e:Dynamic) {}
+		catch (e:Dynamic)
+			Sys.println('Couldn\'t read the package name: $e');
 
 		if (packageName == null || packageName.length == 0)
 			packageName = 'com.joalor64.jta';
@@ -156,7 +150,8 @@ class Main extends openfl.display.Sprite
 
 			return mediaDir;
 		}
-		catch (e:Dynamic) {}
+		catch (e:Dynamic)
+			Sys.println('Can\'t use Android/media for game files ($e), using the app folder instead');
 
 		return
 			extension.androidtools.os.Build.VERSION.SDK_INT > 30 ? extension.androidtools.content.Context.getObbDir() : extension.androidtools.content.Context.getExternalFilesDir();
@@ -226,43 +221,17 @@ class Main extends openfl.display.Sprite
 
 		addChild(game);
 
-		var vidSource:String = 'assets/videos/DO NOT DELETE OR GAME WILL CRASH/dontDelete.webm';
-
-		#if web
-		var str1:String = 'HTML VIDEO';
-		var vHandler:VideoHandler = new VideoHandler();
-		vHandler.init1();
-		vHandler.video.name = str1;
-		addChild(vHandler.video);
-		vHandler.init2();
-		GlobalVideo.setVid(vHandler);
-		vHandler.source(vidSource);
-		#elseif desktop
-		var str1:String = 'WEBM VIDEO';
-		var webmHandle:WebmHandler = new WebmHandler();
-		webmHandle.source(vidSource);
-		webmHandle.makePlayer();
-		webmHandle.webm.name = str1;
-		addChild(webmHandle.webm);
-		GlobalVideo.setWebm(webmHandle);
-		#end
-
 		fps = new FPS(10, 10, 0xffffff);
 		addChild(fps);
 
 		jta.util.FramerateUtil.adjustStageFramerate();
 
+		#if hxgamemode
 		Lib.current.stage.application.window.onClose.add(function()
 		{
-			#if hxgamemode
 			if (GamemodeClient.request_end() != 0)
-			{
-				Sys.println('Failed to request gamemode end: ${GamemodeClient.error_string()}...');
-				System.exit(1);
-			}
-			else
-				Sys.println('Succesfully requested gamemode to end...');
-			#end
+				Sys.println('Couldn\'t end gamemode (${GamemodeClient.error_string()})');
 		});
+		#end
 	}
 }
