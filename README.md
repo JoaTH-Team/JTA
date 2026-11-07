@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="./include/preloader/images/preloaderLogo.png" width="700">
+    <img src="./assets/images/preloaderLogo.png" width="700">
 </p>
 
 <h1 align="center">Journey Through Aubekhia</h1>

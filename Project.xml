@@ -64,8 +64,6 @@
 	<assets path="assets/videos" include="*.mp4|*.ogg" if="mobile" />
 
 	<assets path="include/mobile" rename="assets/images" if="mobile" />
-	<assets path="include/preloader" rename="assets" if="web" />
-
 	<assets path="include/gamemode.ini" rename="gamemode.ini" if="linux" unless="debug" />
 
 	<section if="desktop">
