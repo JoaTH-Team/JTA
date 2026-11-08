@@ -6,12 +6,6 @@ import jta.Assets;
 
 /**
  * A shader that's generated at runtime instead of being compiled.
- *
- * ```haxe
- * var shader = new RuntimeShader('example');
- * FlxG.camera.filters = [shader.toFilter()];
- * sprite.shader = shader;
- * ```
  */
 class RuntimeShader extends FlxRuntimeShader
 {
@@ -21,8 +15,8 @@ class RuntimeShader extends FlxRuntimeShader
 	public var time:Float = 0;
 
 	/**
-	 * @param fragmentSource The fragment shader: a name in `assets/shaders/` (`example`) or a full path (`assets/shaders/example.frag`).
-	 * @param vertexSource The vertex shader, same as above (optional).
+	 * @param fragmentSource The fragment shader.
+	 * @param vertexSource The vertex shader.
 	 */
 	public function new(fragmentSource:String, ?vertexSource:String)
 	{

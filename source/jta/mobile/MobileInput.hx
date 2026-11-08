@@ -86,17 +86,10 @@ class MobileInput extends FlxTypedGroup<VirtualButton>
 		cameras = [getControlsCamera()];
 	}
 
-	// ---------------------------------------------------------------------
-	// Full-screen controls camera
-	// ---------------------------------------------------------------------
-
 	/**
 	 * Returns the camera the touch controls are drawn on, creating it if
 	 * needed. It's added on top of every other camera and stretched to cover
 	 * the whole device screen, letterbox bars included.
-	 *
-	 * Flixel removes all cameras when the state switches, so a new one is
-	 * made for each state; substates (pause menu etc.) reuse their state's.
 	 */
 	public static function getControlsCamera():FlxCamera
 	{
@@ -140,7 +133,6 @@ class MobileInput extends FlxTypedGroup<VirtualButton>
 		final bx:Float = barWidth;
 		final by:Float = barHeight;
 
-		// Negative position + bigger size = the camera reaches into the bars.
 		camera.setPosition(-bx, -by);
 		camera.setSize(Math.ceil(FlxG.width + bx * 2), Math.ceil(FlxG.height + by * 2));
 	}

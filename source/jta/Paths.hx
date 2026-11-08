@@ -83,8 +83,8 @@ class Paths
 
 	/**
 	 * Gets a file in a level's folder.
-	 * @param levelId The level ID (e.g. `world1/lev1`).
-	 * @param file The file name (e.g. `map.csv`).
+	 * @param levelId The level ID.
+	 * @param file The file name.
 	 * @return The path to the file.
 	 */
 	inline static public function level(levelId:String, file:String):String
@@ -92,7 +92,7 @@ class Paths
 
 	/**
 	 * Gets a dialogue file in the current language, falling back to the default language.
-	 * @param levelId The level ID (e.g. `world1/lev1`).
+	 * @param levelId The level ID.
 	 * @param name The dialogue file name, without `.json`.
 	 * @return The path to the dialogue file, or null if it doesn't exist in either language.
 	 */
@@ -136,7 +136,7 @@ class Paths
 
 	/**
 	 * Gets a shader file.
-	 * @param key The shader's name in `assets/shaders/`, without the extension.
+	 * @param key The key for the shader, without the extension.
 	 * @param ext `frag` for fragment shaders, `vert` for vertex shaders.
 	 * @return The path to the shader file.
 	 */
