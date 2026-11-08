@@ -1,17 +1,14 @@
-### VS Code
-export/
+# VS Code
+export/*
 .vscode/*
 .haxelib/
-!.code-workspace
+*.code-workspace
 vscode-project.hxml
 .history
 .ionide
+*.DS_Store
+dump/
 
 # API Docs
 docs/doc.xml
 pages/
-
-### Misc
-*.DS_Store
-desktop.ini
-dump/
