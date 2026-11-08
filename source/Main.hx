@@ -3,6 +3,7 @@ package;
 import jta.Game;
 import jta.debug.FPS;
 import jta.util.WindowUtil;
+import jta.util.macro.MacroUtil;
 #if windows
 import winapi.WindowsAPI;
 import hxwindowmode.WindowColorMode;
@@ -23,19 +24,19 @@ class Main extends openfl.display.Sprite
 	 * The width of the game in pixels (set in `Project.xml`).
 	 */
 	@:noCompletion
-	private static final GAME_WIDTH:Int = Std.parseInt(haxe.macro.Compiler.getDefine('GAME_WIDTH')) ?? 1024;
+	private static final GAME_WIDTH:Int = Std.parseInt(MacroUtil.getDefine('GAME_WIDTH', '1024')) ?? 1024;
 
 	/**
 	 * The height of the game in pixels (set in `Project.xml`).
 	 */
 	@:noCompletion
-	private static final GAME_HEIGHT:Int = Std.parseInt(haxe.macro.Compiler.getDefine('GAME_HEIGHT')) ?? 768;
+	private static final GAME_HEIGHT:Int = Std.parseInt(MacroUtil.getDefine('GAME_HEIGHT', '768')) ?? 768;
 
 	/**
 	 * The frame rate of the game, in frames per second (set in `Project.xml`).
 	 */
 	@:noCompletion
-	private static final GAME_FRAMERATE:Int = Std.parseInt(haxe.macro.Compiler.getDefine('GAME_FPS')) ?? 60;
+	private static final GAME_FRAMERATE:Int = Std.parseInt(MacroUtil.getDefine('GAME_FPS', '60')) ?? 60;
 
 	/**
 	 * The initial state of the game.

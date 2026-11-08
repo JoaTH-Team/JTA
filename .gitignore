@@ -12,3 +12,6 @@ dump/
 # API Docs
 docs/doc.xml
 pages/
+
+# Misc
+*.ttf.hash

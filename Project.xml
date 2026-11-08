@@ -48,8 +48,9 @@
 
 	<source path="source" />
 
-	<assets path="assets/fonts" />
-	<assets path="assets/images" />
+	<assets path="assets/fonts" exclude="ByteBounce.ttf|*.hash" unless="web" />
+	<assets path="assets/fonts" exclude="*.hash" if="web" />
+	<assets path="assets/images" exclude="preloaderLogo.png" />
 	<assets path="assets/levels" />
 	<assets path="assets/locales" />
 	<assets path="assets/scripts" />

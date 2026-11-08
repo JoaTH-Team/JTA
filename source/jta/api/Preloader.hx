@@ -1,5 +1,6 @@
 package jta.api;
 
+#if (web || doc_gen)
 import openfl.text.Font;
 import openfl.text.TextField;
 import openfl.text.TextFormat;
@@ -99,3 +100,4 @@ class Preloader extends FlxBasePreloader
 		loadBar.x = (_stage.stageWidth - loadBar.width) / 2;
 	}
 }
+#end
